@@ -1,0 +1,40 @@
+{% extends'layout.twig' %}
+
+{% block content %}
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            {% for post in posts %}
+
+
+                <div class="col-12 mx-auto">
+                    <div class="post-preview">
+                        <hr>
+                        <a href="post.html">
+
+                            <h2 class="post-title">
+                                {{ post.title }}
+                            </h2>
+                            <h3 class="post-subtitle">
+                                {{ post.lead }}
+                            </h3>
+                        </a>
+                        <article>{{ post.content | nl2br }}</article><br>
+                        <p class="post-meta">Posté par
+                            <strong>{{ post.author }}</strong> le <em>{{ post.update | date("d/m/Y h:m") }}</em></p>
+                    </div>
+                    <hr>
+                </div>
+
+            {% endfor %}
+
+            <!-- Pager -->
+            <div class="clearfix mx-auto">
+                <a class="btn btn-outline-dark" href="#">Anciens articles &rarr;</a>
+            </div>
+
+        </div>
+    </div>
+
+    <hr>
+{% endblock %}

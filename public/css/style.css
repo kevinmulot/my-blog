@@ -1,0 +1,30 @@
+body, html {
+    margin: 0;
+    overflow-x: hidden;
+    height: 100%;
+}
+
+.jumbotron{
+    background:url("http://localhost/blog/img/origami.jpg");
+    text-align: center;
+    background-size: cover;
+    height: auto;
+    margin-top: 2px;
+}
+section{
+    min-height: 80vh;
+}
+
+.moi {
+    width: 10%;
+}
+
+i {
+    color: #4caf50;
+}
+
+footer {
+    background-color: #444444;
+    height: 12vh;
+}
+
