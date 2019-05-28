@@ -1,0 +1,12 @@
+{
+    "name": "blog/twig",
+    "authors": [
+        {
+            "name": "Kevin Mulot",
+            "email": "kevin.mulot@gmail.com"
+        }
+    ],
+    "require": {
+        "twig/twig": "2.0"
+    }
+}
