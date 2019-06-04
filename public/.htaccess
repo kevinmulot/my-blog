@@ -1,0 +1,9 @@
+Options -Multiviews
+RewriteEngine
+
+RewriteBase /my-blog/public
+
+Rewrite %{REQUEsT_FILENAME} !-d
+Rewrite %{REQUEsT_FILENAME} !-f
+
+RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
