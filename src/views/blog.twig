@@ -4,7 +4,7 @@
     <!-- Main Content -->
     <div class="container">
         <div class="row">
-            {% for post in posts %}
+            {% for post in datas %}
 
 
                 <div class="col-12 mx-auto">
@@ -19,7 +19,8 @@
                                 {{ post.lead }}
                             </h3>
                         </a>
-                        <article>{{ post.content | nl2br }}</article><br>
+                        <article>{{ post.content | nl2br }}</article>
+                        <br>
                         <p class="post-meta">Posté par
                             <strong>{{ post.author }}</strong> le <em>{{ post.update | date("d/m/Y h:m") }}</em></p>
                     </div>
