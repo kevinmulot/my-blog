@@ -1,12 +1,17 @@
 {
-    "name": "blog/twig",
-    "authors": [
-        {
-            "name": "Kevin Mulot",
-            "email": "kevin.mulot@gmail.com"
-        }
-    ],
-    "require": {
-        "twig/twig": "2.0"
+  "name": "blog/twig",
+  "authors": [
+    {
+      "name": "Kevin Mulot",
+      "email": "kevin.mulot@gmail.com"
     }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Framework\\": "src/Framework"
+    }
+  },
+  "require": {
+    "twig/twig": "2.0"
+  }
 }
