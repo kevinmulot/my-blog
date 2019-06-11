@@ -1,5 +1,7 @@
 {
   "name": "blog/twig",
+  "type": "Personal Blog",
+  "license": "MIT",
   "authors": [
     {
       "name": "Kevin Mulot",
@@ -8,10 +10,17 @@
   ],
   "autoload": {
     "psr-4": {
-      "Framework\\": "src/Framework"
+      "Controller\\": "src/Controller",
+      "Model\\": "src/Model"
     }
   },
   "require": {
-    "twig/twig": "2.0"
+    "twig/twig": "^2.11",
+    "twig/extensions": "^1.5"
+  },
+  "config": {
+    "platform": {
+      "php": "7.2"
+    }
   }
 }
