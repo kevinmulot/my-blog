@@ -1,5 +1,7 @@
 <?php
+
 namespace Controller;
+
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
@@ -7,11 +9,20 @@ use Twig\Loader\FilesystemLoader;
  * Class FrontController
  * @package Pam\Controller
  */
-class FrontController
+class FrontController extends Controller
 {
-    const DEFAULT_PATH        = 'Controller\\';
-    const DEFAULT_CONTROLLER  = 'HomeController';
-    const DEFAULT_ACTION      = 'indexAction';
+    /**
+     *
+     */
+    const DEFAULT_PATH = 'Controller\\';
+    /**
+     *
+     */
+    const DEFAULT_CONTROLLER = 'HomeController';
+    /**
+     *
+     */
+    const DEFAULT_ACTION = 'indexAction';
     /**
      * @var null
      */
@@ -28,6 +39,7 @@ class FrontController
      * @var string
      */
     protected $action = self::DEFAULT_ACTION;
+
     /**
      * FrontController constructor
      */
@@ -38,32 +50,36 @@ class FrontController
         $this->setController();
         $this->setAction();
     }
+
     /**
      * @return mixed|void
      */
     public function setTemplate()
     {
         $loader = new FilesystemLoader('../src/View');
-        $twig   = new Environment($loader, array(
+        $twig = new Environment($loader, array(
             'cache' => false,
             'debug' => true
         ));
 
         $this->twig = $twig;
     }
+
     /**
      * @return mixed|void
      */
     public function parseUrl()
+
     {
-        if (!array_key_exists('p', $_GET) || !isset($_GET['p'])) {
-            $_GET['p'] = 'home';
+        $access = filter_input(INPUT_GET, 'access');
+        if (!isset($access)) {
+            $access = 'home';
         }
-        $this->page = strval($_GET['p']);
-        $access = explode('!', $this->page);
-        $this->controller   = $access[0];
-        $this->action       = count($access) == 1 ? 'index' : $access[1];
+        $access = explode('!', $access);
+        $this->controller = $access[0];
+        $this->action = count($access) == 1 ? 'index' : $access[1];
     }
+
     /**
      * @return mixed|void
      */
@@ -75,6 +91,7 @@ class FrontController
             $this->controller = self::DEFAULT_PATH . self::DEFAULT_CONTROLLER;
         }
     }
+
     /**
      * @return mixed|void
      */
@@ -85,13 +102,14 @@ class FrontController
             $this->action = self::DEFAULT_ACTION;
         }
     }
+
     /**
      * @return mixed|void
      */
     public function run()
     {
-        $this->controller   = new $this->controller($this->twig);
-        $response           = call_user_func([$this->controller, $this->action]);
+        $this->controller = new $this->controller($this->twig);
+        $response = call_user_func([$this->controller, $this->action]);
         echo $response;
     }
 }
