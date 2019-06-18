@@ -24,4 +24,12 @@ abstract Class Controller
     {
         $this->twig = $twig;
     }
+
+    /**
+     * @return Environment
+     */
+    public function render($view, array $params = [])
+    {
+        return $this->twig->render($view, $params);
+    }
 }
