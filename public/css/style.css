@@ -4,14 +4,15 @@ body, html {
     height: 100%;
 }
 
-.jumbotron{
+.jumbotron {
     background-image: url("../img/origami.png");
     text-align: center;
     background-size: cover;
     height: auto;
     margin-top: 2px;
 }
-section{
+
+section {
     min-height: 80vh;
 }
 
