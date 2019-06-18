@@ -1,6 +1,4 @@
 <?php
-
-
 namespace Controller;
 
 use Twig\Environment;

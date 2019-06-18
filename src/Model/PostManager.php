@@ -1,8 +1,5 @@
 <?php
-
-
 namespace Model;
-
 
 /**
  *
@@ -11,8 +8,6 @@ namespace Model;
  */
 class PostManager extends Manager
 {
-
-
     /**
      * @return array
      */
@@ -20,9 +15,9 @@ class PostManager extends Manager
     {
         $db = $this->connectDB();
         $req = $db->query('SELECT * FROM posts ORDER BY id DESC LIMIT 10');
+
         return $req->fetchAll();
     }
-
 
     /**
      * @param $id
@@ -33,7 +28,7 @@ class PostManager extends Manager
         $db = $this->connectDB();
         $req = $db->prepare('SELECT * FROM posts WHERE id = ?');
         $req->execute(array($id));
+
         return $req->fetchObject();
     }
-
 }

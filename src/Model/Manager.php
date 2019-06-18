@@ -1,10 +1,7 @@
 <?php
-
 namespace Model;
 
-use Exception;
 use PDO;
-
 
 /**
  * Class Manager
@@ -23,18 +20,15 @@ abstract class Manager
      */
     public function connectDB()
     {
-        require_once dirname(__DIR__) . './config/config.php';
+        require_once '../config/config.php';
 
-        if (is_null(self::$db)) {
-
+        if (is_null(self::$db))
+        {
             $db = new PDO('mysql:host=' . HOST_NAME . ';dbname=' . DB_NAME . ';charset=utf8', DB_USER, DB_PWD);
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             self::$db = $db;
-
-            return $db;
         }
         return self::$db;
     }
 }
-

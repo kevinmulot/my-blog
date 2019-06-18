@@ -1,5 +1,5 @@
 {
-  "name": "blog/twig",
+  "name": "kevinmulot/blog",
   "type": "Personal Blog",
   "license": "MIT",
   "authors": [
@@ -16,7 +16,9 @@
   },
   "require": {
     "twig/twig": "^2.11",
-    "twig/extensions": "^1.5",
+    "twig/extensions": "^1.5"
+  },
+  "require-dev": {
     "tracy/tracy": "^2.6"
   },
   "config": {

@@ -1,8 +1,5 @@
 <?php
-
-
 namespace Model;
-
 
 /**
  * Class UserManager
@@ -10,7 +7,6 @@ namespace Model;
  */
 class UserManager extends Manager
 {
-
     /**
      * @param $email
      * @param $username
@@ -19,11 +15,11 @@ class UserManager extends Manager
     public function checkUser($email, $username)
     {
         $db = $this->connectDB();
-        $req = $db->prepare('SELECT * FROM users WHERE pseudo = $username OR email= $email LIMIT 1');
+        $req = $db->prepare('SELECT * FROM users WHERE username = $username OR email= $email LIMIT 1');
         $req->execute(array($email, $username));
+
         return $req;
     }
-
 
     /**
      * @param $firstname
@@ -36,9 +32,9 @@ class UserManager extends Manager
     public function createUser($firstname, $lastname, $username, $email, $password)
     {
         $db = $this->connectDB();
-        $req = $db->prepare("INSERT INTO users (firstname, lastname, username, mail, password) VALUES('$firstname', '$lastname', '$username', '$email', '$password')");
+        $req = $db->prepare("INSERT INTO users (firstname, lastname, username, email, password) VALUES('$firstname', '$lastname', '$username', '$email', '$password')");
         $req->execute(array($firstname, $lastname, $username, $email, $password));
+
         return $req;
     }
-
 }

@@ -1,5 +1,4 @@
 <?php
-
 namespace Controller;
 
 use Twig\Environment;
@@ -7,7 +6,7 @@ use Twig\Loader\FilesystemLoader;
 
 /**
  * Class FrontController
- * @package Pam\Controller
+ *
  */
 class FrontController extends Controller
 {
@@ -69,7 +68,6 @@ class FrontController extends Controller
      * @return mixed|void
      */
     public function parseUrl()
-
     {
         $access = filter_input(INPUT_GET, 'access');
         if (!isset($access)) {
@@ -110,6 +108,7 @@ class FrontController extends Controller
     {
         $this->controller = new $this->controller($this->twig);
         $response = call_user_func([$this->controller, $this->action]);
+
         echo $response;
     }
 }

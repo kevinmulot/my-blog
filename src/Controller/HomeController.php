@@ -1,8 +1,5 @@
 <?php
-
-
 namespace Controller;
-
 
 /**
  * Class HomeController
@@ -15,9 +12,7 @@ class HomeController extends Controller
      */
     public function indexAction()
     {
-
         return $this->render('home.twig');
-
     }
 
     /**
@@ -38,8 +33,8 @@ class HomeController extends Controller
         // validation expected data exists
         if (empty($name) ||
             empty($email_from) ||
-            empty($comments)) {
-
+            empty($comments))
+        {
             $email_message = "Form details below.\n\n";
             $email_message .= "Name: " . $this->clean_string($name) . "\n";
             $email_message .= "Email: " . $this->clean_string($email_from) . "\n";
@@ -51,6 +46,7 @@ class HomeController extends Controller
                 'Reply-To: ' . $email_from . "\r\n" .
                 'X-Mailer: PHP/' . phpversion();
             mail($to, $email_subject, $email_message, $headers);
+
             echo "envoie succes";
         }
         echo "erreur";
@@ -63,6 +59,7 @@ class HomeController extends Controller
     private function clean_string($string)
     {
         $bad = array("content-type", "bcc:", "to:", "cc:", "href");
+
         return str_replace($bad, "", $string);
     }
 }
