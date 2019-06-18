@@ -3,31 +3,40 @@
 {% block content %}
     <!-- Formulaire -->
     <div class="container">
-        <form id="registerform" method="post">
+        <form id="registerform" method="post" action="../public/index.php?access=user!register">
             <div class="row has-success mt-1">
                 <h2 class="mt-4 mb-1 border-bottom text-center col-12">S'inscrire</h2>
                 <p class="col-12 h6 mt-1 mb-4 text-center">Veuillez fournir des informations valides</p>
                 <div class="form-group mt-3 col-6">
                     <label for="firstname">Prénom</label>
-                    <input type="text" id="firstname" placeholder="Prénom" class="form-control" required>
+                    <input type="text" id="firstname" name="firstname" placeholder=Prénom" class="form-control"
+                           value="{{ firstname }}" required>
                 </div>
                 <div class="form-group mt-3 col-6">
-                    <label for="name">Nom</label>
-                    <input type="text" id="lastname" placeholder="Nom" class="form-control" required>
+                    <label for="lastname">Nom</label>
+                    <input type="text" id="lastname" name="lastname" placeholder="Nom" class="form-control"
+                           value="{{ lastname }}" required>
                 </div>
-                <div class="form-group mt-2 col-12">
+                <div class="form-group mt-3 col-6">
                     <label for="emaildata">Adresse email</label>
-                    <input type="email" id="mail" class="form-control" aria-describedby="emailHelp"
-                           placeholder="Votre email" required>
+                    <input type="email" id="email" name="email" class="form-control" aria-describedby="emailHelp"
+                           placeholder="Votre email" value="{{ email }}" required>
                     <small id="emailHelp" class="form-text text-muted">Veuillez saisir une adresse email valide</small>
                 </div>
                 <div class="form-group mt-3 col-6">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" placeholder="Password" class="form-control" required>
+                    <label for="pseudo">Pseudo</label>
+                    <input type="text" id="pseudo" name="username" placeholder="Votre pseudo" class="form-control"
+                           value="{{ pseudo }}" required>
                 </div>
                 <div class="form-group mt-3 col-6">
                     <label for="password">Password</label>
-                    <input type="password" id="passwordconfirm" placeholder="Confirmer Password" class="form-control" required>
+                    <input type="password" id="password_1" name="password_1" placeholder="Password" class="form-control"
+                           required>
+                </div>
+                <div class="form-group mt-3 col-6">
+                    <label for="password">Password</label>
+                    <input type="password" id="password_2" name="password_2" placeholder="Confirmer Password"
+                           class="form-control" required>
                     <small id="passwordhelp" class="form-text text-muted">Veuillez confirmer votre password</small>
                 </div>
 
@@ -36,10 +45,17 @@
                     <label class="form-check-label" for="Check2">J'accèpte les conditions générales de
                         confidentialité.</label>
                 </div>
-                <button type="submit" class="btn btn-outline-dark mt-4 mx-auto mb-5">Valider <i
+                <button type="submit" name="reg_user" class="btn btn-outline-dark mt-4 mx-auto mb-5">Valider <i
                             class="fas fa-paper-plane"></i>
                 </button>
             </div>
         </form>
+        <?php  if (count($errors) > 0) : ?>
+        <div class="error">
+            <?php foreach ($errors as $error) : ?>
+            <p><?php echo $error ?></p>
+            <?php endforeach ?>
+        </div>
+        <?php  endif ?>
     </div><!-- container -->
 {% endblock %}
