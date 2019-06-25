@@ -1,4 +1,5 @@
 <?php
+
 namespace Model;
 
 /**
@@ -9,14 +10,44 @@ class UserManager extends Manager
 {
     /**
      * @param $email
-     * @param $username
-     * @return bool|\PDOStatement
+     * @return bool
      */
-    public function checkUser($email, $username)
+    public function checkMail($email)
     {
         $db = $this->connectDB();
-        $req = $db->prepare('SELECT * FROM users WHERE username = $username OR email= $email LIMIT 1');
-        $req->execute(array($email, $username));
+        $req = $db->prepare('SELECT email FROM users WHERE  email = ? LIMIT 1');
+        $req->execute(array($email));
+        if ($req->fetchColumn()) {
+
+            return true;
+        }
+    }
+
+    /**
+     * @param $username
+     * @return bool
+     */
+    public function checkUsername($username)
+    {
+        $db = $this->connectDB();
+        $req = $db->prepare('SELECT username FROM users WHERE  username = ? LIMIT 1');
+        $req->execute(array($username));
+        if ($req->fetchColumn()) {
+
+            return true;
+        }
+    }
+
+    /**
+     * @param $email
+     * @return bool|mixed|\PDOStatement
+     */
+    public function getUser($email)
+    {
+        $db = $this->connectDB();
+        $req = $db->prepare('SELECT * FROM users WHERE email= ?');
+        $req->execute(array($email));
+        $req = $req->fetch();
 
         return $req;
     }
@@ -32,7 +63,7 @@ class UserManager extends Manager
     public function createUser($firstname, $lastname, $username, $email, $password)
     {
         $db = $this->connectDB();
-        $req = $db->prepare("INSERT INTO users (firstname, lastname, username, email, password) VALUES('$firstname', '$lastname', '$username', '$email', '$password')");
+        $req = $db->prepare("INSERT INTO users (firstname, lastname, username, email, password, statut) VALUES (?, ?, ?, ?, ?, 'normal')");
         $req->execute(array($firstname, $lastname, $username, $email, $password));
 
         return $req;
