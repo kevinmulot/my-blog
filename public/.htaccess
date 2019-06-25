@@ -1,9 +1,7 @@
 Options +FollowSymLinks -Multiviews
 
     RewriteEngine on
-
-#RewriteRule ^index.php$ Public/index.php
-RewriteBase /
+    RewriteBase /
 
     # Hide index.php
     RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /(.*)index\.php($|\ |\?)
