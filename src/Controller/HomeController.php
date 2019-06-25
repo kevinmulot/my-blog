@@ -1,6 +1,7 @@
 <?php
 namespace Controller;
 
+session_start();
 /**
  * Class HomeController
  * @package Controller
