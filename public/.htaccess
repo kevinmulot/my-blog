@@ -1,0 +1,8 @@
+Options +FollowSymLinks -Multiviews
+
+    RewriteEngine on
+    RewriteBase /
+
+    # Hide index.php
+    RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /(.*)index\.php($|\ |\?)
+    RewriteRule ^ /%1 [R=301,L]

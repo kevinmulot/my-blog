@@ -1,4 +1,5 @@
 .idea/
 vendor/
-img/
 tmp/
+public/img/
+config/config.php

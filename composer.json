@@ -1,12 +1,29 @@
 {
-    "name": "blog/twig",
-    "authors": [
-        {
-            "name": "Kevin Mulot",
-            "email": "kevin.mulot@gmail.com"
-        }
-    ],
-    "require": {
-        "twig/twig": "2.0"
+  "name": "kevinmulot/blog",
+  "type": "Personal Blog",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Kevin Mulot",
+      "email": "kevin.mulot@gmail.com"
     }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Controller\\": "src/Controller",
+      "Model\\": "src/Model"
+    }
+  },
+  "require": {
+    "twig/twig": "^2.11",
+    "twig/extensions": "^1.5"
+  },
+  "require-dev": {
+    "tracy/tracy": "^2.6"
+  },
+  "config": {
+    "platform": {
+      "php": "7.2"
+    }
+  }
 }

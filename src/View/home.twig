@@ -1,0 +1,88 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+
+    <!-- Header -->
+    <header>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 jumbotron text-center">
+                    <img class="img-responsive rounded-circle moi mt-auto mx-auto" src="../public/img/kei.jpg"
+                         alt="moi">
+                    <div class="intro-text">
+                        <h1 class="name">KEVIN MULOT</h1>
+                        <hr class="star-light">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center text-justify">
+                    <h1>Web Developer</h1>
+                    <h2>Prendre la vie du bon Octet !</h2>
+                    {% if session.username is defined %}
+                        <h3>Hello {{ session.username }} </h3>
+                    {% endif %}
+                    <br><br>
+                    <h4>Pour en savoir plus sur mon parcours mon CV est à votre disposition :</h4>
+                    <a href="../public/img/CV_Kevin_Mulot.pdf" target="_blank" rel="noreferrer noopener">Consulter</a>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <!-- Contact Form -->
+    <div class="container">
+        <div class="row has-success">
+            <div class="col-lg-8 col-md-10 mx-auto mt-5">
+                <h3 class="mb-3 border-bottom text-center col-12">Me contacter</h3>
+
+                <form name="sentMessage" id="contactForm" method="post" action="../public/index.php?access=home!email">
+                    <div class="control-group">
+                        <div class="form-group  floating-label-form-group controls">
+                            <label for="name">Votre Nom</label>
+                            <input type="text" class="form-control" placeholder="Nom" name="name" required
+                                   data-validation-required-message="Veuillez entrer votre nom.">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="form-group floating-label-form-group controls">
+                            <label for="telephone">Téléphone</label>
+                            <input type="tel" class="form-control" placeholder="Numéro" name="telephone" required
+                                   data-validation-required-message="Veuillez entrer votre phone numéro de téléphone.">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="form-group floating-label-form-group controls">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" placeholder="Adresse email" name="email_from"
+                                   required
+                                   data-validation-required-message="Veuillez entrer votre adresse email.">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <div class="form-group floating-label-form-group controls">
+                            <label for="comments">Votre Message</label>
+                            <textarea rows="4" class="form-control" placeholder="Message" name="comments" required
+                                      data-validation-required-message="Veuillez entrer votre message."></textarea>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-outline-dark" name="email">Envoyer <i
+                                    class="fas fa-paper-plane"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
