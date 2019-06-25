@@ -1,4 +1,5 @@
 <?php
+
 namespace Model;
 
 /**
@@ -14,8 +15,8 @@ class PostManager extends Manager
     public function getPosts()
     {
         $db = $this->connectDB();
-        $req = $db->query('SELECT * FROM posts ORDER BY id DESC LIMIT 10');
-
+        $req = $db->prepare('SELECT * FROM posts ORDER BY id DESC LIMIT 10');
+        $req->execute();
         return $req->fetchAll();
     }
 

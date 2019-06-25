@@ -1,4 +1,5 @@
 <?php
+
 namespace Controller;
 
 use Twig\Environment;
@@ -60,7 +61,6 @@ class FrontController extends Controller
             'cache' => false,
             'debug' => true
         ));
-
         $this->twig = $twig;
     }
 

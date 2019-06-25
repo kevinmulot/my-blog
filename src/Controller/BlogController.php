@@ -1,9 +1,12 @@
 <?php
+
 namespace Controller;
 
 use Model\CommentManager;
 use Model\Post;
 use Model\PostManager;
+
+session_start();
 
 /**
  * Class BlogController
@@ -16,10 +19,9 @@ class BlogController extends Controller
      */
     public function indexAction()
     {
-        $post = new PostManager();
-        $allPosts = $post->getPosts();
+        $posts = (new PostManager)->getPosts();
 
-        return $this->render('blog.twig', array('posts' => $allPosts));
+        return $this->render('blog.twig', array('posts' => $posts));
     }
 
     /**
@@ -28,11 +30,9 @@ class BlogController extends Controller
     public function readAction()
     {
         $id = $_GET['id'];
-        $post = new PostManager();
-        $onePost = $post->getPost($id);
-        $comments = new CommentManager();
-        $allComments = $comments->getComments($id);
+        $post = (new PostManager)->getPost($id);
+        $comments = (new CommentManager)->getComments($id);
 
-        return $this->render('post.twig', array('post' => $onePost, 'comment'=> $allComments));
+        return $this->render('post.twig', array('post' => $post, 'comment' => $comments));
     }
 }
