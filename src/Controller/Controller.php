@@ -1,4 +1,5 @@
 <?php
+
 namespace Controller;
 
 use Twig\Environment;
@@ -29,5 +30,13 @@ abstract Class Controller
     public function render($view, array $params = [])
     {
         return $this->twig->render($view, $params);
+    }
+
+    /**
+     * @param $msg
+     */
+    public function alert($msg)
+    {
+        echo "<script type='text/javascript'>alert('$msg');</script>";
     }
 }

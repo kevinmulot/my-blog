@@ -1,7 +1,9 @@
 <?php
+
 namespace Controller;
 
 session_start();
+
 /**
  * Class HomeController
  * @package Controller
@@ -24,7 +26,7 @@ class HomeController extends Controller
         $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING);
         if (isset($email))
             // EDIT THE 2 LINES BELOW AS REQUIRED
-            $to = "kevin.mulot@gmail.com";
+            $to = "kei-6@hotmail.fr";
         $email_subject = "Nouvelle demande de contact";
         $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING); // required
         $email_from = filter_input(INPUT_POST, 'email_from', FILTER_SANITIZE_STRING); // required
@@ -34,8 +36,7 @@ class HomeController extends Controller
         // validation expected data exists
         if (empty($name) ||
             empty($email_from) ||
-            empty($comments))
-        {
+            empty($comments)) {
             $email_message = "Form details below.\n\n";
             $email_message .= "Name: " . $this->clean_string($name) . "\n";
             $email_message .= "Email: " . $this->clean_string($email_from) . "\n";
@@ -48,9 +49,9 @@ class HomeController extends Controller
                 'X-Mailer: PHP/' . phpversion();
             mail($to, $email_subject, $email_message, $headers);
 
-            echo "envoie succes";
+            $this->alert("Email envoye !");
         }
-        echo "erreur";
+        return $this->render("home.twig");
     }
 
     /**
