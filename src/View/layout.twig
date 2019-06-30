@@ -48,8 +48,10 @@
         </ul>
         <form class="form-inline has-success connect rounded-top my-2 my-lg-0" method="post"
               action="../public/?access=user!login">
-            <input class="form-control mr-sm-2" name="email" type="email" placeholder="Adresse email">
+            <input class="form-control mr-sm-2" name="email" type="email" value="{{ email }}" placeholder="Email">
+            <small class="form-text text-danger">{{ error.emailLog }}</small>
             <input class="form-control mr-sm-2" name="password" type="password" placeholder="Password">
+            <small class="form-text text-danger">{{ error.passwordLog }}</small>
             <button class="btn btn-dark btn-md my-2 my-sm-0" type="submit">Connexion</button>
         </form>
     </div>
