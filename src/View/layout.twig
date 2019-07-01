@@ -12,14 +12,14 @@
     {% block stylesheets %}
         <!-- Bootstrap 4.3.1 -->
         <link rel="stylesheet" href="../public/css/bootstrap.min.css">
-
+        <link rel="stylesheet" href="../public/css/style.css">
 
         <!-- Fontawesome -->
         <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
               integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
               crossorigin="anonymous">
-        <link rel="stylesheet" href="../public/css/style.css">
+
     {% endblock %}
 </head>
 
@@ -52,7 +52,7 @@
             <small class="form-text text-danger">{{ error.emailLog }}</small>
             <input class="form-control mr-sm-2" name="password" type="password" placeholder="Password">
             <small class="form-text text-danger">{{ error.passwordLog }}</small>
-            <button class="btn btn-dark btn-md my-2 my-sm-0" type="submit">Connexion</button>
+            <button class="btn btn-outline-dark btn-md my-2 my-sm-0" type="submit">Connexion</button>
         </form>
     </div>
 </nav>

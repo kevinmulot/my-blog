@@ -29,3 +29,24 @@ footer {
     height: 12vh;
 }
 
+.nav-pills .pillcolor .nav-link {
+    background: black;
+    color: #4caf50;
+}
+.navbar-light .navbar-brand:hover,
+.navbar-light .navbar-nav .nav-link i:hover,
+.navbar-light .navbar-nav .nav-link i:focus
+
+{
+    color: #4caf50;
+}
+.nav-pills .pillcolor .nav-link:not(.active){
+    color: black;
+}
+
+.nav-pills .pillcolor .nav-link:not(.active):hover {
+    background-color: #ECECEC;
+}
+.nav-pills .pillcolor .nav-link:not(.active){
+    background-color: #f9f9f9;
+}
