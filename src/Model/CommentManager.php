@@ -19,4 +19,13 @@ class CommentManager extends Manager
 
         return $req->fetchAll();
     }
+
+    public function getAllComments()
+    {
+        $db = $this->connectDB();
+        $req = $db->prepare("SELECT * FROM comments ORDER BY DATE DESC");
+        $req->execute();
+
+        return $req->fetchAll();
+    }
 }

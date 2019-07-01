@@ -28,10 +28,36 @@ class BlogController extends Controller
      */
     public function readAction()
     {
-        $id = filter_input(INPUT_GET, 'id',FILTER_SANITIZE_NUMBER_INT);
+        $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
         $post = (new PostManager)->getPost($id);
         $comments = (new CommentManager)->getComments($id);
 
         return $this->render('post.twig', array('post' => $post, 'comment' => $comments));
+    }
+
+    /**
+     * @return \Twig\Environment
+     */
+    public function adminAction()
+    {
+        $posts = (new PostManager)->getPosts();
+        $comments = (new CommentManager())->getAllComments();
+
+        return $this->render('admin.twig', array('posts' => $posts, 'comments' => $comments));
+    }
+
+    /**
+     * @return \Twig\Environment
+     */
+    public function editAction()
+    {
+        $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+        $post = (new PostManager)->getPost($id);
+
+        return $this->render('edit.twig', array('post' => $post));
+    }
+    public function updateAction()
+    {
+
     }
 }
