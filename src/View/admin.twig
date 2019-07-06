@@ -1,0 +1,144 @@
+{% extends'layout.twig' %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="text-center mt-3">Administration</h1>
+
+        <!-- Tab Menu -->
+        <ul class="nav nav-pills nav-fill" id="pills-tab" role="tablist">
+            <li class="nav-item pillcolor">
+                <a class="nav-link {% if show < 1 %}active{% endif %} font-weight-bolder"
+                   id="pills-posts-tab" data-toggle="pill" href="#pills-posts" role="tab"
+                   aria-controls="pills-posts"
+                   aria-selected="{% if show < 1 %}true{% else %}false{% endif %}">Articles</a>
+            </li>
+            <li class="nav-item pillcolor ">
+                <a class="nav-link font-weight-bolder {% if show > 0 %}active{% endif %}" id="pills-comments-tab"
+                   data-toggle="pill" href="#pills-comments"
+                   role="tab"
+                   aria-controls="pills-comments" aria-selected="{% if show > 0 %}true{% else %}false{% endif %}">Commentaires</a>
+            </li>
+            <li class="nav-item pillcolor">
+                <a class="nav-link font-weight-bolder" id="pills-newpost-tab" data-toggle="pill" href="#pills-newpost"
+                   role="tab"
+                   aria-controls="pills-newpost" aria-selected="false">Création</a>
+            </li>
+        </ul>
+
+        <div class="tab-content mb-4 mt-2" id="pills-tabContent">
+
+            <div class="tab-pane fade {% if show < 1 %}show active{% endif %}" id="pills-posts"
+                 role="tabpanel" aria-labelledby="pills-posts-tab">
+
+                <div class="table-responsive table-hover text-nowrap">
+                    <table class="table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th class="col-8" scope="col">Articles</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for post in posts %}
+                            <tr>
+                                <td>{{ post.title }}</td>
+                                <td><a class="btn btn-outline-dark"
+                                       href="../public/index.php?id={{ post.id }}&access=blog!edit"><i
+                                                class="far fa-edit"></i></a>
+                                    <a class="btn btn-outline-danger"
+                                       href="../public/index.php?id={{ post.id }}&access=blog!delete"><i
+                                                class="fas fa-trash"></i></a></td>
+                            </tr>
+                            <tr>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="tab-pane fade {% if show > 0 %}show active{% endif %} mt-2" id="pills-comments"
+                 role="tabpanel"
+                 aria-labelledby="pills-comments-tab">
+                <div class="table-responsive table-hover text-nowrap">
+                    <table class="table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th class="col-8" scope="col">Commentaires</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        {% for comment in comments %}
+                            <tr>
+                                <td>{{ comment.author }}<em>
+                                        Le {{ comment.date | date("d/m/Y h:m") }}</em><br><br>{{ comment.content }}</td>
+
+                                <td>{% if comment.validation < 1 %}<a class="btn btn-outline-dark"
+                                                                      href="../public/index.php?id={{ comment.id }}&access=blog!validate">
+                                            <i
+                                                    class="fas fa-check"></i></a>
+                                    {% endif %}
+                                    <a class="btn btn-outline-danger"
+                                       href="../public/index.php?id={{ comment.id }}&access=blog!remove"><i
+                                                class="fas fa-trash"></i></a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="pills-newpost" role="tabpanel"
+                 aria-labelledby="pills-newpost-tab">
+
+                <form name="sentMessage" id="editForm" enctype="multipart/form-data" method="post"
+                      action="../public/?access=blog!add">
+                    <div class="has-success">
+                        <div class="col-lg-8 col-md-10 mx-auto mt-2">
+                            <h3 class="mb-3 border-bottom text-center col-12">Edition</h3>
+
+                            <div class="control-group">
+                                <div class="form-group floating-label-form-group controls">
+                                    <label class="font-weight-bold" for="author">Auteur</label>
+                                    <textarea rows="1" id="author" class="form-control" name="author" required
+                                              data-validation-required-message="Veuillez indiquer l'auteur de l'article"></textarea>
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <div class="form-group floating-label-form-group controls">
+                                    <label class="font-weight-bold" for="title">Titre</label>
+                                    <textarea rows="1" id="title" class="form-control" name="title" required
+                                              data-validation-required-message="Veuillez indiquer le titre de l'article"></textarea>
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <div class="form-group floating-label-form-group controls">
+                                    <label class="font-weight-bold" for="lead">Lead</label>
+                                    <textarea rows="1" id="lead" class="form-control" name="lead" required
+                                              data-validation-required-message="Veuillez indiquer le lead de l'article"></textarea>
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <div class="form-group floating-label-form-group controls">
+                                    <label class="font-weight-bold" for="content">Article</label>
+                                    <textarea rows="7" id="content" class="form-control" name="content" required
+                                              data-validation-required-message="Veuillez indiquer le contenu de l'article"></textarea>
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                            </div>
+                            <div class="form-group text-center">
+                                <button type="submit" name="submit" class="btn btn-outline-dark mx-auto">Sauvegarder <i
+                                            class="far fa-save"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -12,14 +12,12 @@
     {% block stylesheets %}
         <!-- Bootstrap 4.3.1 -->
         <link rel="stylesheet" href="../public/css/bootstrap.min.css">
-
+        <link rel="stylesheet" href="../public/css/style.css">
 
         <!-- Fontawesome -->
-        <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-              integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css"
+              integrity="sha384-i1LQnF23gykqWXg6jxC2ZbCbUMxyw5gLZY6UiUS98LYV5unm8GWmfkIS6jqJfb4E"
               crossorigin="anonymous">
-        <link rel="stylesheet" href="../public/css/style.css">
     {% endblock %}
 </head>
 
@@ -48,9 +46,11 @@
         </ul>
         <form class="form-inline has-success connect rounded-top my-2 my-lg-0" method="post"
               action="../public/?access=user!login">
-            <input class="form-control mr-sm-2" name="email" type="email" placeholder="Adresse email">
+            <input class="form-control mr-sm-2" name="email" type="email" value="{{ email }}" placeholder="Email">
+            <small class="form-text text-danger">{{ error.emailLog }}</small>
             <input class="form-control mr-sm-2" name="password" type="password" placeholder="Password">
-            <button class="btn btn-dark btn-md my-2 my-sm-0" type="submit">Connexion</button>
+            <small class="form-text text-danger">{{ error.passwordLog }}</small>
+            <button class="btn btn-outline-dark btn-md my-2 my-sm-0" type="submit">Connexion</button>
         </form>
     </div>
 </nav>

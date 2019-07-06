@@ -1,0 +1,54 @@
+{% extends'layout.twig' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row has-success">
+            <div class="col-lg-8 col-md-10 mx-auto mt-5">
+                <h3 class="mb-3 border-bottom text-center col-12">Edition</h3>
+                <form name="sentMessage" id="editForm" method="post" enctype="multipart/form-data"
+                      action="../public/?id={{ post.id }}&access=blog!update">
+                    <div class="control-group">
+                        <div class="form-group floating-label-form-group controls">
+                            <label class="font-weight-bold" for="author">Auteur</label>
+                            <textarea rows="1" id="author" class="form-control" name="author" required
+                                      data-validation-required-message="Veuillez indiquer l'auteur de l'article">{{ post.author }}</textarea>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="form-group floating-label-form-group controls">
+                            <label class="font-weight-bold" for="title">Titre</label>
+                            <textarea rows="1" id="title" class="form-control" name="title" required
+                                      data-validation-required-message="Veuillez indiquer le titre de l'article">{{ post.title }}</textarea>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="form-group floating-label-form-group controls">
+                            <label class="font-weight-bold" for="lead">Lead</label>
+                            <textarea rows="1" id="lead" class="form-control" name="lead" required
+                                      data-validation-required-message="Veuillez indiquer le lead de l'article">{{ post.lead }}</textarea>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="form-group floating-label-form-group controls">
+                            <label class="font-weight-bold" for="content">Article</label>
+                            <textarea rows="7" id="content" class="form-control" name="content" required
+                                      data-validation-required-message="Veuillez indiquer le contenu de l'article">{{ post.content }}</textarea>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-outline-dark" name="editForm">Sauvegarder <i
+                                    class="far fa-save"></i></button>
+                    </div>
+                </form>
+                <!-- Pager -->
+                <div class="clearfix mb-5">
+                    <a class="btn btn-outline-dark float-right" href="../public/?access=blog!admin">Retour &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

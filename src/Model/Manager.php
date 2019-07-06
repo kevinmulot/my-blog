@@ -1,4 +1,5 @@
 <?php
+
 namespace Model;
 
 use PDO;
@@ -22,8 +23,7 @@ abstract class Manager
     {
         require_once '../config/config.php';
 
-        if (is_null(self::$db))
-        {
+        if ((self::$db) === null) {
             $db = new PDO('mysql:host=' . HOST_NAME . ';dbname=' . DB_NAME . ';charset=utf8', DB_USER, DB_PWD);
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
