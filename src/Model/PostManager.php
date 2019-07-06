@@ -33,7 +33,49 @@ class PostManager extends Manager
         return $req->fetchObject();
     }
 
-    public function getAll (){
+    /**
+     * @param $title
+     * @param $author
+     * @param $lead
+     * @param $content
+     * @param $id
+     * @return bool
+     */
+    public function updatePost($title, $author, $lead, $content, $id)
+    {
+        $db = $this->connectDB();
+        $req = $db->prepare('UPDATE posts SET title = ?, author = ?, lead = ? , content = ? WHERE id =  ? ');
 
+        $req->execute(array($title, $author, $lead, $content, $id));
+        return true;
+
+    }
+
+    /**
+     * @param $title
+     * @param $author
+     * @param $lead
+     * @param $content
+     * @return bool
+     */
+    public function addPost($title, $author, $lead, $content)
+    {
+        $db = $this->connectDB();
+        $req = $db->prepare('INSERT INTO posts (title, author, lead, content, add_date ) VALUES (?,?,?,?, NOW())');
+
+        $req->execute(array($title, $author, $lead, $content));
+        return true;
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function deletePost($id)
+    {
+        $db = $this->connectDB();
+        $req = $db->prepare('DELETE FROM posts WHERE id = ?');
+        $req->execute(array($id));
+        return true;
     }
 }
