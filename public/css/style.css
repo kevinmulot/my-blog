@@ -20,10 +20,6 @@ section {
     width: 10%;
 }
 
-i {
-    color: #4caf50;
-}
-
 footer {
     background-color: #444444;
     height: 12vh;
@@ -33,13 +29,13 @@ footer {
     background: black;
     color: #4caf50;
 }
+
 .navbar-light .navbar-brand:hover,
 .navbar-light .navbar-nav .nav-link i:hover,
-.navbar-light .navbar-nav .nav-link i:focus
-
-{
+.navbar-light .navbar-nav .nav-link i:focus, i {
     color: #4caf50;
 }
+
 .nav-pills .pillcolor .nav-link:not(.active){
     color: black;
 }
@@ -47,6 +43,7 @@ footer {
 .nav-pills .pillcolor .nav-link:not(.active):hover {
     background-color: #ECECEC;
 }
+
 .nav-pills .pillcolor .nav-link:not(.active){
     background-color: #f9f9f9;
 }
