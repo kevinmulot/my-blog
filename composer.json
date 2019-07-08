@@ -15,8 +15,10 @@
     }
   },
   "require": {
+    "php": "^7.2",
     "twig/twig": "^2.11",
-    "twig/extensions": "^1.5"
+    "twig/extensions": "^1.5",
+    "ext-PDO": "^7.3"
   },
   "require-dev": {
     "tracy/tracy": "^2.6"
