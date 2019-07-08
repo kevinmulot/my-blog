@@ -61,6 +61,8 @@ class FrontController extends Controller
             'cache' => false,
             'debug' => true
         ));
+        $twig->addGlobal('session', $_SESSION);
+
         $this->twig = $twig;
     }
 
@@ -109,6 +111,6 @@ class FrontController extends Controller
         $this->controller = new $this->controller($this->twig);
         $response = call_user_func([$this->controller, $this->action]);
 
-        echo $response;
+        echo filter_var($response);
     }
 }
