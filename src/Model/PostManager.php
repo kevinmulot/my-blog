@@ -15,7 +15,7 @@ class PostManager extends Manager
     public function getPosts()
     {
         $db = $this->connectDB();
-        $req = $db->prepare('SELECT * FROM posts ORDER BY id DESC');
+        $req = $db->prepare('SELECT * FROM posts ORDER BY add_date DESC');
         $req->execute();
         return $req->fetchAll();
     }
