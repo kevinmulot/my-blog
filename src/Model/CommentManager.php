@@ -39,6 +39,16 @@ class CommentManager extends Manager
     public function deleteComment($id)
     {
         $db = $this->connectDB();
+        $req = $db->prepare("DELETE FROM comments WHERE id = ? ");
+        $req->execute(array($id));
+    }
+
+    /**
+     * @param $id
+     */
+    public function deleteComments($id)
+    {
+        $db = $this->connectDB();
         $req = $db->prepare("DELETE FROM comments WHERE posts_id = ? ");
         $req->execute(array($id));
     }
@@ -51,5 +61,18 @@ class CommentManager extends Manager
         $db = $this->connectDB();
         $req = $db->prepare("UPDATE comments SET validation = 1 WHERE id = ? ");
         $req->execute(array($id));
+    }
+
+    /**
+     * @param $author
+     * @param $content
+     * @param $posts_id
+     * @param $id
+     */
+    public function addComment($author, $content, $posts_id, $id)
+    {
+        $db = $this->connectDB();
+        $req = $db->prepare("INSERT INTO comments (author, content, add_date, validation, posts_id, users_id) VALUES (?, ?, NOW(), '0', ?, ?)");
+        $req->execute(array($author, $content, $posts_id, $id));
     }
 }
