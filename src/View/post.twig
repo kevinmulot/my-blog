@@ -1,4 +1,4 @@
-{% extends'layout.twig' %}
+{% extends 'layout/layout.twig' %}
 
 {% block content %}
     <!-- Main Content -->
@@ -36,7 +36,7 @@
 
                 {% endfor %}
                 <form class="mt-5" enctype="multipart/form-data" method="post"
-                      action="../public/?access=blog!comment">
+                      action="../public/?id={{ post.id }}&access=blog!comment">
                     <div class="control-group">
                         <div class="form-group floating-label-form-group controls has-success">
                             <label class="font-weight-bold" for="comment">Commenter :</label>
@@ -54,7 +54,7 @@
 
             <!-- Pager -->
             <div class="clearfix ml-auto mb-5">
-                <a class="btn btn-outline-dark" href="../public/index.php?access=blog">Retour &rarr;</a>
+                <a class="btn btn-outline-dark" href="../public/?access=blog">Retour &rarr;</a>
             </div>
 
         </div>
