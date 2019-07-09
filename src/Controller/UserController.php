@@ -2,10 +2,7 @@
 
 namespace Controller;
 
-use Model\User;
 use Model\UserManager;
-
-session_start();
 
 /**
  * Class UserController
@@ -39,13 +36,13 @@ class UserController extends Controller
 
         // Ensure that the form is correctly filled
         if (!empty($firstname) && !empty($lastname) && !empty($email) && !empty($username) && !empty($password) && !empty($passwordConfirm)) {
-            $user = new UserManager();
+            $userManager = new UserManager();
             // register user if there are no errors in the form
-            if ($user->checkMail($email) == true) {
+            if ($userManager->checkMail($email) == true) {
                 $error1 = "Cette email est deja utilise !";
                 $errorNb++;
             }
-            if ($user->checkUsername($username) == true) {
+            if ($userManager->checkUsername($username) == true) {
                 $error2 = "Ce Nom est deja utilise !";
                 $errorNb++;
             }
@@ -68,11 +65,11 @@ class UserController extends Controller
             }
             if ($errorNb === 0) {
                 $password = password_hash($password, PASSWORD_BCRYPT);//encrypt the password before saving in the database
-                $user->createUser($firstname, $lastname, $username, $email, $password);
-                $info = $user->getUser($email);
-                $user = new User($info);
-                $_SESSION['username'] = $user->getUsername();
-                $this->alert("Votre compte a ete cree avec succes !");
+                $userManager->createUser($firstname, $lastname, $username, $email, $password);
+                $info = $userManager->getUser($email);
+                $statut = $this->session->checkStatut($info['statut']);
+                $this->session->createSession($info['id'], $info['username'], $info['email'], $statut);
+                $this->session->setAlert("Votre compte a ete cree avec succes !");
 
                 return $this->render('home.twig', array('session' => $_SESSION));
             }
@@ -115,9 +112,9 @@ class UserController extends Controller
                         "email" => $email));
             }
             if ($errorNb === 0) {
-                $user = new User($info);
-                $_SESSION['username'] = $user->getUsername();
-                $this->alert("Vous etes maintenant connecte !");
+                $statut = $this->session->checkStatut($info['statut']);
+                $this->session->createSession($info['id'], $info['username'], $info['email'], $statut);
+                $this->session->setAlert("Vous etes maintenant connecte !");
 
                 return $this->render('home.twig', array('session' => $_SESSION));
             }
@@ -125,5 +122,16 @@ class UserController extends Controller
         $this->alert("Veuillez remplir tous les champs !");
 
         return $this->render("home.twig");
+    }
+
+    /**
+     * @return \Twig\Environment
+     */
+    public function logoutAction()
+    {
+        if ($this->session->isLogged()) {
+            $this->session->destroySession();
+        }
+        return $this->render('home.twig', array('session' => $_SESSION));
     }
 }

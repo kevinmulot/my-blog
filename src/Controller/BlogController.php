@@ -5,8 +5,6 @@ namespace Controller;
 use Model\CommentManager;
 use Model\PostManager;
 
-session_start();
-
 /**
  * Class BlogController
  * @package Controller
@@ -40,10 +38,18 @@ class BlogController extends Controller
      */
     public function adminAction()
     {
-        $posts = (new PostManager)->getPosts();
-        $comments = (new CommentManager())->getAllComments();
-        $show = 0;
-        return $this->render('admin.twig', array('posts' => $posts, 'comments' => $comments, 'show' => $show));
+        if ($this->session->isLogged()) {
+
+            if (filter_var($_SESSION['user']['statut']) == true) {
+                $posts = (new PostManager())->getPosts();
+                $comments = (new CommentManager())->getAllComments();
+                $show = 0;
+
+                return $this->render('admin.twig', array('posts' => $posts, 'comments' => $comments, 'show' => $show));
+            }
+            $this->session->destroySession();
+        }
+        return $this->render('home.twig');
     }
 
     /**
@@ -95,7 +101,7 @@ class BlogController extends Controller
         $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
         $postManager = (new postManager);
         $commentManager = (new commentManager);
-        $commentManager->deleteComment($id);
+        $commentManager->deleteComments($id);
         $postManager->deletePost($id);
 
         return $this->adminAction();
@@ -130,4 +136,24 @@ class BlogController extends Controller
 
         return $this->render('admin.twig', array('posts' => $posts, 'comments' => $comments, 'show' => $show));
     }
+
+    /**
+     * @return \Twig\Environment
+     */
+    public function commentAction()
+    {
+        $posts_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+
+        if ($this->session->isLogged()) {
+            $content = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_SPECIAL_CHARS);
+            $id = filter_var($_SESSION['user']['id']);
+            $author = filter_var($_SESSION['user']['username']);
+            $commentManager = (new commentManager);
+            $commentManager->addComment($author, $content, $posts_id, $id);
+        }
+        $post = (new PostManager)->getPost($posts_id);
+        $comments = (new commentManager)->getComments($posts_id);
+        return $this->render('post.twig', array('post' => $post, 'comment' => $comments));
+    }
+
 }

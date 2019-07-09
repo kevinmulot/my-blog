@@ -1,4 +1,4 @@
-{% extends'layout.twig' %}
+{% extends 'layout/layout.twig' %}
 
 {% block content %}
     <!-- Main Content -->
@@ -9,7 +9,7 @@
 
                 <div class="col-12 mt-3 mx-auto">
                     <div class="post-preview">
-                        <a href="../public/index.php?id={{ post.id }}&access=blog!read">
+                        <a href="../public/?id={{ post.id }}&access=blog!read">
 
                             <h2 class="post-title">
                                 {{ post.title }}
