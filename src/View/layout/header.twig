@@ -22,7 +22,7 @@
                     <a class="nav-link" href="../public/?access=user">Inscription</a>
                 </li>
             {% endif %}
-            {% if session.user.statut == true %}
+            {% if session.user.status == true %}
                 <li class="nav-item">
                     <a class="nav-link" href="../public/?access=blog!admin">Administration</a>
                 </li>
@@ -59,7 +59,7 @@
                     <label for="recipient-name" class="col-form-label">Votre password :</label>
                     <input class="form-control" name="password" type="password" placeholder="Password">
                     <small class="form-text text-danger">{{ error.passwordLog }}</small>
-                    <button class="btn btn-outline-dark btn-md mt-3 clearfix float-right" type="submit">Connexion</button>
+                    <button class="btn btn-outline-dark btn-md mt-3 mx-auto" type="submit">Connexion</button>
                 </form>
 
             </div>

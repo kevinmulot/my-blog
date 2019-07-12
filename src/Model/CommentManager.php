@@ -9,14 +9,14 @@ namespace Model;
 class CommentManager extends Manager
 {
     /**
-     * @param $id
+     * @param $idy
      * @return array
      */
-    public function getComments($id)
+    public function getComments($idy)
     {
-        $db = $this->connectDB();
-        $req = $db->prepare("SELECT * FROM comments WHERE posts_id = ? AND validation = 1");
-        $req->execute(array($id));
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare("SELECT * FROM comments WHERE posts_id = ? AND validation = 1");
+        $req->execute(array($idy));
 
         return $req->fetchAll();
     }
@@ -26,53 +26,53 @@ class CommentManager extends Manager
      */
     public function getAllComments()
     {
-        $db = $this->connectDB();
-        $req = $db->prepare("SELECT * FROM comments ORDER BY add_date DESC");
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare("SELECT * FROM comments ORDER BY add_date DESC");
         $req->execute();
 
         return $req->fetchAll();
     }
 
     /**
-     * @param $id
+     * @param $idy
      */
-    public function deleteComment($id)
+    public function deleteComment($idy)
     {
-        $db = $this->connectDB();
-        $req = $db->prepare("DELETE FROM comments WHERE id = ? ");
-        $req->execute(array($id));
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare("DELETE FROM comments WHERE id = ? ");
+        $req->execute(array($idy));
     }
 
     /**
-     * @param $id
+     * @param $idy
      */
-    public function deleteComments($id)
+    public function deleteComments($idy)
     {
-        $db = $this->connectDB();
-        $req = $db->prepare("DELETE FROM comments WHERE posts_id = ? ");
-        $req->execute(array($id));
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare("DELETE FROM comments WHERE posts_id = ? ");
+        $req->execute(array($idy));
     }
 
     /**
-     * @param $id
+     * @param $idy
      */
-    public function validate($id)
+    public function validate($idy)
     {
-        $db = $this->connectDB();
-        $req = $db->prepare("UPDATE comments SET validation = 1 WHERE id = ? ");
-        $req->execute(array($id));
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare("UPDATE comments SET validation = 1 WHERE id = ? ");
+        $req->execute(array($idy));
     }
 
     /**
      * @param $author
      * @param $content
      * @param $posts_id
-     * @param $id
+     * @param $idy
      */
-    public function addComment($author, $content, $posts_id, $id)
+    public function addComment($author, $content, $posts_id, $idy)
     {
-        $db = $this->connectDB();
-        $req = $db->prepare("INSERT INTO comments (author, content, add_date, validation, posts_id, users_id) VALUES (?, ?, NOW(), '0', ?, ?)");
-        $req->execute(array($author, $content, $posts_id, $id));
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare("INSERT INTO comments (author, content, add_date, validation, posts_id, users_id) VALUES (?, ?, NOW(), '0', ?, ?)");
+        $req->execute(array($author, $content, $posts_id, $idy));
     }
 }

@@ -18,7 +18,7 @@
                     <p class="text-justify">{{ post.content }}</p>
                     <br>
                     <p class="post-meta">Posté par
-                        <strong>{{ post.author }}</strong> le <em>{{ post.update | date("d/m/Y h:m") }}</em></p>
+                        <strong>{{ post.author }}</strong> le <em>{{ post.add_date | date("d/m/Y G:i:s") }}</em></p>
                 </article>
 
             </div>
@@ -28,8 +28,8 @@
 
                 {% for comment in comment %}
 
-                    <p class="mt-3"><strong>{{ comment.author }}</strong> le
-                        <em>{{ comment.date | date("d/m/Y h:m") }}</em> :</p>
+                    <p class="mt-3"><strong>{{ comment.author }}</strong><br> Le
+                        <em>{{ comment.add_date | date("d/m/Y G:i:s") }}</em></p>
                     <p class="text-justify">{{ comment.content }}</p>
 
                     <hr>

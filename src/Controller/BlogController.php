@@ -26,9 +26,9 @@ class BlogController extends Controller
      */
     public function readAction()
     {
-        $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-        $post = (new PostManager)->getPost($id);
-        $comments = (new commentManager)->getComments($id);
+        $idy = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+        $post = (new PostManager)->getPost($idy);
+        $comments = (new commentManager)->getComments($idy);
 
         return $this->render('post.twig', array('post' => $post, 'comment' => $comments));
     }
@@ -40,7 +40,7 @@ class BlogController extends Controller
     {
         if ($this->session->isLogged()) {
 
-            if (filter_var($_SESSION['user']['statut']) == true) {
+            if (filter_var($_SESSION['user']['status']) == true) {
                 $posts = (new PostManager())->getPosts();
                 $comments = (new CommentManager())->getAllComments();
                 $show = 0;
@@ -57,8 +57,8 @@ class BlogController extends Controller
      */
     public function editAction()
     {
-        $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-        $post = (new PostManager)->getPost($id);
+        $idy = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+        $post = (new PostManager)->getPost($idy);
 
         return $this->render('edit.twig', array('post' => $post));
     }
@@ -68,14 +68,14 @@ class BlogController extends Controller
      */
     public function updateAction()
     {
-        $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+        $idy = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
         $author = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS);
         $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);
         $lead = filter_input(INPUT_POST, 'lead', FILTER_SANITIZE_SPECIAL_CHARS);
         $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
 
         $postManager = (new postManager);
-        $postManager->updatePost($title, $author, $lead, $content, $id);
+        $postManager->updatePost($title, $author, $lead, $content, $idy);
         return $this->adminAction();
     }
 
@@ -98,11 +98,11 @@ class BlogController extends Controller
      */
     public function deleteAction()
     {
-        $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+        $idy = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
         $postManager = (new postManager);
         $commentManager = (new commentManager);
-        $commentManager->deleteComments($id);
-        $postManager->deletePost($id);
+        $commentManager->deleteComments($idy);
+        $postManager->deletePost($idy);
 
         return $this->adminAction();
     }
@@ -112,9 +112,9 @@ class BlogController extends Controller
      */
     public function removeAction()
     {
-        $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+        $idy = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
         $commentManager = (new commentManager);
-        $commentManager->deleteComment($id);
+        $commentManager->deleteComment($idy);
         $comments = $commentManager->getAllComments();
         $posts = (new PostManager)->getPosts();
         $show = 1;
@@ -127,9 +127,9 @@ class BlogController extends Controller
      */
     public function validateAction()
     {
-        $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+        $idy = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
         $commentManager = (new commentManager);
-        $commentManager->validate($id);
+        $commentManager->validate($idy);
         $comments = $commentManager->getAllComments();
         $posts = (new PostManager)->getPosts();
         $show = 1;
@@ -146,10 +146,10 @@ class BlogController extends Controller
 
         if ($this->session->isLogged()) {
             $content = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_SPECIAL_CHARS);
-            $id = filter_var($_SESSION['user']['id']);
+            $idy = filter_var($_SESSION['user']['id']);
             $author = filter_var($_SESSION['user']['username']);
             $commentManager = (new commentManager);
-            $commentManager->addComment($author, $content, $posts_id, $id);
+            $commentManager->addComment($author, $content, $posts_id, $idy);
         }
         $post = (new PostManager)->getPost($posts_id);
         $comments = (new commentManager)->getComments($posts_id);

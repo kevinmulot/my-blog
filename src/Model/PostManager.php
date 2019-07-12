@@ -14,21 +14,22 @@ class PostManager extends Manager
      */
     public function getPosts()
     {
-        $db = $this->connectDB();
-        $req = $db->prepare('SELECT * FROM posts ORDER BY add_date DESC');
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare('SELECT * FROM posts ORDER BY add_date DESC');
         $req->execute();
+
         return $req->fetchAll();
     }
 
     /**
-     * @param $id
+     * @param $idy
      * @return mixed
      */
-    public function getPost($id)
+    public function getPost($idy)
     {
-        $db = $this->connectDB();
-        $req = $db->prepare('SELECT * FROM posts WHERE id = ?');
-        $req->execute(array($id));
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare('SELECT * FROM posts WHERE id = ?');
+        $req->execute(array($idy));
 
         return $req->fetchObject();
     }
@@ -38,17 +39,16 @@ class PostManager extends Manager
      * @param $author
      * @param $lead
      * @param $content
-     * @param $id
+     * @param $idy
      * @return bool
      */
-    public function updatePost($title, $author, $lead, $content, $id)
+    public function updatePost($title, $author, $lead, $content, $idy)
     {
-        $db = $this->connectDB();
-        $req = $db->prepare('UPDATE posts SET title = ?, author = ?, lead = ? , content = ? WHERE id =  ? ');
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare('UPDATE posts SET title = ?, author = ?, lead = ? , content = ? WHERE id =  ? ');
+        $req->execute(array($title, $author, $lead, $content, $idy));
 
-        $req->execute(array($title, $author, $lead, $content, $id));
         return true;
-
     }
 
     /**
@@ -60,22 +60,23 @@ class PostManager extends Manager
      */
     public function addPost($title, $author, $lead, $content)
     {
-        $db = $this->connectDB();
-        $req = $db->prepare('INSERT INTO posts (title, author, lead, content, add_date ) VALUES (?,?,?,?, NOW())');
-
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare('INSERT INTO posts (title, author, lead, content, add_date ) VALUES (?,?,?,?, NOW())');
         $req->execute(array($title, $author, $lead, $content));
+
         return true;
     }
 
     /**
-     * @param $id
+     * @param $idy
      * @return bool
      */
-    public function deletePost($id)
+    public function deletePost($idy)
     {
-        $db = $this->connectDB();
-        $req = $db->prepare('DELETE FROM posts WHERE id = ?');
-        $req->execute(array($id));
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare('DELETE FROM posts WHERE id = ?');
+        $req->execute(array($idy));
+
         return true;
     }
 }

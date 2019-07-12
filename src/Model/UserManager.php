@@ -14,13 +14,14 @@ class UserManager extends Manager
      */
     public function checkMail($email)
     {
-        $db = $this->connectDB();
-        $req = $db->prepare('SELECT email FROM users WHERE  email = ? LIMIT 1');
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare('SELECT email FROM users WHERE  email = ? LIMIT 1');
         $req->execute(array($email));
         if ($req->fetchColumn()) {
 
             return true;
         }
+        return false;
     }
 
     /**
@@ -29,13 +30,14 @@ class UserManager extends Manager
      */
     public function checkUsername($username)
     {
-        $db = $this->connectDB();
-        $req = $db->prepare('SELECT username FROM users WHERE  username = ? LIMIT 1');
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare('SELECT username FROM users WHERE  username = ? LIMIT 1');
         $req->execute(array($username));
         if ($req->fetchColumn()) {
 
             return true;
         }
+        return false;
     }
 
     /**
@@ -44,8 +46,8 @@ class UserManager extends Manager
      */
     public function getUser($email)
     {
-        $db = $this->connectDB();
-        $req = $db->prepare('SELECT * FROM users WHERE email= ?');
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare('SELECT * FROM users WHERE email= ?');
         $req->execute(array($email));
         $req = $req->fetch();
 
@@ -62,8 +64,8 @@ class UserManager extends Manager
      */
     public function createUser($firstname, $lastname, $username, $email, $password)
     {
-        $db = $this->connectDB();
-        $req = $db->prepare("INSERT INTO users (firstname, lastname, username, email, password, statut) VALUES (?, ?, ?, ?, ?, 'normal')");
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare("INSERT INTO users (firstname, lastname, username, email, password, status) VALUES (?, ?, ?, ?, ?, 'normal')");
         $req->execute(array($firstname, $lastname, $username, $email, $password));
 
         return $req;

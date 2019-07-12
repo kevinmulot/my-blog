@@ -50,7 +50,9 @@ class UserController extends Controller
                 $error3 = "Vos passwords sont differents !";
                 $errorNb++;
             }
-            if ($errorNb > 0) {
+            switch (true) {
+
+                case ($errorNb > 0) :
                 $error = array(
                     "email" => $error1,
                     "username" => $error2,
@@ -62,21 +64,22 @@ class UserController extends Controller
                         "lastname" => $lastname,
                         "username" => $username,
                         "email" => $email));
-            }
-            if ($errorNb === 0) {
-                $password = password_hash($password, PASSWORD_BCRYPT);//encrypt the password before saving in the database
-                $userManager->createUser($firstname, $lastname, $username, $email, $password);
-                $info = $userManager->getUser($email);
-                $statut = $this->session->checkStatut($info['statut']);
-                $this->session->createSession($info['id'], $info['username'], $info['email'], $statut);
-                $this->session->setAlert("Votre compte a ete cree avec succes !");
 
-                return $this->render('home.twig', array('session' => $_SESSION));
+                case ($errorNb === 0) :
+                    $password = password_hash($password, PASSWORD_BCRYPT);//encrypt the password before saving in the database
+                    $userManager->createUser($firstname, $lastname, $username, $email, $password);
+                    $info = $userManager->getUser($email);
+                    $status = $this->session->checkStatus($info['status']);
+                    $this->session->createSession($info['id'], $info['username'], $info['email'], $status);
+                    $this->alert("Votre compte a ete cree avec succes !");
+
+                    return $this->render('home.twig', array('session' => filter_var_array($_SESSION)));
             }
+
         }
-        $error = array("fields" => "Veuillez remplir tous les champs");
+        $this->alert("Veuillez remplir tous les champs !");
 
-        Return $this->render("register.twig", array("error" => $error));
+        Return $this->render("register.twig");
     }
 
     /**
@@ -94,6 +97,7 @@ class UserController extends Controller
             $userManager = new UserManager();
             $info = $userManager->getUser($email);
             $passVerif = password_verify($password, $info['password']);
+
             if ($userManager->checkMail($email) == false) {
                 $error1 = "Email inexistant !";
                 $errorNb++;
@@ -102,21 +106,23 @@ class UserController extends Controller
                 $error2 = "Mauvais Password !";
                 $errorNb++;
             }
-            if ($errorNb > 0) {
-                $error = array(
-                    "emailLog" => $error1,
-                    "passwordLog" => $error2);
+            switch (true) {
 
-                return $this->render("home.twig",
-                    array("error" => $error,
-                        "email" => $email));
-            }
-            if ($errorNb === 0) {
-                $statut = $this->session->checkStatut($info['statut']);
-                $this->session->createSession($info['id'], $info['username'], $info['email'], $statut);
-                $this->session->setAlert("Vous etes maintenant connecte !");
+                case ($errorNb > 0) :
+                    $error = array(
+                        "emailLog" => $error1,
+                        "passwordLog" => $error2);
 
-                return $this->render('home.twig', array('session' => $_SESSION));
+                    return $this->render("home.twig",
+                        array("error" => $error,
+                            "email" => $email));
+
+                case ($errorNb === 0) :
+                    $status = $this->session->checkStatus($info['status']);
+                    $this->session->createSession($info['id'], $info['username'], $info['email'], $status);
+                    $this->alert("Vous etes maintenant connecte !");
+
+                    return $this->render('home.twig', array('session' => filter_var_array($_SESSION)));
             }
         }
         $this->alert("Veuillez remplir tous les champs !");
@@ -132,6 +138,6 @@ class UserController extends Controller
         if ($this->session->isLogged()) {
             $this->session->destroySession();
         }
-        return $this->render('home.twig', array('session' => $_SESSION));
+        return $this->render('home.twig', array('session' => filter_var_array($_SESSION)));
     }
 }

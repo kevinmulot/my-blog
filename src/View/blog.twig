@@ -21,7 +21,7 @@
                         <article>{{ post.content | nl2br |length > 200 ? post.content|slice(0,200) ~ '...' : post.content }}</article>
                         <br>
                         <p class="post-meta">Posté par
-                            <strong>{{ post.author }}</strong> le <em>{{ post.update | date("d/m/Y h:m") }}</em></p>
+                            <strong>{{ post.author }}</strong> Le <em>{{ post.add_date | date("d/m/Y G:i:s") }}</em></p>
                     </div>
                     <hr>
                 </div>

@@ -13,7 +13,7 @@ abstract class Manager
     /**
      * @var null
      */
-    static protected $db = null;
+    static protected $dtb = null;
 
     /**
      * @return PDO
@@ -23,12 +23,12 @@ abstract class Manager
     {
         require_once '../config/config.php';
 
-        if ((self::$db) === null) {
-            $db = new PDO('mysql:host=' . HOST_NAME . ';dbname=' . DB_NAME . ';charset=utf8', DB_USER, DB_PWD);
-            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        if ((self::$dtb) === null) {
+            $dtb = new PDO('mysql:host=' . HOST_NAME . ';dbname=' . DB_NAME . ';charset=utf8', DB_USER, DB_PWD);
+            $dtb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            self::$db = $db;
+            self::$dtb = $dtb;
         }
-        return self::$db;
+        return self::$dtb;
     }
 }

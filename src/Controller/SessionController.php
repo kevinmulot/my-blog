@@ -10,17 +10,17 @@ namespace Controller;
 class SessionController
 {
     /**
-     * @param int $id
+     * @param int $idy
      * @param string $username
      * @param string $email
      */
-    public function createSession(int $id, string $username, string $email, string $statut)
+    public function createSession(int $idy, string $username, string $email, string $status)
     {
         $_SESSION['user'] = [
-            'id' => $id,
+            'id' => $idy,
             'username' => $username,
             'email' => $email,
-            'statut' => $statut
+            'status' => $status
         ];
     }
 
@@ -50,37 +50,11 @@ class SessionController
      * @param $info
      * @return bool
      */
-    public function checkStatut($info)
+    public function checkStatus($info)
     {
         if ($info == 'admin') {
-            return $info = true;
-
+            return true;
         }
-        if ($info == 'normal') {
-            return $info = false;
-        }
-    }
-
-    /**
-     * @param $message
-     * @param string $type
-     */
-    public function setAlert($message, $type = 'error')
-    {
-        $_SESSION['alert'] = array(
-            'message' => $message,
-            'type' => $type
-        );
-    }
-
-    /**
-     *
-     */
-    public function closeAction()
-    {
-        if (array_key_exists('alert', filter_var_array($_SESSION))) {
-
-            unset ($_SESSION['alert']);
-        }
+        return false;
     }
 }

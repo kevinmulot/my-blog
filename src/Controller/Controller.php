@@ -41,6 +41,6 @@ abstract Class Controller
      */
     public function alert($msg)
     {
-        echo "<script type='text/javascript'>alert('$msg');</script>";
+        echo "<script>alert('$msg');</script>";
     }
 }

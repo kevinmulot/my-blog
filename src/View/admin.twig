@@ -44,10 +44,10 @@
                             {% set postid = post.id %}
                             <tr>
                                 <td>{{ post.title }}</td>
-                                <td><a class="btn btn-outline-dark"
+                                <td><a class="btn btn-sm btn-outline-dark"
                                        href="../public/?id={{ post.id }}&access=blog!edit">Editer   <i
                                                 class="far fa-edit"></i></a>
-                                    <a class="btn btn-outline-danger"
+                                    <a class="btn btn-sm btn-outline-danger"
                                        data-toggle="modal" data-target="#confirmPost">Suprimer   <i
                                                 class="fas fa-trash"></i></a></td>
                             </tr>
@@ -62,7 +62,7 @@
             <div class="tab-pane fade {% if show > 0 %}show active{% endif %} mt-2" id="pills-comments"
                  role="tabpanel"
                  aria-labelledby="pills-comments-tab">
-                <div class="table-responsive table-hover text-nowrap">
+                <div class="table-responsive table-hover">
                     <table class="table">
                         <thead class="thead-dark">
                         <tr>
@@ -77,14 +77,14 @@
                             {% set commentid = comment.id %}
                             <tr>
                                 <td>{{ comment.author }}<em>
-                                        Le {{ comment.date | date("d/m/Y h:m") }}</em><br><br>{{ comment.content }}</td>
+                                        Le {{ comment.add_date | date("d/m/Y G:i:s") }}</em><br><br>{{ comment.content }}</td>
 
-                                <td>{% if comment.validation < 1 %}<a class="btn btn-outline-dark"
+                                <td>{% if comment.validation < 1 %}<a class="btn btn-sm btn-outline-dark"
                                                                       href="../public/?id={{ comment.id }}&access=blog!validate">
                                             Valider   <i
                                                     class="fas fa-check"></i></a>
                                     {% endif %}
-                                    <a class="btn btn-outline-danger"
+                                    <a class="btn btn-sm btn-outline-danger"
                                        data-toggle="modal" data-target="#confirmComment">Supprimer   <i
                                                 class="fas fa-trash"></i></a></td>
                             </tr>
