@@ -20,6 +20,10 @@ section {
     width: 10%;
 }
 
+.wcomment {
+    color: grey;
+}
+
 footer {
     background-color: #444444;
     height: 12vh;
@@ -36,7 +40,7 @@ footer {
     color: #4caf50;
 }
 
-.nav-pills .pillcolor .nav-link:not(.active){
+.nav-pills .pillcolor .nav-link:not(.active) {
     color: black;
 }
 
@@ -44,6 +48,6 @@ footer {
     background-color: #ECECEC;
 }
 
-.nav-pills .pillcolor .nav-link:not(.active){
+.nav-pills .pillcolor .nav-link:not(.active) {
     background-color: #f9f9f9;
 }

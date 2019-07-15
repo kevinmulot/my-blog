@@ -35,6 +35,21 @@ class CommentManager extends Manager
 
     /**
      * @param $idy
+     * @param $userId
+     * @return array|bool
+     */
+    public function getWaitingComments($idy, $userId)
+    {
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare("SELECT * FROM comments WHERE posts_id = ? AND users_id = ? AND validation = 0 ORDER BY add_date");
+        if ($req->execute(array($idy,$userId))){
+            return $req->fetchAll();
+        }
+        return false;
+    }
+
+    /**
+     * @param $idy
      */
     public function deleteComment($idy)
     {
@@ -46,10 +61,20 @@ class CommentManager extends Manager
     /**
      * @param $idy
      */
-    public function deleteComments($idy)
+    public function deletePostComments($idy)
     {
         $dtb = $this->connectDB();
         $req = $dtb->prepare("DELETE FROM comments WHERE posts_id = ? ");
+        $req->execute(array($idy));
+    }
+
+    /**
+     * @param $idy
+     */
+    public function deleteUserComments($idy)
+    {
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare("DELETE FROM comments WHERE users_id = ? ");
         $req->execute(array($idy));
     }
 
