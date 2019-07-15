@@ -10,6 +10,30 @@ namespace Model;
 class PostManager extends Manager
 {
     /**
+     * @return mixed
+     */
+    public function countPosts()
+    {
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare('SELECT COUNT(*) AS total FROM posts');
+        $req->execute();
+        $total = $req->fetch();
+
+        return $total;
+    }
+    /**
+     * @return array
+     */
+    public function getPostsPP($page, $article)
+    {
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare("SELECT * FROM posts ORDER BY add_date DESC LIMIT ". (($page-1)*$article) .",$article");
+        $req->execute();
+
+        return $req->fetchAll();
+    }
+
+    /**
      * @return array
      */
     public function getPosts()

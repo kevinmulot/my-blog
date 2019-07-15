@@ -6,10 +6,9 @@
         <div class="row">
             {% for post in posts %}
 
-
                 <div class="col-12 mt-3 mx-auto">
                     <div class="post-preview">
-                        <a href="../public/?id={{ post.id }}&access=blog!read">
+                        <a href="../public/?id={{ post.id }}&p={{ p }}&access=blog!read">
 
                             <h2 class="post-title">
                                 {{ post.title }}
@@ -25,11 +24,25 @@
                     </div>
                     <hr>
                 </div>
-
             {% endfor %}
-
+            {% set k = nbpage %}
+            {% if nbpage > 0 %}
+            <nav aria-label="Page navigation example" class="mx-auto">
+                <ul class="pagination mx-auto justify-content-center">
+                    {% for i in range(1,k) %}
+                        {% if i == p %}
+                            <li class="page-item active">
+                            <span class="page-link">{{ i }}</span>
+                        {% else %}
+                            <li class="page-item">
+                            <a class="page-link" href="../public/?p={{ i }}&access=blog">{{ i }}</a>
+                        {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </nav>
 
         </div>
     </div>
-
 {% endblock %}
