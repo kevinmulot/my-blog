@@ -5,95 +5,166 @@
         <h1 class="text-center mt-3">Administration</h1>
 
         <!-- Tab Menu -->
-        <ul class="nav nav-pills nav-fill" id="pills-tab" role="tablist">
-            <li class="nav-item pillcolor">
-                <a class="nav-link {% if show < 1 %}active{% endif %} font-weight-bolder"
-                   id="pills-posts-tab" data-toggle="pill" href="#pills-posts" role="tab"
-                   aria-controls="pills-posts"
-                   aria-selected="{% if show < 1 %}true{% else %}false{% endif %}">Articles</a>
-            </li>
-            <li class="nav-item pillcolor ">
-                <a class="nav-link font-weight-bolder {% if show > 0 %}active{% endif %}" id="pills-comments-tab"
-                   data-toggle="pill" href="#pills-comments"
-                   role="tab"
-                   aria-controls="pills-comments" aria-selected="{% if show > 0 %}true{% else %}false{% endif %}">Commentaires</a>
-            </li>
-            <li class="nav-item pillcolor">
-                <a class="nav-link font-weight-bolder" id="pills-newpost-tab" data-toggle="pill" href="#pills-newpost"
-                   role="tab"
-                   aria-controls="pills-newpost" aria-selected="false">Création</a>
-            </li>
-        </ul>
-
+        {% if confirm == false %}
+            <ul class="nav nav-pills nav-fill" id="pills-tab" role="tablist">
+                <li class="nav-item pillcolor">
+                    <a class="nav-link {% if show == 0 %}active{% endif %} font-weight-bolder"
+                       id="pills-posts-tab" data-toggle="pill" href="#pills-posts" role="tab"
+                       aria-controls="pills-posts"
+                       aria-selected="{% if show == 0 %}true{% else %}false{% endif %}">Articles</a>
+                </li>
+                <li class="nav-item pillcolor ">
+                    <a class="nav-link font-weight-bolder {% if show == 1 %}active{% endif %}" id="pills-comments-tab"
+                       data-toggle="pill" href="#pills-comments"
+                       role="tab"
+                       aria-controls="pills-comments" aria-selected="{% if show == 1 %}true{% else %}false{% endif %}">Commentaires</a>
+                </li>
+                <li class="nav-item pillcolor">
+                    <a class="nav-link font-weight-bolder {% if show == 2 %}active{% endif %}" id="pills-users-tab"
+                       data-toggle="pill" href="#pills-users"
+                       role="tab"
+                       aria-controls="pills-users" aria-selected="{% if show == 2 %}true{% else %}false{% endif %}">Utilisateurs</a>
+                </li>
+                <li class="nav-item pillcolor">
+                    <a class="nav-link font-weight-bolder" id="pills-newpost-tab" data-toggle="pill"
+                       href="#pills-newpost"
+                       role="tab"
+                       aria-controls="pills-newpost" aria-selected="false">Création</a>
+                </li>
+            </ul>
+        {% endif %}
         <div class="tab-content mb-4 mt-2" id="pills-tabContent">
-
-            <div class="tab-pane fade {% if show < 1 %}show active{% endif %}" id="pills-posts"
+            <div class="tab-pane fade {% if show == 0 %}show active{% endif %}" id="pills-posts"
                  role="tabpanel" aria-labelledby="pills-posts-tab">
-
-                <div class="table-responsive table-hover text-nowrap">
-                    <table class="table">
+                {% if confirm.table != 'post' %}
+                <div class="table-responsive table-hover">
+                    <table class="table text-center">
                         <thead class="thead-dark">
                         <tr>
-                            <th class="col-8" scope="col">Articles</th>
-                            <th scope="col">Action</th>
+                            <th class="col" scope="col">Articles</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% set postid="" %}
                         {% for post in posts %}
-                            {% set postid = post.id %}
                             <tr>
-                                <td>{{ post.title }}</td>
-                                <td><a class="btn btn-sm btn-outline-dark"
-                                       href="../public/?id={{ post.id }}&access=blog!edit">Editer   <i
-                                                class="far fa-edit"></i></a>
-                                    <a class="btn btn-sm btn-outline-danger"
-                                       data-toggle="modal" data-target="#confirmPost">Suprimer   <i
-                                                class="fas fa-trash"></i></a></td>
-                            </tr>
-                            <tr>
+                                <td><b>Titre : </b>{{ post.title }} <br><b>Auteur : </b>{{ post.author }}<br><b>Date
+                                        : </b><em>{{ post.add_date | date("d/m/Y") }}</em><br>
+                                    <div class="mt-1">
+                                        <a class="btn btn-sm btn-outline-dark"
+                                           href="../public/?id={{ post.id }}&access=blog!edit">Editer <i
+                                                    class="far fa-edit"></i></a>
+                                        <a class="btn btn-sm btn-outline-danger"
+                                           href="../public/?id={{ post.id }}&table=post&access=blog!confirm">Supprimer <i
+                                                    class="fas fa-trash"></i></a></div>
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
+                    {% endif %}
+                    {% if confirm.table == 'post' and show == 0 %}
+                        <div class="text-center mt-5">
+                            <p class="h4 font-weight-bolder">Confirmation</p><br>
+                            <p class="h5 font-weight-bold mb-3">Vous êtes sur le point de supprimer cet article ainsi
+                                que
+                                ses commentaires !<br>Souhaitez-vous continuer ?</p>
+                            <a class="btn btn-outline-danger" href="../public/?id={{ confirm.id }}&access=blog!delete">Confirmer <i
+                                        class="fas fa-trash"></i></a>
+                            <a class="btn btn-outline-success"
+                               href="../public/?table=cancel&show=0&access=blog!confirm">Annuler</a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
-
-            <div class="tab-pane fade {% if show > 0 %}show active{% endif %} mt-2" id="pills-comments"
+            <div class="tab-pane fade {% if show == 1 %}show active{% endif %} mt-2" id="pills-comments"
                  role="tabpanel"
                  aria-labelledby="pills-comments-tab">
+                {% if confirm.table != 'comment' %}
                 <div class="table-responsive table-hover">
-                    <table class="table">
+                    <table class="table text-center">
                         <thead class="thead-dark">
                         <tr>
-                            <th class="col-8" scope="col">Commentaires</th>
-                            <th scope="col">Action</th>
+                            <th class="col" scope="col">Commentaires</th>
                         </tr>
                         </thead>
-
                         <tbody>
-                        {% set commentid="" %}
                         {% for comment in comments %}
-                            {% set commentid = comment.id %}
                             <tr>
-                                <td>{{ comment.author }}<em>
-                                        Le {{ comment.add_date | date("d/m/Y G:i:s") }}</em><br><br>{{ comment.content }}</td>
-
-                                <td>{% if comment.validation < 1 %}<a class="btn btn-sm btn-outline-dark"
-                                                                      href="../public/?id={{ comment.id }}&access=blog!validate">
-                                            Valider   <i
-                                                    class="fas fa-check"></i></a>
-                                    {% endif %}
-                                    <a class="btn btn-sm btn-outline-danger"
-                                       data-toggle="modal" data-target="#confirmComment">Supprimer   <i
-                                                class="fas fa-trash"></i></a></td>
+                                <td><b>Auteur : </b>{{ comment.author }}<br>
+                                    <b>Date : </b><em>{{ comment.add_date | date("d/m/Y G:i:s") }}</em>
+                                    <br>
+                                    <p class="text-justify text-center">"{{ comment.content }}"</p>
+                                    <div class="mt-1">
+                                        {% if comment.validation == 0 %}
+                                            <a class="btn btn-sm btn-outline-dark"
+                                               href="../public/?id={{ comment.id }}&access=blog!validate">
+                                                Valider <i
+                                                        class="fas fa-check"></i></a>
+                                        {% endif %}
+                                        <a class="btn btn-sm btn-outline-danger"
+                                           href="../public/?id={{ comment.id }}&table=comment&access=blog!confirm">Supprimer <i
+                                                    class="fas fa-trash"></i></a>
+                                    </div>
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
+                    {% endif %}
+                    {% if confirm.table == 'comment' and show == 1 %}
+                        <div class="text-center mt-5">
+                            <p class="h4 font-weight-bolder">Confirmation</p><br>
+                            <p class="h5 font-weight-bold mb-3">Souhaitez-vous supprimer ce commentaire ?</p>
+                            <a class="btn btn-outline-danger" href="../public/?id={{ confirm.id }}&access=blog!remove">Confirmer <i
+                                        class="fas fa-trash"></i></a>
+                            <a class="btn btn-outline-success"
+                               href="../public/?table=cancel&show=1&access=blog!confirm">Annuler</a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
-
+            <div class="tab-pane fade {% if show == 2 %}show active{% endif %} mt-2" id="pills-users"
+                 role="tabpanel"
+                 aria-labelledby="pills-users-tab">
+                {% if confirm.table != 'user' %}
+                <div class="table-responsive table-hover">
+                    <table class="table text-center">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th class="col" scope="col">Utilisateurs</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in user %}
+                            <tr>
+                                <td><b>Utilisateur : </b>{{ user.username }}<br>
+                                    <b>Nom : </b>{{ user.lastname }} <b>Prénom : </b>{{ user.firstname }}<br>
+                                    <b>Email : </b>:{{ user.email }}
+                                    <div class="mt-1">
+                                        <a class="btn btn-sm btn-outline-danger"
+                                           href="../public/?id={{ user.id }}&table=user&access=blog!confirm">Supprimer <i
+                                                    class="fas fa-trash"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endif %}
+                    {% if confirm.table == 'user' and show == 2 %}
+                        <div class="text-center mt-5">
+                            <p class="h4 font-weight-bolder">Confirmation</p><br>
+                            <p class="h5 font-weight-bold mb-3">Vous êtes sur le point de supprimer cet utilisateur.<br>Souhaitez-vous
+                                continuer ?</p>
+                            <a class="btn btn-outline-danger"
+                               href="../public/?id={{ confirm.id }}&access=blog!deleteUser">Confirmer <i
+                                        class="fas fa-trash"></i></a>
+                            <a class="btn btn-outline-success"
+                               href="../public/?table=cancel&show=2&access=blog!confirm">Annuler</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
             <div class="tab-pane fade" id="pills-newpost" role="tabpanel"
                  aria-labelledby="pills-newpost-tab">
 
@@ -142,49 +213,6 @@
                         </div>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
-    <!-- delete comment Modal -->
-    <div class="modal fade" id="confirmComment" tabindex="-1" role="dialog" aria-labelledby="confirmComment"
-         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Supprimmer</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Souhaitez-vous supprimer ce commentaire ?
-                </div>
-                <div class="modal-footer">
-                    <a class="btn btn-outline-success float-right" href="../public/?id={{ commentid }}&access=blog!remove">Confirmer</a>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- delete post Modal -->
-    <div class="modal fade" id="confirmPost" tabindex="-1" role="dialog" aria-labelledby="confirmPost"
-         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Supprimer</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Vous êtes sur le point de supprimer cet article ainsi que ses commentaires !
-                    Souhaitez-vous continuer ?
-                </div>
-                <div class="modal-footer">
-                    <a class="btn btn-outline-success float-right" href="../public/?id={{ postid }}&access=blog!delete">Confirmer</a>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                </div>
             </div>
         </div>
     </div>
