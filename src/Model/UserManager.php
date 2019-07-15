@@ -55,6 +55,19 @@ class UserManager extends Manager
     }
 
     /**
+     * @return array|bool|\PDOStatement
+     */
+    public function getAllUsers()
+    {
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare("SELECT * FROM users WHERE status='normal' ORDER BY username");
+        $req->execute();
+        $req = $req->fetchAll();
+
+        return $req;
+    }
+
+    /**
      * @param $firstname
      * @param $lastname
      * @param $username
@@ -69,5 +82,15 @@ class UserManager extends Manager
         $req->execute(array($firstname, $lastname, $username, $email, $password));
 
         return $req;
+    }
+
+    /**
+     * @param $idy
+     */
+    public function deleteUser($idy)
+    {
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare("DELETE FROM users WHERE id = ? AND status = 'normal'");
+        $req->execute(array($idy));
     }
 }
