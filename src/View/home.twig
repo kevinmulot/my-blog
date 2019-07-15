@@ -10,7 +10,7 @@
                     <img class="img-responsive rounded-circle moi mt-auto mx-auto" src="../public/img/kei.jpg"
                          alt="moi">
                     <div class="intro-text">
-                        <h1 class="name">KEVIN MULOT</h1>
+                        <h2 class="name">KEVIN MULOT</h2>
                         <hr class="star-light">
                     </div>
                 </div>
@@ -22,14 +22,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center text-justify">
-                    <h1>Web Developer</h1>
-                    <h2>Prendre la vie du bon Octet !</h2>
-                    {% if session.user.username is defined %}
-                        <h3>Hello {{ session.user.username }} </h3>
-                    {% endif %}
-
+                    <h3>Web Developer</h3>
+                    <h4>Prendre la vie du bon Octet !</h4>
                     <br><br>
-                    <h4>Pour en savoir plus sur mon parcours mon CV est à votre disposition :</h4>
+                    <h5>Pour en savoir plus sur mon parcours mon CV est à votre disposition :</h5>
                     <a href="../public/img/CV_Kevin_Mulot.pdf" target="_blank" rel="noreferrer noopener">Consulter</a>
                 </div>
             </div>
@@ -68,7 +64,6 @@
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
-
                     <div class="control-group">
                         <div class="form-group floating-label-form-group controls">
                             <label for="comments">Votre Message</label>
@@ -77,7 +72,6 @@
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
-
                     <div class="form-group text-center">
                         <button type="submit" class="btn btn-outline-dark" name="email">Envoyer <i
                                     class="fas fa-paper-plane"></i></button>

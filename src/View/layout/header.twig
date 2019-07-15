@@ -15,7 +15,7 @@
                             class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="../public/?access=blog">Blog</a>
+                <a class="nav-link" href="../public/?p=1&access=blog">Blog</a>
             </li>
             {% if session.user.username is not defined %}
                 <li class="nav-item">
@@ -29,24 +29,25 @@
             {% endif %}
         </ul>
         {% if session.user.username is not defined %}
-            <div class="clearfix rounded-top my-2 my-lg-0">
-                <a class="btn btn-outline-success float-right" data-toggle="modal" data-target="#connexion">Connexion</a>
+            <div class=" rounded-top my-2 my-lg-0">
+                <a class="btn btn-outline-success ml-auto" data-toggle="modal" data-target="#login">Connexion</a>
             </div>
         {% endif %}
         {% if session.user.username is defined %}
-            <div class="clearfix rounded-top my-2 my-lg-0">
-                <a class="btn btn-outline-dark float-right" data-toggle="modal" data-target="#logout">Deconnexion</a>
+            <div class="rounded-top my-2 my-lg-0">
+
+                <a class="btn btn-light ml-auto" data-toggle="modal" data-target="#logout">Deconnexion</a><p class="font-weight-bolder nav-item ml-2 d-inline">{{ session.user.username }}</p>
             </div>
         {% endif %}
     </div>
 </nav>
 <!-- Connection Modal  -->
-<div class="modal fade" id="connexion" tabindex="-1" role="dialog" aria-labelledby="connexion"
+<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="connexion"
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Identification</h5>
+                <h5 class="modal-title" id="login">Identification</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -66,14 +67,13 @@
         </div>
     </div>
 </div>
-
 <!-- logout Modal -->
 <div class="modal fade" id="logout" tabindex="-1" role="dialog" aria-labelledby="logout"
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Se déconnecter</h5>
+                <h5 class="modal-title" id="logout">Se déconnecter</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
