@@ -50,10 +50,25 @@ class SessionController
      * @param $info
      * @return bool
      */
-    public function checkStatus($info)
+    public function checkStatus( string $info)
     {
         if ($info == 'admin') {
             return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function checkAdmin()
+    {
+        if ($this->isLogged()) {
+
+            if (filter_var($_SESSION['user']['status']) == true) {
+                return true;
+            }
+            $this->destroySession();
         }
         return false;
     }
