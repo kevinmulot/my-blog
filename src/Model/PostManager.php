@@ -21,13 +21,14 @@ class PostManager extends Manager
 
         return $total;
     }
+
     /**
      * @return array
      */
     public function getPostsPP($page, $article)
     {
         $dtb = $this->connectDB();
-        $req = $dtb->prepare("SELECT * FROM posts ORDER BY add_date DESC LIMIT ". (($page-1)*$article) .",$article");
+        $req = $dtb->prepare("SELECT * FROM posts ORDER BY add_date DESC LIMIT " . (($page - 1) * $article) . ",$article");
         $req->execute();
 
         return $req->fetchAll();
@@ -49,7 +50,7 @@ class PostManager extends Manager
      * @param $idy
      * @return mixed
      */
-    public function getPost($idy)
+    public function getPost(int $idy)
     {
         $dtb = $this->connectDB();
         $req = $dtb->prepare('SELECT * FROM posts WHERE id = ?');
@@ -66,10 +67,10 @@ class PostManager extends Manager
      * @param $idy
      * @return bool
      */
-    public function updatePost($title, $author, $lead, $content, $idy)
+    public function updatePost(string $title, string $author, string $lead, string $content, int $idy)
     {
         $dtb = $this->connectDB();
-        $req = $dtb->prepare('UPDATE posts SET title = ?, author = ?, lead = ? , content = ? WHERE id =  ? ');
+        $req = $dtb->prepare('UPDATE posts SET title = ?, author = ?, lead = ? , content = ? , add_date = NOW() WHERE id =  ? ');
         $req->execute(array($title, $author, $lead, $content, $idy));
 
         return true;
@@ -82,7 +83,7 @@ class PostManager extends Manager
      * @param $content
      * @return bool
      */
-    public function addPost($title, $author, $lead, $content)
+    public function addPost(string $title, string $author, string $lead, string $content)
     {
         $dtb = $this->connectDB();
         $req = $dtb->prepare('INSERT INTO posts (title, author, lead, content, add_date ) VALUES (?,?,?,?, NOW())');
@@ -95,7 +96,7 @@ class PostManager extends Manager
      * @param $idy
      * @return bool
      */
-    public function deletePost($idy)
+    public function deletePost(int $idy)
     {
         $dtb = $this->connectDB();
         $req = $dtb->prepare('DELETE FROM posts WHERE id = ?');
