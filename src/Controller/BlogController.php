@@ -43,9 +43,9 @@ class BlogController extends Controller
     {
         $posts_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
         $content = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_SPECIAL_CHARS);
+        $page = filter_input(INPUT_GET, 'p', FILTER_SANITIZE_NUMBER_INT);
 
-        if (!empty($posts_id) && !empty($content)) {
-
+        if (!empty($posts_id) && !empty($content) && !empty($page)) {
             if ($this->session->isLogged()) {
                 $idy = filter_var($_SESSION['user']['id']);
                 $author = filter_var($_SESSION['user']['username']);
@@ -54,17 +54,16 @@ class BlogController extends Controller
                 $post = (new PostManager)->getPost($posts_id);
                 $comments = (new commentManager)->getComments($posts_id);
                 $wcomments = $commentManager->getWaitingComments($posts_id, $idy);
-
                 if ($wcomments != false) {
-                    return $this->render('post.twig', array('post' => $post, 'comment' => $comments, 'wcomment' => $wcomments));
+                    return $this->render('post.twig', array('post' => $post, 'comment' => $comments, 'wcomment' => $wcomments, 'p' => $page));
                 }
-                return $this->render('post.twig', array('post' => $post, 'comment' => $comments));
+                return $this->render('post.twig', array('post' => $post, 'comment' => $comments, 'p' => $page));
             }
             $error = 'Veuillez vous connecter !';
             $post = (new PostManager)->getPost($posts_id);
             $comments = (new commentManager)->getComments($posts_id);
 
-            return $this->render('post.twig', array('post' => $post, 'comment' => $comments, 'error' => $error,));
+            return $this->render('post.twig', array('post' => $post, 'comment' => $comments, 'error' => $error, 'p' => $page));
         }
         return $this->render('home.twig');
     }
