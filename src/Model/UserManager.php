@@ -12,7 +12,7 @@ class UserManager extends Manager
      * @param $email
      * @return bool
      */
-    public function checkMail($email)
+    public function checkMail( string $email)
     {
         $dtb = $this->connectDB();
         $req = $dtb->prepare('SELECT email FROM users WHERE  email = ? LIMIT 1');
@@ -28,7 +28,7 @@ class UserManager extends Manager
      * @param $username
      * @return bool
      */
-    public function checkUsername($username)
+    public function checkUsername(string $username)
     {
         $dtb = $this->connectDB();
         $req = $dtb->prepare('SELECT username FROM users WHERE  username = ? LIMIT 1');
@@ -44,7 +44,7 @@ class UserManager extends Manager
      * @param $email
      * @return bool|mixed|\PDOStatement
      */
-    public function getUser($email)
+    public function getUser(string $email)
     {
         $dtb = $this->connectDB();
         $req = $dtb->prepare('SELECT * FROM users WHERE email= ?');
@@ -75,7 +75,7 @@ class UserManager extends Manager
      * @param $password
      * @return bool|\PDOStatement
      */
-    public function createUser($firstname, $lastname, $username, $email, $password)
+    public function createUser(string $firstname, string $lastname, string $username, string $email, $password)
     {
         $dtb = $this->connectDB();
         $req = $dtb->prepare("INSERT INTO users (firstname, lastname, username, email, password, status) VALUES (?, ?, ?, ?, ?, 'normal')");
@@ -87,7 +87,7 @@ class UserManager extends Manager
     /**
      * @param $idy
      */
-    public function deleteUser($idy)
+    public function deleteUser(int $idy)
     {
         $dtb = $this->connectDB();
         $req = $dtb->prepare("DELETE FROM users WHERE id = ? AND status = 'normal'");
