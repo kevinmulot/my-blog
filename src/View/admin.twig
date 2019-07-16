@@ -68,7 +68,7 @@
                             <p class="h5 font-weight-bold mb-3">Vous êtes sur le point de supprimer cet article ainsi
                                 que
                                 ses commentaires !<br>Souhaitez-vous continuer ?</p>
-                            <a class="btn btn-outline-danger" href="../public/?id={{ confirm.id }}&access=blog!delete">Confirmer <i
+                            <a class="btn btn-outline-danger" href="../public/?id={{ confirm.id }}&table=post&access=blog!delete">Confirmer <i
                                         class="fas fa-trash"></i></a>
                             <a class="btn btn-outline-success"
                                href="../public/?table=cancel&show=0&access=blog!confirm">Annuler</a>
@@ -89,6 +89,7 @@
                         </thead>
                         <tbody>
                         {% for comment in comments %}
+
                             <tr>
                                 <td><b>Auteur : </b>{{ comment.author }}<br>
                                     <b>Date : </b><em>{{ comment.add_date | date("d/m/Y G:i:s") }}</em>
@@ -115,7 +116,7 @@
                         <div class="text-center mt-5">
                             <p class="h4 font-weight-bolder">Confirmation</p><br>
                             <p class="h5 font-weight-bold mb-3">Souhaitez-vous supprimer ce commentaire ?</p>
-                            <a class="btn btn-outline-danger" href="../public/?id={{ confirm.id }}&access=blog!remove">Confirmer <i
+                            <a class="btn btn-outline-danger" href="../public/?id={{ confirm.id }}&table=comment&access=blog!delete">Confirmer <i
                                         class="fas fa-trash"></i></a>
                             <a class="btn btn-outline-success"
                                href="../public/?table=cancel&show=1&access=blog!confirm">Annuler</a>
@@ -157,7 +158,7 @@
                             <p class="h5 font-weight-bold mb-3">Vous êtes sur le point de supprimer cet utilisateur.<br>Souhaitez-vous
                                 continuer ?</p>
                             <a class="btn btn-outline-danger"
-                               href="../public/?id={{ confirm.id }}&access=blog!deleteUser">Confirmer <i
+                               href="../public/?id={{ confirm.id }}&table=user&access=blog!delete">Confirmer <i
                                         class="fas fa-trash"></i></a>
                             <a class="btn btn-outline-success"
                                href="../public/?table=cancel&show=2&access=blog!confirm">Annuler</a>
