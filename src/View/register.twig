@@ -5,30 +5,29 @@
     <div class="container">
         <form method="post" name="register" enctype="multipart/form-data" action="../public/?access=user!register">
             <div class="row has-success mt-1">
-                <p class="col-12 h6 mt-1 mb-4 text-center text-danger">{{ error.fields }}</p>
                 <h2 class="mt-4 mb-1 border-bottom text-center col-12">S'inscrire</h2>
                 <p class="col-12 h6 mt-1 mb-4 text-center">Veuillez fournir des informations valides</p>
 
                 <div class="form-group mt-3 col-6">
                     <label for="firstname">Prénom</label>
-                    <input type="text" name="firstname" placeholder="Prénom" value="{{ firstname }}"
+                    <input type="text" name="firstname" placeholder="Prénom" value="{{ data.firstname }}"
                            class="form-control"
                            required>
                 </div>
                 <div class="form-group mt-3 col-6">
                     <label for="lastname">Nom</label>
-                    <input type="text" name="lastname" placeholder="Nom" value="{{ lastname }}" class="form-control"
+                    <input type="text" name="lastname" placeholder="Nom" value="{{ data.lastname }}" class="form-control"
                            required>
                 </div>
                 <div class="form-group mt-3 col-6">
                     <label for="email">Adresse email</label>
                     <input type="email" name="email" class="form-control" aria-describedby="emailHelp"
-                           placeholder="Votre email" value="{{ email }}" required>
+                           placeholder="Votre email" value="{{ data.email }}" required>
                     <small class="form-text text-danger">{{ error.email }}</small>
                 </div>
                 <div class="form-group mt-3 col-6">
                     <label for="username">Pseudo</label>
-                    <input type="text" name="username" placeholder="Votre pseudo" value="{{ username }}"
+                    <input type="text" name="username" placeholder="Votre pseudo" value="{{ data.username }}"
                            class="form-control"
                            required>
                     <small class="form-text text-danger">{{ error.username }}</small>

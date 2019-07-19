@@ -121,7 +121,7 @@ class BlogController extends Controller
         $table = filter_input(INPUT_GET, 'table', FILTER_SANITIZE_STRING);
 
         if ($this->session->checkAdmin()) {
-            if (!empty($idy) && !empty($table)) {
+            if (!empty($table)) {
                 $confirm = array('id' => $idy, 'table' => $table);
                 switch ($table) {
                     case 'post' :

@@ -2,7 +2,6 @@
 
 namespace Controller;
 
-
 /**
  * Class SessionController
  * @package Controller

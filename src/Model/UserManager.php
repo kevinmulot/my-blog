@@ -12,13 +12,13 @@ class UserManager extends Manager
      * @param $email
      * @return bool
      */
-    public function checkMail( string $email)
+    public function checkUser( string $email)
     {
         $dtb = $this->connectDB();
         $req = $dtb->prepare('SELECT email FROM users WHERE  email = ? LIMIT 1');
         $req->execute(array($email));
         if ($req->fetchColumn()) {
-
+            
             return true;
         }
         return false;
@@ -75,11 +75,11 @@ class UserManager extends Manager
      * @param $password
      * @return bool|\PDOStatement
      */
-    public function createUser(string $firstname, string $lastname, string $username, string $email, $password)
+    public function createUser($data)
     {
         $dtb = $this->connectDB();
         $req = $dtb->prepare("INSERT INTO users (firstname, lastname, username, email, password, status) VALUES (?, ?, ?, ?, ?, 'normal')");
-        $req->execute(array($firstname, $lastname, $username, $email, $password));
+        $req->execute(array($data['firstname'], $data['lastname'], $data['username'],$data['email'], $data['password']));
 
         return $req;
     }

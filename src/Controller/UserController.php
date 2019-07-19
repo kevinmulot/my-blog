@@ -2,8 +2,6 @@
 
 namespace Controller;
 
-use Model\CommentManager;
-use Model\PostManager;
 use Model\UserManager;
 
 /**
@@ -25,49 +23,35 @@ class UserController extends Controller
      */
     public function registerAction()
     {
-        $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS);
-        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_SPECIAL_CHARS);
-        $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+        $data['username'] = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS);
+        $data['password'] = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_SPECIAL_CHARS);
+        $data['password'] = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
         $passwordConfirm = filter_input(INPUT_POST, 'passwordconfirm', FILTER_SANITIZE_STRING);
-        $firstname = filter_input(INPUT_POST, 'firstname', FILTER_SANITIZE_SPECIAL_CHARS);
-        $lastname = filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_SPECIAL_CHARS);
-
+        $data['firstname'] = filter_input(INPUT_POST, 'firstname', FILTER_SANITIZE_SPECIAL_CHARS);
+        $data['lastname'] = filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_SPECIAL_CHARS);
         // Ensure that the form is correctly filled
         if (!empty($firstname) && !empty($lastname) && !empty($email) && !empty($username) && !empty($password) && !empty($passwordConfirm)) {
             $userManager = new UserManager();
-            $errorNb = 0;
-            $error1 = null;
-            $error2 = null;
-            $error3 = null;
+            $error = [];
+            $info = $userManager->checkUser($data['email']);
             // register user if there are no errors in the form
-            if ($userManager->checkMail($email) == true) {
-                $error1 = "Cette email est deja utilise !";
-                $errorNb++;
+            if ($info == false) {
+                $error['email'] = "Cette email est deja utilise !";
+                $error['nb']++;
             }
             if ($userManager->checkUsername($username) == true) {
-                $error2 = "Ce Nom est deja utilise !";
-                $errorNb++;
+                $error['username'] = "Ce Nom est deja utilise !";
+                $error['nb']++;
             }
-            if ($password !== $passwordConfirm) {
-                $error3 = "Vos passwords sont differents !";
-                $errorNb++;
+            if ($data['password'] !== $passwordConfirm) {
+                $error['password'] = "Vos passwords sont differents !";
+                $error['nb']++;
             }
-            if ($errorNb > 0) {
-                $error = array(
-                    "email" => $error1,
-                    "username" => $error2,
-                    "password" => $error3);
-
-                return $this->render("register.twig",
-                    array("error" => $error,
-                        "firstname" => $firstname,
-                        "lastname" => $lastname,
-                        "username" => $username,
-                        "email" => $email));
+            if (!empty($error['nb'])) {
+                return $this->render("register.twig", array("error" => $error, "data" => $data));
             }
-            $password = password_hash($password, PASSWORD_BCRYPT);//encrypt the password before saving in the database
-            $userManager->createUser($firstname, $lastname, $username, $email, $password);
-            $info = $userManager->getUser($email);
+            $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);//encrypt the password before saving in the database
+            $userManager->createUser($data);
             $status = $this->session->checkStatus($info['status']);
             $this->session->createSession($info['id'], $info['username'], $info['email'], $status);
             $this->alert("Votre compte a ete cree avec succes !");
@@ -88,35 +72,20 @@ class UserController extends Controller
         $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
 
         if (!empty($email) && !empty($password)) {
-            $errorNb = 0;
-            $error1 = null;
-            $error2 = null;
             $userManager = new UserManager();
-            $info = $userManager->getUser($email);
-            $passVerif = password_verify($password, $info['password']);
+            $info = $userManager->checkUser($email);
+            if ($info !== false) {
+                $info = $userManager->getUser($email);
+                if (password_verify($password, $info['password']) === true) {
+                    $status = $this->session->checkStatus($info['status']);
+                    $this->session->createSession($info['id'], $info['username'], $info['email'], $status);
+                    $this->alert("Vous etes maintenant connecte !");
 
-            if ($userManager->checkMail($email) == false) {
-                $error1 = "Email inexistant !";
-                $errorNb++;
+                    return $this->render('home.twig', array('session' => filter_var_array($_SESSION)));
+                }
             }
-            if ($passVerif == false) {
-                $error2 = "Mauvais Password !";
-                $errorNb++;
-            }
-            if ($errorNb > 0) {
-                $error = array(
-                    "emailLog" => $error1,
-                    "passwordLog" => $error2);
-
-                return $this->render("home.twig",
-                    array("error" => $error,
-                        "email" => $email));
-            }
-            $status = $this->session->checkStatus($info['status']);
-            $this->session->createSession($info['id'], $info['username'], $info['email'], $status);
-            $this->alert("Vous etes maintenant connecte !");
-
-            return $this->render('home.twig', array('session' => filter_var_array($_SESSION)));
+            $this->alert('Informations incorrectes, veuillez réessayer !');
+            return $this->render("home.twig");
         }
         $this->alert("Veuillez remplir tous les champs !");
 
@@ -133,6 +102,4 @@ class UserController extends Controller
         }
         return $this->render('home.twig', array('session' => filter_var_array($_SESSION)));
     }
-
-
 }

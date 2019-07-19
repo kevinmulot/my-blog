@@ -41,6 +41,7 @@ abstract Class Controller
      */
     public function alert($msg)
     {
-        echo "<script>alert('$msg');</script>";
+        $alert = "<script>alert('$msg');</script>";
+        echo filter_var($alert);
     }
 }
