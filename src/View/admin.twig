@@ -139,7 +139,7 @@
                         {% for user in user %}
                             <tr>
                                 <td><b>Utilisateur : </b>{{ user.username }}<br>
-                                    <b>Nom : </b>{{ user.lastname }} <b>Prénom : </b>{{ user.firstname }}<br>
+                                    <b>Nom : </b>{{ user.firstname }} {{ user.lastname }}<br>
                                     <b>Email : </b>:{{ user.email }}
                                     <div class="mt-1">
                                         <a class="btn btn-sm btn-outline-danger"
