@@ -12,7 +12,7 @@ class UserManager extends Manager
      * @param $email
      * @return bool
      */
-    public function checkUser( string $email)
+    public function checkUser($email)
     {
         $dtb = $this->connectDB();
         $req = $dtb->prepare('SELECT email FROM users WHERE  email = ? LIMIT 1');

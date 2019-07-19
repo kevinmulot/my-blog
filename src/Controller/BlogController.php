@@ -46,28 +46,20 @@ class BlogController extends Controller
         $page = filter_input(INPUT_GET, 'p', FILTER_SANITIZE_NUMBER_INT);
 
         if (!empty($posts_id) && !empty($content) && !empty($page)) {
-            if ($this->session->isLogged()) {
-                $idy = filter_var($_SESSION['user']['id']);
-                $author = filter_var($_SESSION['user']['username']);
-                $commentManager = (new commentManager);
-                $commentManager->addComment($author, $content, $posts_id, $idy);
-                $post = (new PostManager)->getPost($posts_id);
-                $comments = (new commentManager)->getComments($posts_id);
-                $wcomments = $commentManager->getWaitingComments($posts_id, $idy);
-                if ($wcomments != false) {
-                    return $this->render('post.twig', array('post' => $post, 'comment' => $comments, 'wcomment' => $wcomments, 'p' => $page));
-                }
-                return $this->render('post.twig', array('post' => $post, 'comment' => $comments, 'p' => $page));
-            }
-            $error = 'Veuillez vous connecter !';
+            $idy = filter_var($_SESSION['user']['id']);
+            $author = filter_var($_SESSION['user']['username']);
+            $commentManager = new commentManager;
+            $commentManager->addComment($author, $content, $posts_id, $idy);
             $post = (new PostManager)->getPost($posts_id);
-            $comments = (new commentManager)->getComments($posts_id);
-
-            return $this->render('post.twig', array('post' => $post, 'comment' => $comments, 'error' => $error, 'p' => $page));
+            $comments = $commentManager->getComments($posts_id);
+            $wcomments = $commentManager->getWaitingComments($posts_id, $idy);
+            if ($wcomments != false) {
+                return $this->render('post.twig', array('post' => $post, 'comment' => $comments, 'wcomment' => $wcomments, 'p' => $page));
+            }
+            return $this->render('post.twig', array('post' => $post, 'comment' => $comments, 'p' => $page));
         }
         return $this->render('home.twig');
     }
-
 
     /**
      * @return \Twig\Environment
@@ -79,7 +71,7 @@ class BlogController extends Controller
 
         if (!empty($idy) && !empty($page)) {
             $post = (new PostManager)->getPost($idy);
-            $commentManager = (new commentManager);
+            $commentManager = new commentManager;
             $comments = $commentManager->getComments($idy);
             if ($this->session->isLogged()) {
                 $wcomments = $commentManager->getWaitingComments($idy, filter_var($_SESSION['user']['id']));
@@ -91,7 +83,6 @@ class BlogController extends Controller
         }
         return $this->render('home.twig');
     }
-
 
     /**
      * @param $show
@@ -120,26 +111,24 @@ class BlogController extends Controller
         $idy = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
         $table = filter_input(INPUT_GET, 'table', FILTER_SANITIZE_STRING);
 
-        if ($this->session->checkAdmin()) {
-            if (!empty($table)) {
-                $confirm = array('id' => $idy, 'table' => $table);
-                switch ($table) {
-                    case 'post' :
-                        $show = 0;
-                        break;
-                    case 'comment' :
-                        $show = 1;
-                        break;
-                    case 'user' :
-                        $show = 2;
-                        break;
-                    case 'cancel' :
-                        $show = filter_input(INPUT_GET, 'show', FILTER_SANITIZE_NUMBER_INT);
-                        $confirm = false;
-                        break;
-                }
-                return $this->adminAction($show, $confirm);
+        if (!empty($table) && $this->session->checkAdmin()) {
+            $confirm = array('id' => $idy, 'table' => $table);
+            switch ($table) {
+                case 'post' :
+                    $show = 0;
+                    break;
+                case 'comment' :
+                    $show = 1;
+                    break;
+                case 'user' :
+                    $show = 2;
+                    break;
+                case 'cancel' :
+                    $show = filter_input(INPUT_GET, 'show', FILTER_SANITIZE_NUMBER_INT);
+                    $confirm = false;
+                    break;
             }
+            return $this->adminAction($show, $confirm);
         }
         return $this->render('home.twig');
     }
@@ -151,10 +140,8 @@ class BlogController extends Controller
     {
         $idy = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 
-        if ($this->session->checkAdmin()) {
-            if (!empty($idy)) {
-                $post = (new PostManager)->getPost($idy);
-            }
+        if (!empty($idy) && $this->session->checkAdmin()) {
+            $post = (new PostManager)->getPost($idy);
             return $this->render('edit.twig', array('post' => $post));
         }
         return $this->render('home.twig');
@@ -165,18 +152,16 @@ class BlogController extends Controller
      */
     public function updateAction()
     {
-        $idy = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-        $author = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS);
-        $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);
-        $lead = filter_input(INPUT_POST, 'lead', FILTER_SANITIZE_SPECIAL_CHARS);
-        $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
+        $data['idy'] = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+        $data['author'] = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS);
+        $data['title'] = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);
+        $data['lead'] = filter_input(INPUT_POST, 'lead', FILTER_SANITIZE_SPECIAL_CHARS);
+        $data['content'] = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
 
-        if ($this->session->checkAdmin()) {
-            if (!empty($idy) && !empty($author) && !empty($title) && !empty($lead) && !empty($content)) {
-                (new postManager)->updatePost($title, $author, $lead, $content, $idy);
+        if (!empty($data['idy']) && !empty($data['author']) && !empty($data['title']) && !empty($data['lead']) && !empty($data['content']) && $this->session->checkAdmin()) {
+            (new postManager)->updatePost($data);
 
-                return $this->adminAction(0, false);
-            }
+            return $this->adminAction(0, false);
         }
         return $this->render('home.twig');
     }
@@ -191,16 +176,13 @@ class BlogController extends Controller
         $lead = filter_input(INPUT_POST, 'lead', FILTER_SANITIZE_SPECIAL_CHARS);
         $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
 
-        if ($this->session->checkAdmin()) {
-            if (!empty($author) && !empty($title) && !empty($lead) && !empty($content)) {
-                (new postManager)->addPost($title, $author, $lead, $content);
+        if (!empty($author) && !empty($title) && !empty($lead) && !empty($content) && $this->session->checkAdmin()) {
+            (new postManager)->addPost($title, $author, $lead, $content);
 
-                return $this->adminAction(0, false);
-            }
+            return $this->adminAction(0, false);
         }
         return $this->render('home.twig');
     }
-
 
     /**
      * @return \Twig\Environment
@@ -210,26 +192,24 @@ class BlogController extends Controller
         $idy = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
         $table = filter_input(INPUT_GET, 'table', FILTER_SANITIZE_STRING);
 
-        if ($this->session->checkAdmin()) {
-            if (!empty($idy) && !empty($table)) {
-                switch ($table) {
-                    case 'post' :
-                        (new commentManager)->deletePostComments($idy);
-                        (new postManager)->deletePost($idy);
-                        $show = 0;
-                        break;
-                    case 'comment' :
-                        (new commentManager)->deleteComment($idy);
-                        $show = 1;
-                        break;
-                    case 'user' :
-                        (new CommentManager())->deleteUserComments($idy);
-                        (new UserManager())->deleteUser($idy);
-                        $show = 2;
-                        break;
-                }
-                Return $this->adminAction($show, false);
+        if (!empty($idy) && !empty($table) && $this->session->checkAdmin()) {
+            switch ($table) {
+                case 'post' :
+                    (new commentManager)->deletePostComments($idy);
+                    (new postManager)->deletePost($idy);
+                    $show = 0;
+                    break;
+                case 'comment' :
+                    (new commentManager)->deleteComment($idy);
+                    $show = 1;
+                    break;
+                case 'user' :
+                    (new CommentManager())->deleteUserComments($idy);
+                    (new UserManager())->deleteUser($idy);
+                    $show = 2;
+                    break;
             }
+            Return $this->adminAction($show, false);
         }
         return $this->render('home.twig');
     }
@@ -241,12 +221,10 @@ class BlogController extends Controller
     {
         $idy = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 
-        if ($this->session->checkAdmin()) {
-            if (!empty($idy)) {
-                (new commentManager)->validate($idy);
+        if (!empty($idy) && $this->session->checkAdmin()) {
+            (new commentManager)->validate($idy);
 
-                return $this->adminAction(1, false);
-            }
+            return $this->adminAction(1, false);
         }
         return $this->render('home.twig');
     }

@@ -48,17 +48,15 @@
                             <label class="font-weight-bold" for="comment">Commenter :</label>
                             <textarea rows="2" class="form-control" placeholder="Votre message" name="comment" required
                                       data-validation-required-message="Veuillez entrer votre commentaire."></textarea>
-                            {% if error is not defined %}
                                 <small class="form-text text-muted">Connexion nécessaire</small>
-                            {% else %}
-                                <small class="form-text text-danger">{{ error }}</small>
-                            {% endif %}
                         </div>
                     </div>
+                    {% if session.user.username is defined %}
                     <div class="form-group text-center">
                         <button type="submit" class="btn btn-outline-dark">Soumettre <i
                                     class="fas fa-paper-plane"></i></button>
                     </div>
+                    {% endif %}
                 </form>
             </div>
 

@@ -67,11 +67,11 @@ class PostManager extends Manager
      * @param $idy
      * @return bool
      */
-    public function updatePost(string $title, string $author, string $lead, string $content, int $idy)
+    public function updatePost($data)
     {
         $dtb = $this->connectDB();
         $req = $dtb->prepare('UPDATE posts SET title = ?, author = ?, lead = ? , content = ? , add_date = NOW() WHERE id =  ? ');
-        $req->execute(array($title, $author, $lead, $content, $idy));
+        $req->execute(array($data['title'], $data['author'], $data['lead'], $data['content'], $data['idy']));
 
         return true;
     }

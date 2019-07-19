@@ -24,34 +24,33 @@ class UserController extends Controller
     public function registerAction()
     {
         $data['username'] = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS);
-        $data['password'] = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_SPECIAL_CHARS);
+        $data['email'] = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_SPECIAL_CHARS);
         $data['password'] = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
         $passwordConfirm = filter_input(INPUT_POST, 'passwordconfirm', FILTER_SANITIZE_STRING);
         $data['firstname'] = filter_input(INPUT_POST, 'firstname', FILTER_SANITIZE_SPECIAL_CHARS);
         $data['lastname'] = filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_SPECIAL_CHARS);
         // Ensure that the form is correctly filled
-        if (!empty($firstname) && !empty($lastname) && !empty($email) && !empty($username) && !empty($password) && !empty($passwordConfirm)) {
+        if (!empty($data['firstname']) && !empty($data['lastname']) && !empty($data['email']) && !empty($data['username']) && !empty($data['password']) && !empty($passwordConfirm))
+        {
             $userManager = new UserManager();
             $error = [];
             $info = $userManager->checkUser($data['email']);
             // register user if there are no errors in the form
-            if ($info == false) {
+            if ($info == true) {
                 $error['email'] = "Cette email est deja utilise !";
                 $error['nb']++;
             }
-            if ($userManager->checkUsername($username) == true) {
+            if ($userManager->checkUsername($data['username']) == true) {
                 $error['username'] = "Ce Nom est deja utilise !";
                 $error['nb']++;
             }
-            if ($data['password'] !== $passwordConfirm) {
-                $error['password'] = "Vos passwords sont differents !";
-                $error['nb']++;
-            }
-            if (!empty($error['nb'])) {
+            if (!empty($error['nb']) or $data['password'] !== $passwordConfirm) {
+                $this->alert('Erreur lors de l\'enregistrement ! Vérifiez bien que les  2 passwords sont identiques');
                 return $this->render("register.twig", array("error" => $error, "data" => $data));
             }
             $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);//encrypt the password before saving in the database
             $userManager->createUser($data);
+            $info = $userManager->getUser($data['email']);
             $status = $this->session->checkStatus($info['status']);
             $this->session->createSession($info['id'], $info['username'], $info['email'], $status);
             $this->alert("Votre compte a ete cree avec succes !");
