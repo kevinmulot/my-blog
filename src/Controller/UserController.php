@@ -26,26 +26,16 @@ class UserController extends Controller
         $data['username'] = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS);
         $data['email'] = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_SPECIAL_CHARS);
         $data['password'] = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
-        $passwordConfirm = filter_input(INPUT_POST, 'passwordconfirm', FILTER_SANITIZE_STRING);
+        $data['$password2'] = filter_input(INPUT_POST, 'passwordconfirm', FILTER_SANITIZE_STRING);
         $data['firstname'] = filter_input(INPUT_POST, 'firstname', FILTER_SANITIZE_SPECIAL_CHARS);
         $data['lastname'] = filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_SPECIAL_CHARS);
+
         // Ensure that the form is correctly filled
-        if (!empty($data['firstname']) && !empty($data['lastname']) && !empty($data['email']) && !empty($data['username']) && !empty($data['password']) && !empty($passwordConfirm))
-        {
+        if (!empty($data['firstname']) && !empty($data['lastname']) && !empty($data['email']) && !empty($data['username']) && !empty($data['password']) && !empty($data['$password2'])) {
             $userManager = new UserManager();
-            $error = [];
-            $info = $userManager->checkUser($data['email']);
             // register user if there are no errors in the form
-            if ($info == true) {
-                $error['email'] = "Cette email est deja utilise !";
-                $error['nb']++;
-            }
-            if ($userManager->checkUsername($data['username']) == true) {
-                $error['username'] = "Ce Nom est deja utilise !";
-                $error['nb']++;
-            }
-            if (!empty($error['nb']) or $data['password'] !== $passwordConfirm) {
-                $this->alert('Erreur lors de l\'enregistrement ! Vérifiez bien que les  2 passwords sont identiques');
+            $error = $this->verifyUser($data);
+            if (!empty($error)) {
                 return $this->render("register.twig", array("error" => $error, "data" => $data));
             }
             $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);//encrypt the password before saving in the database
@@ -100,5 +90,32 @@ class UserController extends Controller
             $this->session->destroySession();
         }
         return $this->render('home.twig', array('session' => filter_var_array($_SESSION)));
+    }
+
+    /**
+     * @param $data
+     * @return array
+     */
+    public function verifyUser($data)
+    {
+        $err = 0;
+        $userManager = new UserManager();
+        $info = $userManager->checkUser($data['email']);
+        if ($info == true) {
+            $error['email'] = "Cette email est deja utilise !";
+            $err++;
+        }
+        if ($userManager->checkUsername($data['username']) == true) {
+            $error['username'] = "Ce Nom est deja utilise !";
+            $err++;
+        }
+        if ($data['password'] !== $data['$password2']) {
+            $error['password'] = "Vos passwords sont differents !";
+            $err++;
+        }
+        if ($err > 0) {
+            return $error;
+        }
+        return $error = [];
     }
 }
