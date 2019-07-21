@@ -10,9 +10,8 @@
 
     <div class="collapse navbar-collapse" id="navbarColor03">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="../public/?access=home">Accueil <span
-                            class="sr-only">(current)</span></a>
+            <li class="nav-item">
+                <a class="nav-link" href="../public/?access=home">Accueil</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="../public/?p=1&access=blog">Blog</a>
@@ -21,6 +20,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="../public/?access=user">Inscription</a>
                 </li>
+            {% endif %}
+            {% if session.user.username is defined %}
+            <li class="nav-item">
+                <a class="nav-link" href="../public/?access=user!edit">Profil</a>
+            </li>
             {% endif %}
             {% if session.user.status == true %}
                 <li class="nav-item">

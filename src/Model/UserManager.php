@@ -93,4 +93,15 @@ class UserManager extends Manager
         $req = $dtb->prepare("DELETE FROM users WHERE id = ? AND status = 'normal'");
         $req->execute(array($idy));
     }
+
+    /**
+     * @param $data
+     * @param $row
+     * @param $email
+     */
+    public function update($data, $row, $email){
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare("UPDATE users SET $row = ? WHERE email = ? ");
+        $req->execute(array($data, $email));
+    }
 }
