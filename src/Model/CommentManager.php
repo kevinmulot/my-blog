@@ -49,32 +49,13 @@ class CommentManager extends Manager
     }
 
     /**
-     * @param $idy
+     * @param int $idy
+     * @param $row
      */
-    public function deleteComment(int $idy)
+    public function deleteComment(int $idy, $row)
     {
         $dtb = $this->connectDB();
-        $req = $dtb->prepare("DELETE FROM comments WHERE id = ? ");
-        $req->execute(array($idy));
-    }
-
-    /**
-     * @param $idy
-     */
-    public function deletePostComments(int $idy)
-    {
-        $dtb = $this->connectDB();
-        $req = $dtb->prepare("DELETE FROM comments WHERE posts_id = ? ");
-        $req->execute(array($idy));
-    }
-
-    /**
-     * @param $idy
-     */
-    public function deleteUserComments(int $idy)
-    {
-        $dtb = $this->connectDB();
-        $req = $dtb->prepare("DELETE FROM comments WHERE users_id = ? ");
+        $req = $dtb->prepare("DELETE FROM comments WHERE $row = ? ");
         $req->execute(array($idy));
     }
 

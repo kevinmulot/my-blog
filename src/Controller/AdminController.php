@@ -46,7 +46,6 @@ class AdminController extends Controller
     {
         $idy = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
         $table = filter_input(INPUT_GET, 'table', FILTER_SANITIZE_STRING);
-
         if (!empty($table) && $this->session->checkAdmin()) {
             $confirm = array('id' => $idy, 'table' => $table);
             switch ($table) {
@@ -78,6 +77,7 @@ class AdminController extends Controller
 
         if (!empty($idy) && $this->session->checkAdmin()) {
             $post = (new PostManager)->getPost($idy);
+
             return $this->render('edit.twig', array('post' => $post));
         }
         return $this->render('home.twig');
@@ -131,16 +131,16 @@ class AdminController extends Controller
         if (!empty($idy) && !empty($table) && $this->session->checkAdmin()) {
             switch ($table) {
                 case 'post' :
-                    (new commentManager)->deletePostComments($idy);
+                    (new commentManager)->deleteComment($idy, 'posts_id');
                     (new postManager)->deletePost($idy);
                     $show = 0;
                     break;
                 case 'comment' :
-                    (new commentManager)->deleteComment($idy);
+                    (new commentManager)->deleteComment($idy, 'id');
                     $show = 1;
                     break;
                 case 'user' :
-                    (new CommentManager())->deleteUserComments($idy);
+                    (new CommentManager())->deleteComment($idy, 'users_id');
                     (new UserManager())->deleteUser($idy);
                     $show = 2;
                     break;
@@ -159,7 +159,6 @@ class AdminController extends Controller
 
         if (!empty($idy) && $this->session->checkAdmin()) {
             (new commentManager)->validate($idy);
-
             return $this->adminAction(1, false);
         }
         return $this->render('home.twig');

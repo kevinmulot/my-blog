@@ -17,12 +17,14 @@ class BlogController extends Controller
     public function indexAction()
     {
         $page = filter_input(INPUT_GET, 'p', FILTER_SANITIZE_NUMBER_INT);
+
         $postManager = new PostManager();
         $nbPost = $postManager->countPosts();
         $postPP = 4;
         $nbPage = ceil($nbPost['total'] / $postPP);
         if (isset($page) && $page >= 0) {
             $posts = $postManager->getPostsPP($page, $postPP);
+
             return $this->render('blog.twig', array('posts' => $posts, 'nbpage' => $nbPage, 'p' => $page));
         }
         $page = 1;
