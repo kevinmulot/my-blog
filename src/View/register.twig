@@ -8,41 +8,40 @@
                 <h2 class="mt-4 mb-1 border-bottom text-center col-12">S'inscrire</h2>
                 <p class="col-12 h6 mt-1 mb-4 text-center">Veuillez fournir des informations valides</p>
 
-                <div class="form-group mt-3 col-6">
+                <div class="form-group mt-3 col-lg-6 col-md-12">
                     <label for="firstname">Prénom</label>
                     <input type="text" name="firstname" placeholder="Prénom" value="{{ data.firstname }}"
                            class="form-control"
                            required>
                 </div>
-                <div class="form-group mt-3 col-6">
+                <div class="form-group mt-3 col-lg-6 col-md-12">
                     <label for="lastname">Nom</label>
                     <input type="text" name="lastname" placeholder="Nom" value="{{ data.lastname }}" class="form-control"
                            required>
                 </div>
-                <div class="form-group mt-3 col-6">
+                <div class="form-group mt-3 col-lg-6 col-md-12">
                     <label for="email">Adresse email</label>
                     <input type="email" name="email" class="form-control" aria-describedby="emailHelp"
                            placeholder="Votre email" value="{{ data.email }}" required>
                     <small class="form-text text-danger">{{ error.email }}</small>
                 </div>
-                <div class="form-group mt-3 col-6">
+                <div class="form-group mt-3 col-lg-6 col-md-12">
                     <label for="username">Pseudo</label>
                     <input type="text" name="username" placeholder="Votre pseudo" value="{{ data.username }}"
                            class="form-control"
                            required>
                     <small class="form-text text-danger">{{ error.username }}</small>
                 </div>
-                <div class="form-group mt-3 col-6">
+                <div class="form-group mt-3 col-lg-6 col-md-12">
                     <label for="password">Password</label>
                     <input type="password" name="password" placeholder="Password" class="form-control"
                            required>
                     <small class="form-text text-danger">{{ error.password }}</small>
                 </div>
-                <div class="form-group mt-3 col-6">
-                    <label for="password">Password</label>
-                    <input type="password" name="passwordconfirm" placeholder="Confirmer Password"
+                <div class="form-group mt-3 col-lg-6 col-md-12">
+                    <label for="password">Confirmer Password</label>
+                    <input type="password" name="passwordconfirm" placeholder="Password"
                            class="form-control" required>
-                    <small class="form-text text-muted">Veuillez confirmer votre password</small>
                 </div>
 
                 <div class="form-check offset-md-4 offset-1 col-10">
