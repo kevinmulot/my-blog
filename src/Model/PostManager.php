@@ -10,25 +10,51 @@ namespace Model;
 class PostManager extends Manager
 {
     /**
+     * @return mixed
+     */
+    public function countPosts()
+    {
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare('SELECT COUNT(*) AS total FROM posts');
+        $req->execute();
+        $total = $req->fetch();
+
+        return $total;
+    }
+
+    /**
      * @return array
      */
-    public function getPosts()
+    public function getPostsPP($page, $article)
     {
-        $db = $this->connectDB();
-        $req = $db->prepare('SELECT * FROM posts ORDER BY add_date DESC');
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare("SELECT * FROM posts ORDER BY add_date DESC LIMIT " . (($page - 1) * $article) . ",$article");
         $req->execute();
+
         return $req->fetchAll();
     }
 
     /**
-     * @param $id
+     * @return array
+     */
+    public function getPosts()
+    {
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare('SELECT * FROM posts ORDER BY add_date DESC');
+        $req->execute();
+
+        return $req->fetchAll();
+    }
+
+    /**
+     * @param $idy
      * @return mixed
      */
-    public function getPost($id)
+    public function getPost(int $idy)
     {
-        $db = $this->connectDB();
-        $req = $db->prepare('SELECT * FROM posts WHERE id = ?');
-        $req->execute(array($id));
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare('SELECT * FROM posts WHERE id = ?');
+        $req->execute(array($idy));
 
         return $req->fetchObject();
     }
@@ -38,17 +64,16 @@ class PostManager extends Manager
      * @param $author
      * @param $lead
      * @param $content
-     * @param $id
+     * @param $idy
      * @return bool
      */
-    public function updatePost($title, $author, $lead, $content, $id)
+    public function updatePost($data)
     {
-        $db = $this->connectDB();
-        $req = $db->prepare('UPDATE posts SET title = ?, author = ?, lead = ? , content = ? WHERE id =  ? ');
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare('UPDATE posts SET title = ?, author = ?, headline = ? , content = ? , add_date = NOW() WHERE id =  ? ');
+        $req->execute(array($data['title'], $data['author'], $data['headline'], $data['content'], $data['idy']));
 
-        $req->execute(array($title, $author, $lead, $content, $id));
         return true;
-
     }
 
     /**
@@ -58,24 +83,25 @@ class PostManager extends Manager
      * @param $content
      * @return bool
      */
-    public function addPost($title, $author, $lead, $content)
+    public function addPost(string $title, string $author, string $headline, string $content)
     {
-        $db = $this->connectDB();
-        $req = $db->prepare('INSERT INTO posts (title, author, lead, content, add_date ) VALUES (?,?,?,?, NOW())');
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare('INSERT INTO posts (title, author, headline, content, add_date ) VALUES (?,?,?,?, NOW())');
+        $req->execute(array($title, $author, $headline, $content));
 
-        $req->execute(array($title, $author, $lead, $content));
         return true;
     }
 
     /**
-     * @param $id
+     * @param $idy
      * @return bool
      */
-    public function deletePost($id)
+    public function deletePost(int $idy)
     {
-        $db = $this->connectDB();
-        $req = $db->prepare('DELETE FROM posts WHERE id = ?');
-        $req->execute(array($id));
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare('DELETE FROM posts WHERE id = ?');
+        $req->execute(array($idy));
+
         return true;
     }
 }

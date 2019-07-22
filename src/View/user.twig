@@ -1,0 +1,48 @@
+{% extends 'layout/layout.twig' %}
+
+{% block content %}
+    <!-- Formulaire -->
+    <div class="container">
+        <form method="post" name="update" enctype="multipart/form-data" action="../public/?access=user!update">
+            <div class="row has-success mt-1">
+                <h2 class="mt-4 mb-1 border-bottom col-12">Modifier votre profil</h2>
+                <h3 class="col-12 text-center mt-3"><b>Profil : </b>{{ data.firstname }} {{ data.lastname }}</h3><br>
+                <div class="form-group mt-3 col-lg-6 col-md-12">
+                    <label for="email"><b>Email actuel :</b> {{ data.email }}</label>
+                    <input type="email" id="email" name="email" class="form-control ftext" placeholder="Email"
+                    >
+                    <small class="form-text text-danger">{{ error.email }}</small>
+                </div>
+                <div class="form-group mt-3 col-lg-6 col-md-12">
+                    <label for="username"><b>Pseudo actuel :</b> {{ data.username }}</label>
+                    <input type="text" id="username" name="username"
+                           class="form-control ftext" placeholder="Pseudo">
+                    <small class="form-text text-danger">{{ error.username }}</small>
+                </div>
+                <h3 class="col-12 mt-4 text-center"><b>Modifier password</b></h3>
+                <div class="form-group mt-3 col-lg-4 col-md-12">
+                    <label for="oldpassword"><b>Ancien password</b></label>
+                    <input type="password" id="oldpassword" name="oldpassword"
+                           class="form-control ftext" placeholder="******">
+                    <small class="form-text text-danger">{{ error.password0 }}</small>
+                </div>
+                <div class="form-group mt-3 col-lg-4 col-md-12">
+                    <label for="newpassword"><b>Nouveau password</b></label>
+                    <input type="password" id="newpassword" name="newpassword"
+                           class="form-control ftext" placeholder="******">
+                    <small class="form-text text-danger">{{ error.password }}</small>
+                </div>
+                <div class="form-group mt-3 col-lg-4 col-md-12">
+                    <label for="passwordconfirm"><b>Confirmer nouveau password</b></label>
+                    <input type="password" id="passwordconfirm" name="passwordconfirm"
+
+                           class="form-control ftext" placeholder="******">
+                </div>
+                <button type="submit" name="submit" class="btn btn-outline-dark mt-4 mx-auto mb-5">Sauvegarder <i
+                            class="far fa-save"></i>
+                </button>
+            </div>
+        </form>
+    </div><!-- container -->
+
+{% endblock %}

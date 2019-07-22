@@ -2,7 +2,6 @@
 
 namespace Controller;
 
-
 /**
  * Class SessionController
  * @package Controller
@@ -10,17 +9,17 @@ namespace Controller;
 class SessionController
 {
     /**
-     * @param int $id
+     * @param int $idy
      * @param string $username
      * @param string $email
      */
-    public function createSession(int $id, string $username, string $email, string $statut)
+    public function createSession(int $idy, string $username, string $email, string $status)
     {
         $_SESSION['user'] = [
-            'id' => $id,
+            'id' => $idy,
             'username' => $username,
             'email' => $email,
-            'statut' => $statut
+            'status' => $status
         ];
     }
 
@@ -50,37 +49,26 @@ class SessionController
      * @param $info
      * @return bool
      */
-    public function checkStatut($info)
+    public function checkStatus(string $info)
     {
         if ($info == 'admin') {
-            return $info = true;
-
+            return true;
         }
-        if ($info == 'normal') {
-            return $info = false;
-        }
+        return false;
     }
 
     /**
-     * @param $message
-     * @param string $type
+     * @return bool
      */
-    public function setAlert($message, $type = 'error')
+    public function checkAdmin()
     {
-        $_SESSION['alert'] = array(
-            'message' => $message,
-            'type' => $type
-        );
-    }
+        if ($this->isLogged()) {
 
-    /**
-     *
-     */
-    public function closeAction()
-    {
-        if (array_key_exists('alert', filter_var_array($_SESSION))) {
-
-            unset ($_SESSION['alert']);
+            if (filter_var($_SESSION['user']['status']) == true) {
+                return true;
+            }
+            $this->destroySession();
         }
+        return false;
     }
 }

@@ -24,7 +24,7 @@ class HomeController extends Controller
         $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING);
         if (isset($email))
             // EDIT THE 2 LINES BELOW AS REQUIRED
-            $to = "kei-6@hotmail.fr";
+            $_to = "kei-6@hotmail.fr";
         $email_subject = "Nouvelle demande de contact";
         $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING); // required
         $email_from = filter_input(INPUT_POST, 'email_from', FILTER_SANITIZE_STRING); // required
@@ -45,7 +45,7 @@ class HomeController extends Controller
             $headers = 'From: ' . $email_from . "\r\n" .
                 'Reply-To: ' . $email_from . "\r\n" .
                 'X-Mailer: PHP/' . phpversion();
-            mail($to, $email_subject, $email_message, $headers);
+            mail($_to, $email_subject, $email_message, $headers);
 
             $this->alert("Email envoye !");
         }

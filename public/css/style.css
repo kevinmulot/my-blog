@@ -2,14 +2,24 @@ body, html {
     margin: 0;
     overflow-x: hidden;
     height: 100%;
+    font-family: 'Zilla Slab', Roboto, sans-serif;
+    font-size: 1rem;
+}
+h1, h2,h3{
+    font-family: 'Share Tech Mono' , sans-serif;
+    font-weight: bold;
+}
+
+p, .ftext {
+    font-size: 1.1rem;
 }
 
 .jumbotron {
-    background-image: url("../img/origami.png");
+    background-image: url("../img/origami.jpg");
     text-align: center;
     background-size: cover;
     height: auto;
-    margin-top: 2px;
+    margin-top: 1px;
 }
 
 section {
@@ -17,12 +27,16 @@ section {
 }
 
 .moi {
-    width: 10%;
+    width: 16%;
+}
+
+.wcomment {
+    color: grey;
 }
 
 footer {
     background-color: #444444;
-    height: 12vh;
+    height: 18vh;
 }
 
 .nav-pills .pillcolor .nav-link {
@@ -30,13 +44,18 @@ footer {
     color: #4caf50;
 }
 
-.navbar-light .navbar-brand:hover,
+.name{
+    color: lightgrey;
+    text-shadow: black 0.1em 0.1em 0.2em;
+}
+.name:hover,
+.navbar-light .navbar-brand:hover, a:link,
 .navbar-light .navbar-nav .nav-link i:hover,
 .navbar-light .navbar-nav .nav-link i:focus, i {
     color: #4caf50;
 }
-
-.nav-pills .pillcolor .nav-link:not(.active){
+button a:link,
+.nav-pills .pillcolor .nav-link:not(.active) {
     color: black;
 }
 
@@ -44,6 +63,9 @@ footer {
     background-color: #ECECEC;
 }
 
-.nav-pills .pillcolor .nav-link:not(.active){
+.nav-pills .pillcolor .nav-link:not(.active) {
     background-color: #f9f9f9;
+}
+button a:hover{
+    color: white;
 }

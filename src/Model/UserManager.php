@@ -12,42 +12,57 @@ class UserManager extends Manager
      * @param $email
      * @return bool
      */
-    public function checkMail($email)
+    public function checkUser($email)
     {
-        $db = $this->connectDB();
-        $req = $db->prepare('SELECT email FROM users WHERE  email = ? LIMIT 1');
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare('SELECT email FROM users WHERE  email = ? LIMIT 1');
         $req->execute(array($email));
         if ($req->fetchColumn()) {
-
+            
             return true;
         }
+        return false;
     }
 
     /**
      * @param $username
      * @return bool
      */
-    public function checkUsername($username)
+    public function checkUsername(string $username)
     {
-        $db = $this->connectDB();
-        $req = $db->prepare('SELECT username FROM users WHERE  username = ? LIMIT 1');
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare('SELECT username FROM users WHERE  username = ? LIMIT 1');
         $req->execute(array($username));
         if ($req->fetchColumn()) {
 
             return true;
         }
+        return false;
     }
 
     /**
      * @param $email
      * @return bool|mixed|\PDOStatement
      */
-    public function getUser($email)
+    public function getUser(string $email)
     {
-        $db = $this->connectDB();
-        $req = $db->prepare('SELECT * FROM users WHERE email= ?');
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare('SELECT * FROM users WHERE email= ?');
         $req->execute(array($email));
         $req = $req->fetch();
+
+        return $req;
+    }
+
+    /**
+     * @return array|bool|\PDOStatement
+     */
+    public function getAllUsers()
+    {
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare("SELECT * FROM users WHERE status='normal' ORDER BY username");
+        $req->execute();
+        $req = $req->fetchAll();
 
         return $req;
     }
@@ -60,12 +75,33 @@ class UserManager extends Manager
      * @param $password
      * @return bool|\PDOStatement
      */
-    public function createUser($firstname, $lastname, $username, $email, $password)
+    public function createUser($data)
     {
-        $db = $this->connectDB();
-        $req = $db->prepare("INSERT INTO users (firstname, lastname, username, email, password, statut) VALUES (?, ?, ?, ?, ?, 'normal')");
-        $req->execute(array($firstname, $lastname, $username, $email, $password));
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare("INSERT INTO users (firstname, lastname, username, email, password, status) VALUES (?, ?, ?, ?, ?, 'normal')");
+        $req->execute(array($data['firstname'], $data['lastname'], $data['username'],$data['email'], $data['password']));
 
         return $req;
+    }
+
+    /**
+     * @param $idy
+     */
+    public function deleteUser(int $idy)
+    {
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare("DELETE FROM users WHERE id = ? AND status = 'normal'");
+        $req->execute(array($idy));
+    }
+
+    /**
+     * @param $data
+     * @param $row
+     * @param $email
+     */
+    public function update($data, $row, $email){
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare("UPDATE users SET $row = ? WHERE email = ? ");
+        $req->execute(array($data, $email));
     }
 }
