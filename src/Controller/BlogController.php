@@ -20,7 +20,7 @@ class BlogController extends Controller
 
         $postManager = new PostManager();
         $nbPost = $postManager->countPosts();
-        $postPP = 4;
+        $postPP = 3;
         $nbPage = ceil($nbPost['total'] / $postPP);
         if (isset($page) && $page >= 0) {
             $posts = $postManager->getPostsPP($page, $postPP);
@@ -66,13 +66,15 @@ class BlogController extends Controller
         $idy = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
         $page = filter_input(INPUT_GET, 'p', FILTER_SANITIZE_NUMBER_INT);
 
-        if (!empty($idy) && !empty($page) && $this->session->isLogged()) {
+        if (!empty($idy) && !empty($page)) {
             $post = (new PostManager)->getPost($idy);
             $commentManager = new commentManager;
             $comments = $commentManager->getComments($idy);
-            $wcomments = $commentManager->getWaitingComments($idy, filter_var($_SESSION['user']['id']));
-            if ($wcomments != false) {
-                return $this->render('post.twig', array('post' => $post, 'comment' => $comments, 'wcomment' => $wcomments, 'p' => $page));
+            if ($this->session->isLogged()){
+                $wcomments = $commentManager->getWaitingComments($idy, filter_var($_SESSION['user']['id']));
+                if ($wcomments != false) {
+                    return $this->render('post.twig', array('post' => $post, 'comment' => $comments, 'wcomment' => $wcomments, 'p' => $page));
+                }
             }
             return $this->render('post.twig', array('post' => $post, 'comment' => $comments, 'p' => $page));
         }
