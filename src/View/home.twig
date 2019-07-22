@@ -6,10 +6,10 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12 jumbotron text-center">
-                    <img class="img-responsive rounded-circle moi mt-auto mx-auto" src="../public/img/kei.jpg"
+                    <img class=" rounded-circle moi mt-auto mx-auto" src="../public/img/kei.jpg"
                          alt="moi">
                     <div class="intro-text">
-                        <h2 class="name">KEVIN MULOT</h2>
+                        <h2 class="name">< KEVIN MULOT ></h2>
                         <hr class="star-light">
                     </div>
                 </div>
@@ -20,12 +20,21 @@
     <article>
         <div class="container">
             <div class="row">
-                <div class="col-12 text-center text-justify">
-                    <h3>Web Developer</h3>
-                    <h4>Prendre la vie du bon Octet !</h4>
-                    <br><br>
-                    <h5>Pour en savoir plus sur mon parcours mon CV est à votre disposition :</h5>
-                    <a href="../public/img/CV_Kevin_Mulot.pdf" target="_blank" rel="noreferrer noopener">Consulter</a>
+                <div class="col-lg-8 col-md-10 mx-auto text-justify">
+                    <div class="text-center">
+                        <h2>Web Developer</h2>
+                        <p class="h3">Prendre la vie du bon Octet !</p></div>
+                    <br>
+                    <p class="justify-content">Féru d'innovation technologique et d'informatique.
+                        J'ai décidé de me reconvertir dans le monde du développement.
+                        Volontaire et dynamique, j'aime m'impliquer dans de nouveaux challenges qui me permettent
+                        d'aller toujours plus loin dans la découverte et la connaissance du monde informatique.
+                        Bienvenue sur mon Blog !</p><br>
+                    <p class="h3 text-center">Pour en savoir plus sur mon parcours mon CV est à votre disposition :</p>
+                    <div class="text-center">
+                        <a href="../public/img/CV_Kevin_Mulot.pdf" target="_blank"
+                           rel="noreferrer noopener">Consulter</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -41,7 +50,8 @@
                     <div class="control-group">
                         <div class="form-group  floating-label-form-group controls">
                             <label for="name">Votre Nom</label>
-                            <input type="text" class="form-control" placeholder="Nom" name="name" required
+                            <input type="text" class="form-control ftext" id="name" placeholder="Nom" name="name"
+                                   required
                                    data-validation-required-message="Veuillez entrer votre nom.">
                             <p class="help-block text-danger"></p>
                         </div>
@@ -49,7 +59,9 @@
                     <div class="control-group">
                         <div class="form-group floating-label-form-group controls">
                             <label for="telephone">Téléphone</label>
-                            <input type="tel" class="form-control" placeholder="Numéro" name="telephone" required
+                            <input type="tel" class="form-control ftext" id="telephone" placeholder="Numéro"
+                                   name="telephone"
+                                   required
                                    data-validation-required-message="Veuillez entrer votre phone numéro de téléphone.">
                             <p class="help-block text-danger"></p>
                         </div>
@@ -57,7 +69,8 @@
                     <div class="control-group">
                         <div class="form-group floating-label-form-group controls">
                             <label for="email">Email</label>
-                            <input type="email" class="form-control" placeholder="Adresse email" name="email_from"
+                            <input type="email" class="form-control ftext" id="email" placeholder="Adresse email"
+                                   name="email_from"
                                    required
                                    data-validation-required-message="Veuillez entrer votre adresse email.">
                             <p class="help-block text-danger"></p>
@@ -66,7 +79,9 @@
                     <div class="control-group">
                         <div class="form-group floating-label-form-group controls">
                             <label for="comments">Votre Message</label>
-                            <textarea rows="4" class="form-control" placeholder="Message" name="comments" required
+                            <textarea rows="4" class="form-control ftext" id="comments" placeholder="Message"
+                                      name="comments"
+                                      required
                                       data-validation-required-message="Veuillez entrer votre message."></textarea>
                             <p class="help-block text-danger"></p>
                         </div>
@@ -79,4 +94,5 @@
             </div>
         </div>
     </div>
+
 {% endblock %}

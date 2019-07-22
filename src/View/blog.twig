@@ -4,44 +4,46 @@
     <!-- Main Content -->
     <div class="container">
         <div class="row">
+            <h2 class="mt-4 mb-1 border-bottom text-center col-12">Articles</h2>
             {% for post in posts %}
 
                 <div class="col-12 mt-3 mx-auto">
                     <div class="post-preview">
-                        <a href="../public/?id={{ post.id }}&p={{ p }}&access=blog!read">
+                        <article><a href="../public/?id={{ post.id }}&p={{ p }}&access=blog!read">
 
-                            <h2 class="post-title">
-                                {{ post.title }}
-                            </h2></a>
-                        <h3 class="post-subtitle">
-                            {{ post.lead }}
-                        </h3>
+                                <h2 class="post-title">
+                                    {{ post.title }}
+                                </h2></a>
+                            <h3 class="post-subtitle">
+                                {{ post.headline }}
+                            </h3>
 
-                        <article>{{ post.content | nl2br |length > 200 ? post.content|slice(0,200) ~ '...' : post.content }}</article>
-                        <br>
-                        <p class="post-meta">Posté par
-                            <strong>{{ post.author }}</strong> Le <em>{{ post.add_date | date("d/m/Y G:i:s") }}</em></p>
+                            <p>{{ post.content | nl2br |length > 200 ? post.content|slice(0,200) ~ '...' : post.content }}</p>
+                            <br>
+                            <p class="post-meta">Posté par
+                                <strong>{{ post.author }}</strong> Le <em>{{ post.add_date | date("d/m/Y G:i:s") }}</em>
+                            </p>
+                        </article>
                     </div>
                     <hr>
                 </div>
             {% endfor %}
-
             {% set k = nbpage %}
             {% if nbpage > 0 %}
                 <div class="btn-toolbar mx-auto mb-2" role="toolbar" aria-label="Toolbar with button groups">
-                <div class="btn-group mr-2 justify-content-center" role="group" aria-label="First group">
-                    {% for i in range(1,k) %}
-                        {% if i == p %}
-                            <button type="button" class="btn btn-light active font-weight-bold">{{ i }}</button>
-                        {% else %}
-                            <a type="button" class="btn btn-outline-success font-weight-bold"
-                               href="../public/?p={{ i }}&access=blog">{{ i }}</a>
-                        {% endif %}
-                    {% endfor %}
-
-                </div>
+                    <div class="btn-group mr-2 justify-content-center" role="group" aria-label="First group">
+                        {% for i in range(1,k) %}
+                            {% if i == p %}
+                                <button type="button" class="btn btn-light active font-weight-bold">{{ i }}</button>
+                            {% else %}
+                                <a class="btn btn-outline-success font-weight-bold"
+                                   href="../public/?p={{ i }}&access=blog">{{ i }}</a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
             {% endif %}
         </div>
     </div>
+
 {% endblock %}
