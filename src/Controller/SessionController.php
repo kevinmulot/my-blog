@@ -49,7 +49,7 @@ class SessionController
      * @param $info
      * @return bool
      */
-    public function checkStatus( string $info)
+    public function checkStatus(string $info)
     {
         if ($info == 'admin') {
             return true;

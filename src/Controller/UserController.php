@@ -33,12 +33,12 @@ class UserController extends Controller
      */
     public function registerAction()
     {
-        $data['username'] = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS);
+        $data['username'] = ucfirst(strtolower(filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS)));
         $data['email'] = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_SPECIAL_CHARS);
         $data['password'] = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
         $data['$password2'] = filter_input(INPUT_POST, 'passwordconfirm', FILTER_SANITIZE_STRING);
-        $data['firstname'] = filter_input(INPUT_POST, 'firstname', FILTER_SANITIZE_SPECIAL_CHARS);
-        $data['lastname'] = filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_SPECIAL_CHARS);
+        $data['firstname'] = ucfirst(strtolower(filter_input(INPUT_POST, 'firstname', FILTER_SANITIZE_SPECIAL_CHARS)));
+        $data['lastname'] = ucfirst(strtolower(filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_SPECIAL_CHARS)));
         // Ensure that the form is correctly filled
         if (!empty($data['firstname']) && !empty($data['lastname']) && !empty($data['email']) && !empty($data['username']) && !empty($data['password']) && !empty($data['$password2'])) {
             $userManager = new UserManager();
@@ -65,8 +65,8 @@ class UserController extends Controller
      */
     public function loginAction()
     {
-        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_SPECIAL_CHARS);
-        $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+        $email = filter_input(INPUT_POST, 'emaillog', FILTER_SANITIZE_SPECIAL_CHARS);
+        $password = filter_input(INPUT_POST, 'passwordlog', FILTER_SANITIZE_STRING);
 
         if (!empty($email) && !empty($password)) {
             $userManager = new UserManager();
@@ -106,7 +106,7 @@ class UserController extends Controller
      */
     public function updateAction()
     {
-        $data['username'] = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS);
+        $data['username'] = ucfirst(strtolower(filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS)));
         $data['email'] = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_SPECIAL_CHARS);
         $data['password0'] = filter_input(INPUT_POST, 'oldpassword', FILTER_SANITIZE_STRING);
         $data['password'] = filter_input(INPUT_POST, 'newpassword', FILTER_SANITIZE_STRING);

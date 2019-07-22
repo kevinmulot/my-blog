@@ -70,8 +70,8 @@ class PostManager extends Manager
     public function updatePost($data)
     {
         $dtb = $this->connectDB();
-        $req = $dtb->prepare('UPDATE posts SET title = ?, author = ?, lead = ? , content = ? , add_date = NOW() WHERE id =  ? ');
-        $req->execute(array($data['title'], $data['author'], $data['lead'], $data['content'], $data['idy']));
+        $req = $dtb->prepare('UPDATE posts SET title = ?, author = ?, headline = ? , content = ? , add_date = NOW() WHERE id =  ? ');
+        $req->execute(array($data['title'], $data['author'], $data['headline'], $data['content'], $data['idy']));
 
         return true;
     }
@@ -83,11 +83,11 @@ class PostManager extends Manager
      * @param $content
      * @return bool
      */
-    public function addPost(string $title, string $author, string $lead, string $content)
+    public function addPost(string $title, string $author, string $headline, string $content)
     {
         $dtb = $this->connectDB();
-        $req = $dtb->prepare('INSERT INTO posts (title, author, lead, content, add_date ) VALUES (?,?,?,?, NOW())');
-        $req->execute(array($title, $author, $lead, $content));
+        $req = $dtb->prepare('INSERT INTO posts (title, author, headline, content, add_date ) VALUES (?,?,?,?, NOW())');
+        $req->execute(array($title, $author, $headline, $content));
 
         return true;
     }

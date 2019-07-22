@@ -109,11 +109,11 @@ class AdminController extends Controller
     {
         $author = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS);
         $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);
-        $lead = filter_input(INPUT_POST, 'lead', FILTER_SANITIZE_SPECIAL_CHARS);
+        $headline = filter_input(INPUT_POST, 'headline', FILTER_SANITIZE_SPECIAL_CHARS);
         $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
 
-        if (!empty($author) && !empty($title) && !empty($lead) && !empty($content) && $this->session->checkAdmin()) {
-            (new postManager)->addPost($title, $author, $lead, $content);
+        if (!empty($author) && !empty($title) && !empty($headline) && !empty($content) && $this->session->checkAdmin()) {
+            (new postManager)->addPost($title, $author, $headline, $content);
 
             return $this->adminAction(0, false);
         }
