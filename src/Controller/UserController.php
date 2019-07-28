@@ -1,17 +1,23 @@
 <?php
 
-namespace Controller;
+namespace App\Controller;
 
-use Model\UserManager;
+use App\Model\UserManager;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class UserController
- * @package Controller
+ * @package App\Controller
  */
 class UserController extends Controller
 {
     /**
-     * @return \Twig\Environment
+     * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function indexAction()
     {
@@ -19,17 +25,23 @@ class UserController extends Controller
     }
 
     /**
-     * @return \Twig\Environment
+     * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function editAction()
     {
-        $data = (new UserManager())->getUser(filter_var($_SESSION['user']['email']));
+        $data = (new UserManager())->getUser($this->session->getUserVar('email'));
 
         return $this->render('user.twig', array('data' => $data));
     }
 
     /**
-     * @return \Twig\Environment
+     * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function registerAction()
     {
@@ -52,7 +64,7 @@ class UserController extends Controller
             $info = $userManager->getUser($data['email']);
             $status = $this->session->checkStatus($info['status']);
             $this->session->createSession($info['id'], $info['username'], $info['email'], $status);
-            $this->alert("Votre compte a ete cree avec succes !");
+            $this->alert("Votre compte a été créé avec succès !");
             return $this->render('home.twig', array('session' => filter_var_array($_SESSION)));
         }
         $this->alert("Veuillez remplir tous les champs !");
@@ -61,7 +73,10 @@ class UserController extends Controller
     }
 
     /**
-     * @return \Twig\Environment
+     * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function loginAction()
     {
@@ -77,7 +92,6 @@ class UserController extends Controller
                     $status = $this->session->checkStatus($info['status']);
                     $this->session->createSession($info['id'], $info['username'], $info['email'], $status);
                     $this->alert("Vous êtes maintenant connecté !");
-
                     return $this->render('home.twig', array('session' => filter_var_array($_SESSION)));
                 }
             }
@@ -91,7 +105,10 @@ class UserController extends Controller
     }
 
     /**
-     * @return \Twig\Environment
+     * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function logoutAction()
     {
@@ -102,16 +119,19 @@ class UserController extends Controller
     }
 
     /**
-     * @return \Twig\Environment
+     * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function updateAction()
     {
-        $data['username'] = ucfirst(strtolower(filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS)));
+        $data['username'] = (filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS));
         $data['email'] = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_SPECIAL_CHARS);
         $data['password0'] = filter_input(INPUT_POST, 'oldpassword', FILTER_SANITIZE_STRING);
         $data['password'] = filter_input(INPUT_POST, 'newpassword', FILTER_SANITIZE_STRING);
         $data['$password2'] = filter_input(INPUT_POST, 'passwordconfirm', FILTER_SANITIZE_STRING);
-        $data['oldemail'] = filter_var($_SESSION['user']['email']);
+        $data['oldemail'] = $this->session->getUserVar('email');
 
         $userManager = new UserManager();
         $info = $userManager->getUser($data['oldemail']);
@@ -137,8 +157,7 @@ class UserController extends Controller
 
     /**
      * @param $data
-     * @param $info
-     * @return bool
+     * @return mixed
      */
     public function updateData($data)
     {

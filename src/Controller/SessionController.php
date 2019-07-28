@@ -1,13 +1,35 @@
 <?php
 
-namespace Controller;
+namespace App\Controller;
 
 /**
  * Class SessionController
- * @package Controller
+ * @package App\Controller
  */
 class SessionController
 {
+
+    /**
+     * @var mixed
+     */
+    private $session;
+
+    /**
+     * @var
+     */
+    private $user;
+
+    /**
+     * SessionController constructor.
+     */
+    public function __construct()
+    {
+        $this->session = filter_var_array($_SESSION);
+        if (isset($this->session['user'])) {
+            $this->user = $this->session['user'];
+        }
+    }
+
     /**
      * @param int $idy
      * @param string $username
@@ -37,8 +59,9 @@ class SessionController
      */
     public function isLogged()
     {
-        if (array_key_exists('user', filter_var_array($_SESSION))) {
-            if (!empty(filter_var_array($_SESSION['user']))) {
+        if (array_key_exists('user', $this->session)) {
+            if (!empty($this->user)) {
+
                 return true;
             }
         }
@@ -58,13 +81,25 @@ class SessionController
     }
 
     /**
+     * @param $var
+     * @return mixed
+     */
+    public function getUserVar($var)
+    {
+        if ($this->isLogged() === false) {
+            return null;
+        }
+        return $this->user[$var];
+    }
+
+    /**
      * @return bool
      */
     public function checkAdmin()
     {
         if ($this->isLogged()) {
 
-            if (filter_var($_SESSION['user']['status']) == true) {
+            if ($this->getUserVar('status') == true) {
                 return true;
             }
             $this->destroySession();
