@@ -1,19 +1,25 @@
 <?php
 
-namespace Controller;
+namespace App\Controller;
 
-use Model\CommentManager;
-use Model\PostManager;
-use Model\UserManager;
+use App\Model\CommentManager;
+use App\Model\PostManager;
+use App\Model\UserManager;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class AdminController
- * @package Controller
+ * @package App\Controller
  */
 class AdminController extends Controller
 {
     /**
-     * @return \Twig\Environment
+     * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function indexAction()
     {
@@ -21,9 +27,12 @@ class AdminController extends Controller
     }
 
     /**
-     * @param $show
+     * @param int $show
      * @param $confirm
-     * @return \Twig\Environment
+     * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function adminAction(int $show, $confirm)
     {
@@ -40,7 +49,10 @@ class AdminController extends Controller
     }
 
     /**
-     * @return \Twig\Environment
+     * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function confirmAction()
     {
@@ -69,7 +81,10 @@ class AdminController extends Controller
     }
 
     /**
-     * @return \Twig\Environment
+     * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function editAction()
     {
@@ -84,17 +99,20 @@ class AdminController extends Controller
     }
 
     /**
-     * @return \Twig\Environment
+     * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function updateAction()
     {
         $data['idy'] = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
         $data['author'] = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS);
         $data['title'] = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);
-        $data['lead'] = filter_input(INPUT_POST, 'lead', FILTER_SANITIZE_SPECIAL_CHARS);
+        $data['headline'] = filter_input(INPUT_POST, 'lead', FILTER_SANITIZE_SPECIAL_CHARS);
         $data['content'] = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
 
-        if (!empty($data['idy']) && !empty($data['author']) && !empty($data['title']) && !empty($data['lead']) && !empty($data['content']) && $this->session->checkAdmin()) {
+        if (!empty($data['idy']) && !empty($data['author']) && !empty($data['title']) && !empty($data['headline']) && !empty($data['content']) && $this->session->checkAdmin()) {
             (new postManager)->updatePost($data);
 
             return $this->adminAction(0, false);
@@ -103,7 +121,10 @@ class AdminController extends Controller
     }
 
     /**
-     * @return \Twig\Environment
+     * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function addAction()
     {
@@ -121,7 +142,10 @@ class AdminController extends Controller
     }
 
     /**
-     * @return \Twig\Environment
+     * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function deleteAction()
     {
@@ -151,7 +175,10 @@ class AdminController extends Controller
     }
 
     /**
-     * @return \Twig\Environment
+     * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function validateAction()
     {

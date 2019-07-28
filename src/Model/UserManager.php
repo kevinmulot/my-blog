@@ -1,10 +1,10 @@
 <?php
 
-namespace Model;
+namespace App\Model;
 
 /**
  * Class UserManager
- * @package Model
+ * @package App\Model
  */
 class UserManager extends Manager
 {

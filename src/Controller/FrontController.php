@@ -1,20 +1,20 @@
 <?php
 
-namespace Controller;
+namespace App\Controller;
 
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
 /**
  * Class FrontController
- *
+ * @package App\Controller
  */
 class FrontController extends Controller
 {
     /**
      *
      */
-    const DEFAULT_PATH = 'Controller\\';
+    const DEFAULT_PATH = 'App\Controller\\';
     /**
      *
      */
@@ -37,7 +37,7 @@ class FrontController extends Controller
     protected $action = self::DEFAULT_ACTION;
 
     /**
-     * FrontController constructor
+     * FrontController constructor.
      */
     public function __construct()
     {
@@ -57,8 +57,7 @@ class FrontController extends Controller
             'cache' => false,
             'debug' => true
         ));
-        $twig->addGlobal('session', $_SESSION);
-
+        $twig->addGlobal('session', filter_var_array($_SESSION));
         $this->twig = $twig;
     }
 
@@ -105,6 +104,7 @@ class FrontController extends Controller
     public function run()
     {
         $this->controller = new $this->controller($this->twig);
+
         $response = call_user_func([$this->controller, $this->action]);
 
         echo filter_var($response);
