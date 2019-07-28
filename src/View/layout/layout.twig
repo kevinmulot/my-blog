@@ -8,6 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Mon Blog</title>
     <meta name="description" content="Mon blog">
+
+    <meta property="og:title" content="Mon Blog">
+    <meta property="og:description" content="Projet PHP OC">
+    <meta property="og:image" content="../public/img/monblog.png">
+    <meta property="og:url" content="https://blog.keimuo.com">
+
+    <link rel="icon" href="../public/img/bloglogo.png">
     {% block stylesheets %}
         <!-- Bootstrap 4.3.1 -->
         <link rel="stylesheet" href="../public/css/bootstrap.min.css">
@@ -17,9 +24,12 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css"
               integrity="sha384-i1LQnF23gykqWXg6jxC2ZbCbUMxyw5gLZY6UiUS98LYV5unm8GWmfkIS6jqJfb4E"
               crossorigin="anonymous">
-        <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono|Zilla+Slab&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono%7cZilla+Slab&display=swap" rel="stylesheet">
     {% endblock %}
 </head>
+
+<!-- ***** Body ***** -->
+<body>
 
 {{ include('layout/header.twig') }}
 
@@ -30,7 +40,6 @@
 {{ include('layout/footer.twig') }}
 
 <!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
