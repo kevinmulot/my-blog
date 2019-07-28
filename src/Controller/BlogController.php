@@ -1,18 +1,25 @@
 <?php
 
-namespace Controller;
+namespace App\Controller;
 
-use Model\CommentManager;
-use Model\PostManager;
+use App\Model\CommentManager;
+use App\Model\PostManager;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class BlogController
- * @package Controller
+ * @package App\Controller
  */
 class BlogController extends Controller
 {
+
     /**
-     * @return \Twig\Environment
+     * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function indexAction()
     {
@@ -34,7 +41,10 @@ class BlogController extends Controller
     }
 
     /**
-     * @return \Twig\Environment
+     * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function commentAction()
     {
@@ -43,8 +53,8 @@ class BlogController extends Controller
         $page = filter_input(INPUT_GET, 'p', FILTER_SANITIZE_NUMBER_INT);
 
         if (!empty($posts_id) && !empty($content) && !empty($page)) {
-            $idy = filter_var($_SESSION['user']['id']);
-            $author = filter_var($_SESSION['user']['username']);
+            $idy = $this->session->getUserVar('id');
+            $author = $this->session->getUserVar('username');
             $commentManager = new commentManager;
             $commentManager->addComment($author, $content, $posts_id, $idy);
             $post = (new PostManager)->getPost($posts_id);
@@ -59,7 +69,10 @@ class BlogController extends Controller
     }
 
     /**
-     * @return \Twig\Environment
+     * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function readAction()
     {
@@ -70,8 +83,8 @@ class BlogController extends Controller
             $post = (new PostManager)->getPost($idy);
             $commentManager = new commentManager;
             $comments = $commentManager->getComments($idy);
-            if ($this->session->isLogged()){
-                $wcomments = $commentManager->getWaitingComments($idy, filter_var($_SESSION['user']['id']));
+            if ($this->session->isLogged()) {
+                $wcomments = $commentManager->getWaitingComments($idy, $this->session->getUserVar('id'));
                 if ($wcomments != false) {
                     return $this->render('post.twig', array('post' => $post, 'comment' => $comments, 'wcomment' => $wcomments, 'p' => $page));
                 }

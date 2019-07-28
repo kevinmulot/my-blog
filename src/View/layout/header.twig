@@ -1,8 +1,7 @@
-<!-- ***** Body ***** -->
-<body>
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light bg-gradient-light">
-    <a class="navbar-brand" href="../public/index.php?access=home">Mon Blog</a>
+    <a class="navbar-brand" href="../index.php?access=home"><img src="../public/img/bloglogo.png" class="logo"
+                                                                        alt="logo"> Mon Blog</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03"
             aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -11,38 +10,32 @@
     <div class="collapse navbar-collapse" id="navbarColor03">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="../public/?access=home">Accueil</a>
+                <a class="nav-link" href="../?access=home">Accueil</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="../public/?p=1&access=blog">Blog</a>
+                <a class="nav-link" href="../?p=1&access=blog">Blog</a>
             </li>
-            {% if session.user.username is not defined %}
-                <li class="nav-item">
-                    <a class="nav-link" href="../public/?access=user">Inscription</a>
-                </li>
-            {% endif %}
             {% if session.user.username is defined %}
                 <li class="nav-item">
-                    <a class="nav-link" href="../public/?access=user!edit">Profil</a>
+                    <a class="nav-link" href="../?access=user!edit">Profil</a>
                 </li>
-            {% endif %}
-            {% if session.user.status == true %}
+            {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="../public/?access=admin">Administration</a>
+                    <a class="nav-link" href="../?access=user">Inscription</a>
                 </li>
             {% endif %}
         </ul>
-        {% if session.user.username is not defined %}
-            <div class=" rounded-top my-2 my-lg-0">
-                <a class="btn btn-outline-success ml-auto" data-toggle="modal" data-target="#login">Connexion</a>
-            </div>
-        {% endif %}
         {% if session.user.username is defined %}
             <div class="rounded-top my-2 my-lg-0">
                 <a class="btn btn-light ml-auto" data-toggle="modal" data-target="#logout">Deconnexion</a>
                 <p class="font-weight-bolder nav-item ml-2 d-inline">{{ session.user.username }}</p>
             </div>
+        {% else %}
+            <div class=" rounded-top my-2 my-lg-0">
+                <a class="btn btn-outline-success ml-auto" data-toggle="modal" data-target="#login">Connexion</a>
+            </div>
         {% endif %}
+
     </div>
 </nav>
 <!-- Connection Modal  -->
@@ -53,11 +46,11 @@
             <div class="modal-header">
                 <h5 class="modal-title font-weight-bold">Identification</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">x</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form class="form-group has-success connect " method="post" action="../public/?access=user!login">
+                <form class="form-group has-success connect " method="post" action="../?access=user!login">
                     <label for="emaillog" class="col-form-label">Votre email :</label>
                     <input class="form-control ftext" id="emaillog" name="emaillog" type="email" value="{{ email }}"
                            placeholder="Email">
@@ -81,14 +74,14 @@
             <div class="modal-header">
                 <h5 class="modal-title font-weight-bold">Se déconnecter</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">x</span>
                 </button>
             </div>
             <div class="modal-body">
                 Souhaitez-vous être déconnecté ?
             </div>
             <div class="modal-footer">
-                <a class="btn btn-outline-success float-right" href="../public/?access=user!logout">Confirmer</a>
+                <a class="btn btn-outline-success float-right" href="../?access=user!logout">Confirmer</a>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
             </div>
         </div>

@@ -3,7 +3,7 @@
 {% block content %}
     <!-- Formulaire -->
     <div class="container">
-        <form method="post" name="register" enctype="multipart/form-data" action="../public/?access=user!register">
+        <form method="post" name="register" enctype="multipart/form-data" action="../?access=user!register">
             <div class="row has-success mt-1">
                 <h2 class="mt-4 mb-1 border-bottom text-center col-12">S'inscrire</h2>
                 <p class="col-12 h4 mt-1 mb-4 text-center">Veuillez fournir des informations valides</p>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="form-check offset-md-4 offset-1 col-10">
                     <input type="checkbox" id="checkbox" class="form-check-input" name="check" required>
-                    <label class="form-check-label" for="checkbox">J'accèpte les conditions générales de
+                    <label class="form-check-label" for="checkbox">J'accepte les conditions générales de
                         confidentialité.</label>
                 </div>
                 <button type="submit" name="submit" class="btn btn-outline-dark mt-4 mx-auto mb-5">Valider <i
@@ -56,5 +56,4 @@
             </div>
         </form>
     </div><!-- container -->
-
 {% endblock %}

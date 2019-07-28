@@ -1,12 +1,12 @@
 <?php
 
-namespace Model;
+namespace App\Model;
 
 use PDO;
 
 /**
  * Class Manager
- * @package Model
+ * @package App\Model
  */
 abstract class Manager
 {

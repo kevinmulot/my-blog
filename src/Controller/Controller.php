@@ -1,12 +1,15 @@
 <?php
 
-namespace Controller;
+namespace App\Controller;
 
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class Controller
- * @package Controller
+ * @package App\Controller
  */
 abstract Class Controller
 {
@@ -18,6 +21,7 @@ abstract Class Controller
      * @var SessionController
      */
     protected $session;
+
     /**
      * Controller constructor
      * @param Environment $twig
@@ -25,11 +29,16 @@ abstract Class Controller
     public function __construct(Environment $twig)
     {
         $this->twig = $twig;
-        $this->session  = new SessionController();
+        $this->session = new SessionController();
     }
 
     /**
-     * @return Environment
+     * @param $view
+     * @param array $params
+     * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function render($view, array $params = [])
     {

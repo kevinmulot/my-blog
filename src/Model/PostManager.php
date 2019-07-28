@@ -1,11 +1,10 @@
 <?php
 
-namespace Model;
+namespace App\Model;
 
 /**
- *
- * Class Post
- * @package Framework
+ * Class PostManager
+ * @package App\Model
  */
 class PostManager extends Manager
 {

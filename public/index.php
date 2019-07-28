@@ -1,7 +1,7 @@
 <?php
-use Controller\FrontController;
+use App\Controller\FrontController;
 // Use library debugger
-use Tracy\Debugger;
+//use Tracy\Debugger;
 
 // Loads Composer autoload
 require_once  '../vendor/autoload.php';
@@ -9,8 +9,7 @@ require_once  '../vendor/autoload.php';
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-
-Debugger::enable();
+//Debugger::enable();
 
 $frontController = new FrontController();
 $frontController->run();

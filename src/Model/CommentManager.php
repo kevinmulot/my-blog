@@ -1,10 +1,10 @@
 <?php
 
-namespace Model;
+namespace App\Model;
 
 /**
  * Class CommentManager
- * @package Model
+ * @package App\Model
  */
 class CommentManager extends Manager
 {
