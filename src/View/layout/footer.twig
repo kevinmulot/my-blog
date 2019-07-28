@@ -1,7 +1,7 @@
 <!-- Footer -->
-<footer>
-    <div class="container">
-        <div class="row footer">
+<footer class="footer">
+    <div class="container-fluid">
+        <div class="row mt-2">
             <div class=" mt-4 mx-auto">
                 <ul class="list-inline text-center">
                     <li class="list-inline-item">
@@ -29,7 +29,12 @@
                         </a>
                     </li>
                 </ul>
-                <p class="copyright text-muted">Copyright &copy; Keimuo 2019</p>
+                <div class="text-center">
+                    {% if session.user.status == true %}
+                        <a href="../?access=admin">Administration</a>
+                    {% endif %}
+                    <p class="copyright text-muted">Copyright &copy;Keimuo 2019</p>
+                </div>
             </div>
         </div>
     </div>
