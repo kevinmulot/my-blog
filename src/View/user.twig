@@ -3,7 +3,7 @@
 {% block content %}
     <!-- Formulaire -->
     <div class="container">
-        <form method="post" name="update" enctype="multipart/form-data" action="../public/?access=user!update">
+        <form method="post" name="update" enctype="multipart/form-data" action="../?access=user!update">
             <div class="row has-success mt-1">
                 <h2 class="mt-4 mb-1 border-bottom col-12">Modifier votre profil</h2>
                 <h3 class="col-12 text-center mt-3"><b>Profil : </b>{{ data.firstname }} {{ data.lastname }}</h3><br>
@@ -35,7 +35,6 @@
                 <div class="form-group mt-3 col-lg-4 col-md-12">
                     <label for="passwordconfirm"><b>Confirmer nouveau password</b></label>
                     <input type="password" id="passwordconfirm" name="passwordconfirm"
-
                            class="form-control ftext" placeholder="******">
                 </div>
                 <button type="submit" name="submit" class="btn btn-outline-dark mt-4 mx-auto mb-5">Sauvegarder <i
@@ -44,5 +43,4 @@
             </div>
         </form>
     </div><!-- container -->
-
 {% endblock %}

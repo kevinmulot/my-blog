@@ -6,16 +6,16 @@
         <div class="row">
             <!-- Pager -->
             <div class="clearfix mr-auto mt-2">
-                <a class="btn btn-outline-dark" href="../public/?p={{ p }}&access=blog">&larr; Retour</a>
+                <a class="btn btn-outline-dark" href="../?p={{ p }}&access=blog">&larr; Retour</a>
             </div>
             <div class="col-12 text-center mt-3">
                 <article class="post">
 
-                    <h1 class="post-title">
+                    <h2 class="post-title">
                         {{ post.title }}
-                    </h1>
+                    </h2>
                     <h3 class="post-subtitle">
-                        {{ post.lead }}
+                        {{ post.headline }}
                     </h3>
 
                     <p class="text-justify">{{ post.content }}</p>
@@ -46,7 +46,7 @@
                     {% endfor %}
                 {% endif %}
                 <form class="mt-5" enctype="multipart/form-data" method="post"
-                      action="../public/?id={{ post.id }}&p={{ p }}&access=blog!comment">
+                      action="../?id={{ post.id }}&p={{ p }}&access=blog!comment">
                     <div class="control-group">
                         <div class="form-group floating-label-form-group controls has-success">
                             <label class="font-weight-bold" for="comment">Commenter :</label>
@@ -66,5 +66,4 @@
             </div>
         </div>
     </div>
-
 {% endblock %}

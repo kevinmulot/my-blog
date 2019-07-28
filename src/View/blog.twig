@@ -9,20 +9,18 @@
 
                 <div class="col-12 mt-3 mx-auto">
                     <div class="post-preview">
-                        <article><a href="../public/?id={{ post.id }}&p={{ p }}&access=blog!read">
+                        <article><a href="../?id={{ post.id }}&p={{ p }}&access=blog!read">
 
-                                <h2 class="post-title">
+                                <h3 class="post-title">
                                     {{ post.title }}
-                                </h2></a>
-                            <h3 class="post-subtitle">
-                                {{ post.headline }}
-                            </h3>
-
+                                </h3></a>
+                            <h4 class="post-subtitle">
+                                <b>{{ post.headline }}</b>
+                            </h4>
                             <p>{{ post.content | nl2br |length > 200 ? post.content|slice(0,200) ~ '...' : post.content }}</p>
-                            <br>
-                            <p class="post-meta">Posté par
-                                <strong>{{ post.author }}</strong> Le <em>{{ post.add_date | date("d/m/Y G:i:s") }}</em>
-                            </p>
+                            <span class="post-meta">Posté par
+                                <strong>{{ post.author }}</strong> Le <em>{{ post.add_date | date("d/m/Y G:i") }}</em>
+                            </span>
                         </article>
                     </div>
                     <hr>
@@ -37,7 +35,7 @@
                                 <button type="button" class="btn btn-light active font-weight-bold">{{ i }}</button>
                             {% else %}
                                 <a class="btn btn-outline-success font-weight-bold"
-                                   href="../public/?p={{ i }}&access=blog">{{ i }}</a>
+                                   href="../?p={{ i }}&access=blog">{{ i }}</a>
                             {% endif %}
                         {% endfor %}
                     </div>
@@ -45,5 +43,4 @@
             {% endif %}
         </div>
     </div>
-
 {% endblock %}
