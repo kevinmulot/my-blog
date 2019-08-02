@@ -14,7 +14,6 @@ use Twig\Error\SyntaxError;
  */
 class BlogController extends Controller
 {
-
     /**
      * @return string
      * @throws LoaderError
@@ -27,15 +26,15 @@ class BlogController extends Controller
 
         $postManager = new PostManager();
         $nbPost = $postManager->countPosts();
-        $postPP = 3;
-        $nbPage = ceil($nbPost['total'] / $postPP);
-        if (isset($page) && $page >= 0) {
-            $posts = $postManager->getPostsPP($page, $postPP);
+        $postPerPage = 3;
+        $nbPage = ceil($nbPost['total'] / $postPerPage);
+        if (isset($page) and $page >= 0) {
+            $posts = $postManager->getPostsPerPage($page, $postPerPage);
 
             return $this->render('blog.twig', array('posts' => $posts, 'nbpage' => $nbPage, 'p' => $page));
         }
         $page = 1;
-        $posts = $postManager->getPostsPP($page, $postPP);
+        $posts = $postManager->getPostsPerPage($page, $postPerPage);
 
         return $this->render('blog.twig', array('posts' => $posts, 'nbpage' => $nbPage, 'p' => $page));
     }
@@ -52,15 +51,16 @@ class BlogController extends Controller
         $content = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_SPECIAL_CHARS);
         $page = filter_input(INPUT_GET, 'p', FILTER_SANITIZE_NUMBER_INT);
 
-        if (!empty($posts_id) && !empty($content) && !empty($page)) {
+        if (!empty($posts_id) and !empty($content) and !empty($page)) {
             $idy = $this->session->getUserVar('id');
             $author = $this->session->getUserVar('username');
             $commentManager = new commentManager;
             $commentManager->addComment($author, $content, $posts_id, $idy);
             $post = (new PostManager)->getPost($posts_id);
-            $comments = $commentManager->getComments($posts_id);
+            $comments = $commentManager->getValidatedComments($posts_id);
             $wcomments = $commentManager->getWaitingComments($posts_id, $idy);
-            if ($wcomments != false) {
+            if ($wcomments !== false) {
+
                 return $this->render('post.twig', array('post' => $post, 'comment' => $comments, 'wcomment' => $wcomments, 'p' => $page));
             }
             return $this->render('post.twig', array('post' => $post, 'comment' => $comments, 'p' => $page));
@@ -79,13 +79,14 @@ class BlogController extends Controller
         $idy = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
         $page = filter_input(INPUT_GET, 'p', FILTER_SANITIZE_NUMBER_INT);
 
-        if (!empty($idy) && !empty($page)) {
+        if (!empty($idy) and !empty($page)) {
             $post = (new PostManager)->getPost($idy);
             $commentManager = new commentManager;
-            $comments = $commentManager->getComments($idy);
+            $comments = $commentManager->getValidatedComments($idy);
             if ($this->session->isLogged()) {
                 $wcomments = $commentManager->getWaitingComments($idy, $this->session->getUserVar('id'));
-                if ($wcomments != false) {
+                if ($wcomments !== false) {
+
                     return $this->render('post.twig', array('post' => $post, 'comment' => $comments, 'wcomment' => $wcomments, 'p' => $page));
                 }
             }

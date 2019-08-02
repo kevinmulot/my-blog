@@ -42,7 +42,7 @@ class HomeController extends Controller
         $comments = filter_input(INPUT_POST, 'comments', FILTER_SANITIZE_STRING); // required
 
         // validation expected data exists
-        if (!empty($name) && !empty($email_from) && !empty($comments)) {
+        if (!empty($name) and !empty($email_from) and !empty($comments)) {
             $email_message = "Détails du message\n\n";
             $email_message .= "Nom : " . $this->clean_string($name) . "\n";
             $email_message .= "Email : " . $this->clean_string($email_from) . "\n";
