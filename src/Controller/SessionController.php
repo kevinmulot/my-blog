@@ -8,7 +8,6 @@ namespace App\Controller;
  */
 class SessionController
 {
-
     /**
      * @var mixed
      */
@@ -41,7 +40,7 @@ class SessionController
             'id' => $idy,
             'username' => $username,
             'email' => $email,
-            'status' => $status
+            'status' => $status,
         ];
     }
 
@@ -74,7 +73,8 @@ class SessionController
      */
     public function checkStatus(string $info)
     {
-        if ($info == 'admin') {
+        if ($info === 'admin') {
+
             return true;
         }
         return false;
@@ -87,6 +87,7 @@ class SessionController
     public function getUserVar($var)
     {
         if ($this->isLogged() === false) {
+
             return null;
         }
         return $this->user[$var];
@@ -98,8 +99,8 @@ class SessionController
     public function checkAdmin()
     {
         if ($this->isLogged()) {
+            if ($this->getUserVar('status') === '1') {
 
-            if ($this->getUserVar('status') == true) {
                 return true;
             }
             $this->destroySession();
