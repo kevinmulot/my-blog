@@ -9,7 +9,7 @@
 
                 <div class="col-12 mt-3 mx-auto">
                     <div class="post-preview">
-                        <article><a href="../?id={{ post.id }}&p={{ p }}&access=blog!read">
+                        <article><a href="../public/?id={{ post.id }}&p={{ p }}&access=blog!read">
 
                                 <h3 class="post-title">
                                     {{ post.title }}
@@ -35,7 +35,7 @@
                                 <button type="button" class="btn btn-light active font-weight-bold">{{ i }}</button>
                             {% else %}
                                 <a class="btn btn-outline-success font-weight-bold"
-                                   href="../?p={{ i }}&access=blog">{{ i }}</a>
+                                   href="../public/?p={{ i }}&access=blog">{{ i }}</a>
                             {% endif %}
                         {% endfor %}
                     </div>
