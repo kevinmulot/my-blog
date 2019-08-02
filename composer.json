@@ -1,6 +1,8 @@
 {
   "name": "kevinmulot/blog",
-  "type": "Personal Blog",
+  "type": "library",
+  "description": "Keimuo - Projet 5 - Blog",
+  "version": "0.1.1",
   "license": "MIT",
   "authors": [
     {
@@ -16,7 +18,6 @@
   "require": {
     "php": "^7.2",
     "twig/twig": "^2.11",
-    "twig/extensions": "^1.5",
     "ext-PDO": "^7.3"
   },
   "require-dev": {
