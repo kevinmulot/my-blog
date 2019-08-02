@@ -9,6 +9,19 @@ namespace App\Model;
 class PostManager extends Manager
 {
     /**
+     * @param $data
+     * @return bool
+     */
+    public function addPost($data)
+    {
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare('INSERT INTO posts (title, author, headline, content, add_date ) VALUES (?,?,?,?, NOW())');
+        $req->execute(array($data['title'], $data['author'], $data['headline'], $data['content']));
+
+        return true;
+    }
+
+    /**
      * @return mixed
      */
     public function countPosts()
@@ -22,31 +35,7 @@ class PostManager extends Manager
     }
 
     /**
-     * @return array
-     */
-    public function getPostsPP($page, $article)
-    {
-        $dtb = $this->connectDB();
-        $req = $dtb->prepare("SELECT * FROM posts ORDER BY add_date DESC LIMIT " . (($page - 1) * $article) . ",$article");
-        $req->execute();
-
-        return $req->fetchAll();
-    }
-
-    /**
-     * @return array
-     */
-    public function getPosts()
-    {
-        $dtb = $this->connectDB();
-        $req = $dtb->prepare('SELECT * FROM posts ORDER BY add_date DESC');
-        $req->execute();
-
-        return $req->fetchAll();
-    }
-
-    /**
-     * @param $idy
+     * @param int $idy
      * @return mixed
      */
     public function getPost(int $idy)
@@ -59,11 +48,33 @@ class PostManager extends Manager
     }
 
     /**
-     * @param $title
-     * @param $author
-     * @param $lead
-     * @param $content
-     * @param $idy
+     * @param $page
+     * @param $article
+     * @return array
+     */
+    public function getPostsPerPage($page, $article)
+    {
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare("SELECT * FROM posts ORDER BY add_date DESC LIMIT " . (($page - 1) * $article) . ",$article");
+        $req->execute();
+
+        return $req->fetchAll();
+    }
+
+    /**
+     * @return array
+     */
+    public function getAllPosts()
+    {
+        $dtb = $this->connectDB();
+        $req = $dtb->prepare('SELECT * FROM posts ORDER BY add_date DESC');
+        $req->execute();
+
+        return $req->fetchAll();
+    }
+
+    /**
+     * @param $data
      * @return bool
      */
     public function updatePost($data)
@@ -71,22 +82,6 @@ class PostManager extends Manager
         $dtb = $this->connectDB();
         $req = $dtb->prepare('UPDATE posts SET title = ?, author = ?, headline = ? , content = ? , add_date = NOW() WHERE id =  ? ');
         $req->execute(array($data['title'], $data['author'], $data['headline'], $data['content'], $data['idy']));
-
-        return true;
-    }
-
-    /**
-     * @param $title
-     * @param $author
-     * @param $lead
-     * @param $content
-     * @return bool
-     */
-    public function addPost(string $title, string $author, string $headline, string $content)
-    {
-        $dtb = $this->connectDB();
-        $req = $dtb->prepare('INSERT INTO posts (title, author, headline, content, add_date ) VALUES (?,?,?,?, NOW())');
-        $req->execute(array($title, $author, $headline, $content));
 
         return true;
     }
