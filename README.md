@@ -36,8 +36,8 @@ Read the comments and indicate your email address in order to receive emails sen
 YOU ARE ALL SET !
 
 Connect to the blog as an Admin for the first time :
-* **email** : admin@blog.com
-* **password** : root
+*   **email** : admin@blog.com
+*   **password** : root
 
 You can edit this information via the profile page.
 
