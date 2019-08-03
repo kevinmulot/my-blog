@@ -33,8 +33,8 @@ class HomeController extends Controller
     {
         $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING);
         if (isset($email))
-            // EDIT THE 2 LINES BELOW AS REQUIRED
-            $_to = "";
+            // EDIT THE LINE BELOW AS REQUIRED
+            $_to = "";//EMAIL ADDRESS TO RECEIVE THE MAILS
         $email_subject = "Nouveau contact";
         $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING); // required
         $email_from = filter_input(INPUT_POST, 'email_from', FILTER_SANITIZE_STRING); // required
