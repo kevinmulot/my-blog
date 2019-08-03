@@ -36,9 +36,9 @@ class AdminController extends Controller
      */
     public function adminAction(int $show, $confirm)
     {
-        if ($show >= 0 && $show <= 2) {
+        if ($show >= 0 and $show <= 2) {
             if ($this->session->checkAdmin()) {
-                $posts = (new PostManager())->getPosts();
+                $posts = (new PostManager())->getAllPosts();
                 $comments = (new CommentManager())->getAllComments();
                 $user = (new UserManager())->getAllUsers();
 
@@ -58,7 +58,8 @@ class AdminController extends Controller
     {
         $idy = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
         $table = filter_input(INPUT_GET, 'table', FILTER_SANITIZE_STRING);
-        if (!empty($table) && $this->session->checkAdmin()) {
+
+        if (!empty($table) and !empty($idy) and $this->session->checkAdmin()) {
             $confirm = array('id' => $idy, 'table' => $table);
             switch ($table) {
                 case 'post' :
@@ -86,11 +87,32 @@ class AdminController extends Controller
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    public function addAction()
+    {
+        $data['author'] = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS);
+        $data['title'] = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);
+        $data['headline'] = filter_input(INPUT_POST, 'headline', FILTER_SANITIZE_SPECIAL_CHARS);
+        $data['content'] = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
+
+        if (count(array_filter($data)) === 4 and $this->session->checkAdmin()) {
+            (new postManager)->addPost($data);
+
+            return $this->adminAction(0, false);
+        }
+        return $this->render('home.twig');
+    }
+
+    /**
+     * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     public function editAction()
     {
         $idy = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 
-        if (!empty($idy) && $this->session->checkAdmin()) {
+        if (!empty($idy) and $this->session->checkAdmin()) {
             $post = (new PostManager)->getPost($idy);
 
             return $this->render('edit.twig', array('post' => $post));
@@ -109,10 +131,10 @@ class AdminController extends Controller
         $data['idy'] = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
         $data['author'] = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS);
         $data['title'] = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);
-        $data['headline'] = filter_input(INPUT_POST, 'lead', FILTER_SANITIZE_SPECIAL_CHARS);
+        $data['headline'] = filter_input(INPUT_POST, 'headline', FILTER_SANITIZE_SPECIAL_CHARS);
         $data['content'] = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
 
-        if (!empty($data['idy']) && !empty($data['author']) && !empty($data['title']) && !empty($data['headline']) && !empty($data['content']) && $this->session->checkAdmin()) {
+        if (count(array_filter($data)) === 5 and $this->session->checkAdmin()) {
             (new postManager)->updatePost($data);
 
             return $this->adminAction(0, false);
@@ -126,17 +148,14 @@ class AdminController extends Controller
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function addAction()
+    public function validateAction()
     {
-        $author = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS);
-        $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);
-        $headline = filter_input(INPUT_POST, 'headline', FILTER_SANITIZE_SPECIAL_CHARS);
-        $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
+        $idy = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 
-        if (!empty($author) && !empty($title) && !empty($headline) && !empty($content) && $this->session->checkAdmin()) {
-            (new postManager)->addPost($title, $author, $headline, $content);
+        if (!empty($idy) and $this->session->checkAdmin()) {
+            (new commentManager)->validateComment($idy);
 
-            return $this->adminAction(0, false);
+            return $this->adminAction(1, false);
         }
         return $this->render('home.twig');
     }
@@ -152,7 +171,7 @@ class AdminController extends Controller
         $idy = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
         $table = filter_input(INPUT_GET, 'table', FILTER_SANITIZE_STRING);
 
-        if (!empty($idy) && !empty($table) && $this->session->checkAdmin()) {
+        if (!empty($idy) and !empty($table) and $this->session->checkAdmin()) {
             switch ($table) {
                 case 'post' :
                     (new commentManager)->deleteComment($idy, 'posts_id');
@@ -170,23 +189,6 @@ class AdminController extends Controller
                     break;
             }
             Return $this->adminAction($show, false);
-        }
-        return $this->render('home.twig');
-    }
-
-    /**
-     * @return string
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     */
-    public function validateAction()
-    {
-        $idy = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-
-        if (!empty($idy) && $this->session->checkAdmin()) {
-            (new commentManager)->validate($idy);
-            return $this->adminAction(1, false);
         }
         return $this->render('home.twig');
     }

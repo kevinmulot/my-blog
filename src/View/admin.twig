@@ -51,10 +51,10 @@
                                         : </b><em>{{ post.add_date | date("d/m/Y") }}</em><br>
                                     <div class="mt-1">
                                         <a class="btn btnlink btn-sm btn-outline-dark"
-                                           href="../?id={{ post.id }}&access=admin!edit">Editer <i
+                                           href="../public/?id={{ post.id }}&access=admin!edit">Editer <i
                                                     class="far fa-edit"></i></a>
                                         <a class="btn btnlink btn-sm btn-outline-danger"
-                                           href="../?id={{ post.id }}&table=post&access=admin!confirm">Supprimer
+                                           href="../public/?id={{ post.id }}&table=post&access=admin!confirm">Supprimer
                                             <i
                                                     class="fas fa-trash"></i></a>
                                     </div>
@@ -73,10 +73,10 @@
                                 que
                                 ses commentaires !<br>Souhaitez-vous continuer ?</p>
                             <a class="btn btnlink btn-outline-danger"
-                               href="../?id={{ confirm.id }}&table=post&access=admin!delete">Confirmer <i
+                               href="../public/?id={{ confirm.id }}&table=post&access=admin!delete">Confirmer <i
                                         class="fas fa-trash"></i></a>
                             <a class="btn btnlink btn-outline-success"
-                               href="../?table=cancel&show=0&access=admin!confirm">Annuler</a>
+                               href="../public/?table=cancel&show=0&access=admin!confirm">Annuler</a>
                         </div>
                     {% endif %}
                 </div>
@@ -103,12 +103,12 @@
                                     <div class="mt-1">
                                         {% if comment.validation == 0 %}
                                             <a class="btn btnlink btn-sm btn-outline-dark"
-                                               href="../?id={{ comment.id }}&access=admin!validate">
+                                               href="../public/?id={{ comment.id }}&access=admin!validate">
                                                 Valider <i
                                                         class="fas fa-check"></i></a>
                                         {% endif %}
                                         <a class="btn btnlink btn-sm btn-outline-danger"
-                                           href="../?id={{ comment.id }}&table=comment&access=admin!confirm">Supprimer
+                                           href="../public/?id={{ comment.id }}&table=comment&access=admin!confirm">Supprimer
                                             <i
                                                     class="fas fa-trash"></i></a>
                                     </div>
@@ -125,10 +125,10 @@
                             <br>
                             <p class="h5 font-weight-bold mb-3">Souhaitez-vous supprimer ce commentaire ?</p>
                             <a class="btn btnlink btn-outline-danger"
-                               href="../?id={{ confirm.id }}&table=comment&access=admin!delete">Confirmer <i
+                               href="../public/?id={{ confirm.id }}&table=comment&access=admin!delete">Confirmer <i
                                         class="fas fa-trash"></i></a>
                             <a class="btn btnlink btn-outline-success"
-                               href="../?table=cancel&show=1&access=admin!confirm">Annuler</a>
+                               href="../public/?table=cancel&show=1&access=admin!confirm">Annuler</a>
                         </div>
                     {% endif %}
                 </div>
@@ -152,7 +152,7 @@
                                     <b>Email : </b>{{ user.email }}
                                     <div class="mt-1">
                                         <a class="btn btnlink btn-sm btn-outline-danger"
-                                           href="../?id={{ user.id }}&table=user&access=admin!confirm">Supprimer
+                                           href="../public/?id={{ user.id }}&table=user&access=admin!confirm">Supprimer
                                             <i
                                                     class="fas fa-trash"></i></a>
                                     </div>
@@ -170,10 +170,10 @@
                             <p class="h5 font-weight-bold mb-3">Vous êtes sur le point de supprimer cet utilisateur.<br>Souhaitez-vous
                                 continuer ?</p>
                             <a class="btn btnlink btn-outline-danger"
-                               href="../?id={{ confirm.id }}&table=user&access=admin!delete">Confirmer <i
+                               href="../public/?id={{ confirm.id }}&table=user&access=admin!delete">Confirmer <i
                                         class="fas fa-trash"></i></a>
                             <a class="btn btnlink btn-outline-success"
-                               href="../?table=cancel&show=2&access=admin!confirm">Annuler</a>
+                               href="../public/?table=cancel&show=2&access=admin!confirm">Annuler</a>
                         </div>
                     {% endif %}
                 </div>
@@ -182,7 +182,7 @@
                  aria-labelledby="pills-newpost-tab">
 
                 <form name="sentMessage" id="editForm" enctype="multipart/form-data" method="post"
-                      action="../?access=admin!add">
+                      action="../public/?access=admin!add">
                     <div class="has-success">
                         <div class="col-lg-8 col-md-10 mx-auto mt-2">
                             <h3 class="mb-3 border-bottom text-center col-12">Edition</h3>

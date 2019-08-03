@@ -30,33 +30,22 @@ class UserController extends Controller
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function editAction()
-    {
-        $data = (new UserManager())->getUser($this->session->getUserVar('email'));
-
-        return $this->render('user.twig', array('data' => $data));
-    }
-
-    /**
-     * @return string
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     */
     public function registerAction()
     {
         $data['username'] = ucfirst(strtolower(filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS)));
         $data['email'] = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_SPECIAL_CHARS);
         $data['password'] = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
-        $data['$password2'] = filter_input(INPUT_POST, 'passwordconfirm', FILTER_SANITIZE_STRING);
+        $data['password2'] = filter_input(INPUT_POST, 'passwordconfirm', FILTER_SANITIZE_STRING);
         $data['firstname'] = ucfirst(strtolower(filter_input(INPUT_POST, 'firstname', FILTER_SANITIZE_SPECIAL_CHARS)));
         $data['lastname'] = ucfirst(strtolower(filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_SPECIAL_CHARS)));
+
         // Ensure that the form is correctly filled
-        if (!empty($data['firstname']) && !empty($data['lastname']) && !empty($data['email']) && !empty($data['username']) && !empty($data['password']) && !empty($data['$password2'])) {
+        if (count(array_filter($data)) === 6) {
             $userManager = new UserManager();
-            // register user if there are no errors in the form
             $error = $this->verifyUser($data);
+            // register user if there are no errors in the form
             if (!empty($error)) {
+
                 return $this->render("register.twig", array("error" => $error, "data" => $data));
             }
             $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);//encrypt the password before saving in the database
@@ -65,6 +54,7 @@ class UserController extends Controller
             $status = $this->session->checkStatus($info['status']);
             $this->session->createSession($info['id'], $info['username'], $info['email'], $status);
             $this->alert("Votre compte a été créé avec succès !");
+
             return $this->render('home.twig', array('session' => filter_var_array($_SESSION)));
         }
         $this->alert("Veuillez remplir tous les champs !");
@@ -83,7 +73,7 @@ class UserController extends Controller
         $email = filter_input(INPUT_POST, 'emaillog', FILTER_SANITIZE_SPECIAL_CHARS);
         $password = filter_input(INPUT_POST, 'passwordlog', FILTER_SANITIZE_STRING);
 
-        if (!empty($email) && !empty($password)) {
+        if (!empty($email) and !empty($password)) {
             $userManager = new UserManager();
             $info = $userManager->checkUser($email);
             if ($info !== false) {
@@ -92,6 +82,7 @@ class UserController extends Controller
                     $status = $this->session->checkStatus($info['status']);
                     $this->session->createSession($info['id'], $info['username'], $info['email'], $status);
                     $this->alert("Vous êtes maintenant connecté !");
+
                     return $this->render('home.twig', array('session' => filter_var_array($_SESSION)));
                 }
             }
@@ -124,29 +115,43 @@ class UserController extends Controller
      * @throws RuntimeError
      * @throws SyntaxError
      */
+    public function editAction()
+    {
+        $data = (new UserManager())->getUser($this->session->getUserVar('email'));
+
+        return $this->render('user.twig', array('data' => $data));
+    }
+
+    /**
+     * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     public function updateAction()
     {
         $data['username'] = (filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS));
         $data['email'] = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_SPECIAL_CHARS);
         $data['password0'] = filter_input(INPUT_POST, 'oldpassword', FILTER_SANITIZE_STRING);
         $data['password'] = filter_input(INPUT_POST, 'newpassword', FILTER_SANITIZE_STRING);
-        $data['$password2'] = filter_input(INPUT_POST, 'passwordconfirm', FILTER_SANITIZE_STRING);
+        $data['password2'] = filter_input(INPUT_POST, 'passwordconfirm', FILTER_SANITIZE_STRING);
         $data['oldemail'] = $this->session->getUserVar('email');
 
         $userManager = new UserManager();
         $info = $userManager->getUser($data['oldemail']);
         $error = $this->verifyUser($data);
 
-        if (!empty($data['password0']) && empty($data['password']) || empty($data['password0']) && !empty($data['password'])) {
+        if (!empty($data['password0']) and empty($data['password']) or empty($data['password0']) and !empty($data['password'])) {
             $error['password0'] = 'Veuillez remplir tous les champs !';
         }
-        if (!empty($data['password0'] && password_verify($data['password0'], $info['password']) === false)) {
+        if (!empty($data['password0'] and password_verify($data['password0'], $info['password']) === false)) {
             $error['password0'] = "Mauvais password !";
         }
         if (!empty($error)) {
+
             return $this->render("user.twig", array("error" => $error, "data" => $info));
         }
-        $data = $this->updateData($data);
+        $data = $this->updateUser($data);
         $info = $userManager->getUser($data['oldemail']);
         $status = $this->session->checkStatus($info['status']);
         $this->session->createSession($info['id'], $info['username'], $info['email'], $status);
@@ -157,9 +162,29 @@ class UserController extends Controller
 
     /**
      * @param $data
+     * @return array
+     */
+    public function verifyUser($data)
+    {
+        $error = [];
+        $userManager = new UserManager();
+        if (!empty($data['email']) and $userManager->checkUser($data['email']) === true) {
+            $error['email'] = "Cet email est déjà utilisé !";
+        }
+        if (!empty($data['username']) and $userManager->checkUsername($data['username']) === true) {
+            $error['username'] = "Ce Nom est déjà utilisé !";
+        }
+        if (!empty($data['password2']) and $data['password'] !== $data['password2']) {
+            $error['password'] = "Vos passwords sont différents !";
+        }
+        return $error;
+    }
+
+    /**
+     * @param $data
      * @return mixed
      */
-    public function updateData($data)
+    public function updateUser($data)
     {
         $userManager = new UserManager();
         if (!empty($data['email'])) {
@@ -174,25 +199,5 @@ class UserController extends Controller
             $userManager->update($data['username'], 'username', $data['oldemail']);
         }
         return $data;
-    }
-
-    /**
-     * @param $data
-     * @return array
-     */
-    public function verifyUser($data)
-    {
-        $error = [];
-        $userManager = new UserManager();
-        if (!empty($data['email']) && $userManager->checkUser($data['email']) == true) {
-            $error['email'] = "Cet email est déjà utilisé !";
-        }
-        if (!empty($data['username']) && $userManager->checkUsername($data['username']) == true) {
-            $error['username'] = "Ce Nom est déjà utilisé !";
-        }
-        if (!empty($data['password']) && $data['password'] !== $data['$password2']) {
-            $error['password'] = "Vos passwords sont différents !";
-        }
-        return $error;
     }
 }

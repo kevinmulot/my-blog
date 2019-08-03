@@ -33,8 +33,8 @@ class HomeController extends Controller
     {
         $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING);
         if (isset($email))
-            // EDIT THE 2 LINES BELOW AS REQUIRED
-            $_to = "kevin.mulot@hotmail.fr";
+            // EDIT THE LINE BELOW AS REQUIRED
+            $_to = "";//EMAIL ADDRESS TO RECEIVE THE MAILS
         $email_subject = "Nouveau contact";
         $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING); // required
         $email_from = filter_input(INPUT_POST, 'email_from', FILTER_SANITIZE_STRING); // required
@@ -42,7 +42,7 @@ class HomeController extends Controller
         $comments = filter_input(INPUT_POST, 'comments', FILTER_SANITIZE_STRING); // required
 
         // validation expected data exists
-        if (!empty($name) && !empty($email_from) && !empty($comments)) {
+        if (!empty($name) and !empty($email_from) and !empty($comments)) {
             $email_message = "Détails du message\n\n";
             $email_message .= "Nom : " . $this->clean_string($name) . "\n";
             $email_message .= "Email : " . $this->clean_string($email_from) . "\n";

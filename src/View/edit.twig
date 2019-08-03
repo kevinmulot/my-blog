@@ -5,12 +5,12 @@
     <div class="container">
         <div class="row has-success">
             <div class="clearfix float-left col-12 mt-2">
-                <a class="btn btn-outline-dark" href="../?access=admin">&larr; Retour</a>
+                <a class="btn btn-outline-dark" href="../public/?access=admin">&larr; Retour</a>
             </div>
             <div class="col-lg-8 col-md-10 mx-auto mt-2">
                 <h3 class="mb-3 border-bottom text-center col-12">Edition</h3>
                 <form name="sentMessage" id="editForm" method="post" enctype="multipart/form-data"
-                      action="../?id={{ post.id }}&access=admin!update">
+                      action="../public/?id={{ post.id }}&access=admin!update">
                     <div class="control-group">
                         <div class="form-group floating-label-form-group controls">
                             <label class="font-weight-bold" for="author">Auteur</label>
@@ -30,7 +30,7 @@
                     <div class="control-group">
                         <div class="form-group floating-label-form-group controls">
                             <label class="font-weight-bold" for="headline">Headline</label>
-                            <textarea rows="1" id="headline" class="form-control ftext" name="lead" required
+                            <textarea rows="1" id="headline" class="form-control ftext" name="headline" required
                                       data-validation-required-message="Veuillez indiquer le lead de l'article">{{ post.headline }}</textarea>
                             <p class="help-block text-danger"></p>
                         </div>
