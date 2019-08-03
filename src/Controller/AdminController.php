@@ -94,7 +94,7 @@ class AdminController extends Controller
         $data['headline'] = filter_input(INPUT_POST, 'headline', FILTER_SANITIZE_SPECIAL_CHARS);
         $data['content'] = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
 
-        if (count($data) === 4 and $this->session->checkAdmin()) {
+        if (count(array_filter($data)) === 4 and $this->session->checkAdmin()) {
             (new postManager)->addPost($data);
 
             return $this->adminAction(0, false);
@@ -134,7 +134,7 @@ class AdminController extends Controller
         $data['headline'] = filter_input(INPUT_POST, 'headline', FILTER_SANITIZE_SPECIAL_CHARS);
         $data['content'] = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
 
-        if (count($data) === 5 and $this->session->checkAdmin()) {
+        if (count(array_filter($data)) === 5 and $this->session->checkAdmin()) {
             (new postManager)->updatePost($data);
 
             return $this->adminAction(0, false);

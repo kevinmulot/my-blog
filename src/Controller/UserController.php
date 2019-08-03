@@ -38,8 +38,9 @@ class UserController extends Controller
         $data['password2'] = filter_input(INPUT_POST, 'passwordconfirm', FILTER_SANITIZE_STRING);
         $data['firstname'] = ucfirst(strtolower(filter_input(INPUT_POST, 'firstname', FILTER_SANITIZE_SPECIAL_CHARS)));
         $data['lastname'] = ucfirst(strtolower(filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_SPECIAL_CHARS)));
+
         // Ensure that the form is correctly filled
-        if (count($data) === 6) {
+        if (count(array_filter($data)) === 6) {
             $userManager = new UserManager();
             $error = $this->verifyUser($data);
             // register user if there are no errors in the form
