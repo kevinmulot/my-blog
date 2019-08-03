@@ -8,45 +8,37 @@ My fifth OpenClassRooms Project with PHP
 
 ## Download
 
-
 `git clone https://github.com/kevinmulot/my-blog.git`  
   
 [![Repo Size](https://img.shields.io/github/repo-size/kevinmulot/my-blog?label=Repo+Size)](https://github.com/kevinmulot/my-blog/tree/master)
 
-
 ## Installation
+STEP 1  
 
-**Step 1**
-
-Installation of composer => [https://getcomposer.org/download/](https://getcomposer.org/download/)
-
+Installation of composer => [https://getcomposer.org/download/](https://getcomposer.org/download/)  
 Once composer is installed, launch terminal command : "*composer* *dump-autoload* *-o*" in order to load all classes.
 
-**Step 2**
+STEP 2
 
 Import the *blog.sql* file located in the */database/* folder to your database.
 
-**Step 3**
-
-Rename the file located in the */config/* folder.
-
-*config.dev.php* to *config.php*
-
+STEP 3
+  
+Rename the file located in the */config/* folder.  
+*config.dev.php* to *config.php*  
 Edit this file and fill the empty fields with your database connection information.
 
-**Step 4**
+STEP 4
 
-Edit the HomeController.php file located in */src/Controller*.
-
+Edit the HomeController.php file located in */src/Controller*.  
 Read the comments and indicate your email address in order to receive emails sent via the Blog.
 
-**YOU ARE ALL SET !**
+YOU ARE ALL SET !
 
 Connect to the blog as an Admin for the first time :
-
 - **email** : admin@blog.com
 - **password** : root
 
 You can edit this information via the profile page.
 
-**ENJOY !**
+ENJOY !
