@@ -89,10 +89,10 @@ class AdminController extends Controller
      */
     public function addAction()
     {
-        $data['author'] = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS);
-        $data['title'] = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);
-        $data['headline'] = filter_input(INPUT_POST, 'headline', FILTER_SANITIZE_SPECIAL_CHARS);
-        $data['content'] = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
+        $data['author'] = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_STRING);
+        $data['title'] = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
+        $data['headline'] = filter_input(INPUT_POST, 'headline', FILTER_SANITIZE_STRING);
+        $data['content'] = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_STRING);
 
         if (count(array_filter($data)) === 4 and $this->session->checkAdmin()) {
             (new postManager)->addPost($data);
@@ -129,10 +129,10 @@ class AdminController extends Controller
     public function updateAction()
     {
         $data['idy'] = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-        $data['author'] = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS);
-        $data['title'] = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);
-        $data['headline'] = filter_input(INPUT_POST, 'headline', FILTER_SANITIZE_SPECIAL_CHARS);
-        $data['content'] = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
+        $data['author'] = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_STRING);
+        $data['title'] = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
+        $data['headline'] = filter_input(INPUT_POST, 'headline', FILTER_SANITIZE_STRING);
+        $data['content'] = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_STRING);
 
         if (count(array_filter($data)) === 5 and $this->session->checkAdmin()) {
             (new postManager)->updatePost($data);
