@@ -48,7 +48,7 @@ class BlogController extends Controller
     public function commentAction()
     {
         $posts_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-        $content = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_SPECIAL_CHARS);
+        $content = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_STRING);
         $page = filter_input(INPUT_GET, 'p', FILTER_SANITIZE_NUMBER_INT);
 
         if (!empty($posts_id) and !empty($content) and !empty($page)) {
