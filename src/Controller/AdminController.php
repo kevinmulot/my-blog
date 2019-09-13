@@ -59,7 +59,7 @@ class AdminController extends Controller
         $idy = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
         $table = filter_input(INPUT_GET, 'table', FILTER_SANITIZE_STRING);
 
-        if (!empty($table) and !empty($idy) and $this->session->checkAdmin()) {
+        if (!empty($table) and $this->session->checkAdmin()) {
             $confirm = array('id' => $idy, 'table' => $table);
             switch ($table) {
                 case 'post' :
